@@ -224,3 +224,4 @@ S.loop((t)=>{const x=cv.ctx,W=cv.W,H=cv.H;clk.textContent=new Date().toTimeStrin
  x.font='10px '+getComputedStyle(document.body).getPropertyValue('--mono');x.fillStyle='rgba(141,147,155,.8)';x.fillText('DASHED WHITE = LAST 45 MIN · RED = NEXT 85 MIN · SHADED = NIGHT',10,H-10)});
 setInterval(panel,30000);S.roll(P.el);
 </script>
+<script>addEventListener('keydown',e=>{if(e.key==='Escape')location.href='../'})</script>

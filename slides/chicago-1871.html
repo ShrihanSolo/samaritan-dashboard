@@ -1,0 +1,159 @@
+<!doctype html><meta charset=utf-8><title>Chicago 1871</title>
+<link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--red:#e5322d;--mono:"SF Mono",ui-monospace,Menlo,monospace}
+html,body{margin:0;height:100%;background:#0a0b0d;overflow:hidden;font-family:var(--mono)}
+#map{position:absolute;inset:0;background:#2a2b2d}
+.leaflet-tile-pane{filter:grayscale(1) brightness(1.5) contrast(1.1)}body.osm .leaflet-tile-pane{filter:grayscale(1) invert(1) brightness(.85) contrast(1.15)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}
+#fire{position:absolute;left:0;top:0;pointer-events:none}
+.box{position:absolute;z-index:1000;border:1px solid #e6e7eacc;background:#0a0b0de8;color:#e6e7ea}
+.box .t{display:flex;gap:1.1em;padding:.35em .8em;font:500 12px var(--mono);letter-spacing:.22em;border-bottom:1px solid #ffffff2a;color:#8d939b;white-space:nowrap}
+.box .t b{color:#fff}.box .t .r{color:var(--red)}
+#hdr{left:2vw;top:2.2vh;width:min(640px,34vw)}#hdr .m{padding:.7em .8em .8em}
+.lab{display:inline-block;background:var(--red);color:#fff;font:700 22px/1.4 var(--mono);letter-spacing:.07em;padding:.08em .45em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.cur{animation:bl 1s steps(1) infinite;color:#fff;font:700 22px var(--mono)}@keyframes bl{50%{opacity:0}}
+#hdr .s{margin-top:.55em;font:11.5px/1.6 var(--mono);letter-spacing:.16em;color:#8d939b}
+#clock{left:2vw;top:calc(2.2vh + 172px);width:min(640px,34vw)}#clock .m{padding:.6em .8em .7em;display:flex;align-items:baseline;gap:1em}
+#ck{font:700 34px var(--mono);letter-spacing:.06em;color:#fff}#dt{font:600 13px var(--mono);letter-spacing:.2em;color:#8d939b}
+#stat{padding:0 .8em .7em;font:11.5px/1.7 var(--mono);letter-spacing:.14em;color:#c9ccd1}#stat b{color:var(--red)}
+#pb{height:3px;background:#ffffff1c;margin:0 .8em .8em}#pb i{display:block;height:100%;width:0;background:var(--red)}
+#log{right:2vw;top:2.2vh;width:min(520px,28vw);max-height:84vh;overflow:hidden}
+#ev{padding:.4em 0}.ev{display:grid;grid-template-columns:7.2em 1fr;gap:.2em .9em;padding:.55em .9em;border-bottom:1px solid #ffffff12;opacity:0;transform:translateX(10px);transition:opacity .4s,transform .4s}
+.ev.on{opacity:1;transform:none}.ev .tm{font:700 12px var(--mono);color:var(--red);letter-spacing:.12em}.ev .tx{font:12px/1.55 var(--mono);color:#e6e7ea;letter-spacing:.05em}
+.ev.now{background:#e5322d1f}
+#fin{left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,40vw);display:none}#fin.on{display:block}
+#fin .m{padding:.9em 1em;font:13px/1.9 var(--mono);letter-spacing:.12em;color:#e6e7ea}#fin .m b{color:#fff}
+#help{left:2vw;bottom:3vh;padding:.45em .9em;font:10.5px var(--mono);letter-spacing:.2em;color:#6d737c}
+.mk{font:600 10.5px var(--mono);color:#fff;letter-spacing:.14em;white-space:nowrap;display:flex;align-items:center;gap:6px;opacity:0;transition:opacity .4s}
+.mk.on{opacity:1}.mk i{width:10px;height:10px;border:2px solid #fff;flex:none;background:#0a0b0d}.mk.hot i{border-color:var(--red)}
+.mk span{background:#0a0b0dd9;padding:2px 6px;border-left:2px solid var(--red)}
+.shore{font:500 10px var(--mono);color:#a9b0b8;letter-spacing:.22em;white-space:nowrap;text-shadow:0 0 3px #000}
+#rain{position:absolute;inset:0;z-index:460;pointer-events:none;opacity:0;transition:opacity 2s;
+ background:repeating-linear-gradient(105deg,transparent 0 22px,rgba(200,210,220,.10) 22px 23px);background-size:200% 200%;animation:rn .6s linear infinite}
+@keyframes rn{to{background-position:-46px 120px}}#rain.on{opacity:1}
+.bz{position:absolute;z-index:999;top:10vh;bottom:10vh;width:12px;border:1px solid #ffffff40;pointer-events:none}.bz.l{left:8px;border-right:0;border-radius:14px 0 0 14px}.bz.r{right:8px;border-left:0;border-radius:0 14px 14px 0}
+</style>
+<div id=map></div><div id=rain></div><div class="bz l"></div><div class="bz r"></div>
+<div id=hdr class=box><div class=t><b>SAMARITAN</b><span id=ver></span><span class=r>&#9650;</span><span>INCIDENT RECONSTRUCTION</span></div>
+<div class=m><span class=lab id=ttl>THE GREAT CHICAGO FIRE</span><span class=cur>_</span>
+<div class=s>CHICAGO, ILLINOIS &nbsp;·&nbsp; 41.88°N 87.63°W<br>WIND: SOUTHWEST, STRONG &nbsp;·&nbsp; DROUGHT SINCE JULY<br>BURN AREA AND TIMES: APPROXIMATE</div></div></div>
+<div id=clock class=box><div class=t><span class=r>&#9650;</span><span>SIMULATION CLOCK</span><span style="flex:1"></span><span id=sp>x1</span></div>
+<div class=m><span id=ck>21:00</span><span id=dt>SUN 08 OCT 1871</span></div>
+<div id=stat>BURNED <b id=pc>0%</b> OF THE FINAL AREA &nbsp;·&nbsp; FRONT <span id=fr>IGNITION</span></div><div id=pb><i id=pbi></i></div></div>
+<div id=log class=box><div class=t><b>EVENT LOG</b><span style="flex:1"></span><span id=nev>0/7</span></div><div id=ev></div></div>
+<div id=fin class=box><div class=t><b>SAMARITAN</b><span class=r>&#9650;</span><span>INCIDENT CLOSED</span></div><div class=m>
+<span class=lab>RECONSTRUCTION COMPLETE</span><br><br>
+DEAD: <b>ABOUT 300</b><br>LEFT HOMELESS: <b>ABOUT 100,000</b><br>BUILDINGS DESTROYED: <b>ABOUT 17,500</b><br>AREA: <b>3.3 SQ MI (8.6 KM²)</b><br>
+<span style="color:#8d939b">CLICK THE TITLE TO REPLAY</span></div></div>
+<div id=help class=box>SPACE PAUSE &nbsp;·&nbsp; 1-4 SPEED &nbsp;·&nbsp; CLICK TITLE TO REPLAY</div>
+<div id=off class=box style="display:none;left:50%;top:50%;transform:translate(-50%,-50%);padding:1em 1.4em;border-color:#e5322d;font:600 16px var(--mono);letter-spacing:.2em">&#9650; MAP LIBRARY OFFLINE</div>
+<script>
+// ---- fire-spread model (no map library needed). Burned district: APPROXIMATE outline after the 1871 "burnt district" maps.
+const BURN=[[41.8680,-87.6445],[41.8790,-87.6445],[41.8790,-87.6385],[41.8868,-87.6385],[41.8960,-87.6420],[41.9100,-87.6510],
+ [41.9250,-87.6480],[41.9250,-87.6360],[41.9200,-87.6330],[41.9130,-87.6300],[41.9050,-87.6265],[41.8960,-87.6215],[41.8880,-87.6245],
+ [41.8740,-87.6245],[41.8745,-87.6290],[41.8765,-87.6370],[41.8765,-87.6378],[41.8680,-87.6378]];
+const ORIGIN=[41.8691,-87.6417];
+// anchor times in hours after 21:00 on 8 Oct 1871 (approximate, as commonly cited)
+const ANCH=[[ORIGIN,0],[[41.8785,-87.6380],3.0],[[41.8835,-87.6318],4.5],[[41.8973,-87.6236],6.33],[[41.9245,-87.6420],21]];
+const DLAT=0.0006,DLON=0.0008,LAT0=41.866,LON0=-87.652,NR=106,NC=42;
+function inPoly(la,lo,P){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [yi,xi]=P[i],[yj,xj]=P[j];
+ if((yi>la)!==(yj>la)&&lo<(xj-xi)*(la-yi)/(yj-yi)+xi)c=!c}return c}
+function rng(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}
+function buildModel(seed=7){
+ const R=rng(seed),cells=[],idx=new Int32Array(NR*NC).fill(-1);
+ for(let r=0;r<NR;r++)for(let c=0;c<NC;c++){const la=LAT0+(r+.5)*DLAT,lo=LON0+(c+.5)*DLON;
+  if(inPoly(la,lo,BURN)){idx[r*NC+c]=cells.length;cells.push({r,c,la,lo,noise:.65+.7*R(),t:Infinity})}}
+ const cell=(la,lo)=>{let best=-1,bd=1e9;for(let k=0;k<cells.length;k++){const d=(cells[k].la-la)**2+((cells[k].lo-lo)*.745)**2;if(d<bd){bd=d;best=k}}return best};
+ const W=[.42,.91],wn=Math.hypot(...W);W[0]/=wn;W[1]/=wn;           // wind blowing toward NNE (east, north)
+ const heap=[];const push=(t,k)=>{heap.push([t,k]);let i=heap.length-1;while(i>0){const p=(i-1)>>1;if(heap[p][0]<=heap[i][0])break;[heap[p],heap[i]]=[heap[i],heap[p]];i=p}};
+ const pop=()=>{const top=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let i=0;for(;;){const l=2*i+1,r=l+1;let m=i;
+  if(l<heap.length&&heap[l][0]<heap[m][0])m=l;if(r<heap.length&&heap[r][0]<heap[m][0])m=r;if(m===i)break;[heap[m],heap[i]]=[heap[i],heap[m]];i=m}}return top};
+ const o=cell(...ORIGIN);cells[o].t=0;push(0,o);
+ while(heap.length){const [t,k]=pop();if(t>cells[k].t)continue;const a=cells[k];
+  for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){if(!dr&&!dc)continue;const r=a.r+dr,c=a.c+dc;if(r<0||c<0||r>=NR||c>=NC)continue;
+   const j=idx[r*NC+c];if(j<0)continue;const len=Math.hypot(dr,dc),cos=(dc*W[0]+dr*W[1])/len;
+   const nt=t+len*(1-.62*cos)*cells[j].noise;if(nt<cells[j].t){cells[j].t=nt;push(nt,j)}}}
+ // map model time to clock hours through the anchors (monotonic, piecewise linear)
+ let an=ANCH.map(([p,h])=>[cells[cell(...p)].t,h]).sort((x,y)=>x[0]-y[0]);
+ for(let i=1;i<an.length;i++)an[i][1]=Math.max(an[i][1],an[i-1][1]+.25);
+ const toH=t=>{if(t<=an[0][0])return 0;for(let i=1;i<an.length;i++)if(t<=an[i][0])return an[i-1][1]+(t-an[i-1][0])/(an[i][0]-an[i-1][0])*(an[i][1]-an[i-1][1]);
+  const [a0,h0]=an[an.length-2],[a1,h1]=an[an.length-1];return h1+(t-a1)*(h1-h0)/(a1-a0)};
+ for(const c of cells)c.h=isFinite(c.t)?toH(c.t):Infinity;
+ return {cells,anchors:an};
+}
+if(!window.L){document.getElementById('off').style.display='block';throw new Error('no leaflet')}
+const $=id=>document.getElementById(id);
+const map=L.map('map',{zoomControl:false,zoomSnap:0.25,fadeAnimation:false});
+const EURL='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+L.tileLayer(EURL,{maxZoom:16,maxNativeZoom:11,attribution:''}).addTo(map);               // coarse backdrop, always loaded
+const esri=L.tileLayer(EURL,{maxZoom:16,keepBuffer:8,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'}).addTo(map);
+let bad=0,ok=0;esri.on('tileload',()=>ok++);esri.on('tileerror',()=>{if(++bad>=4&&ok<2){map.removeLayer(esri);document.body.classList.add('osm');
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map)}});
+const AREA=L.latLngBounds([[41.864,-87.664],[41.928,-87.612]]);
+map.setView([41.885,-87.640],12);
+// preload the close-up level for the fire district (single hard zoom later; user disliked stepped zooms)
+(()=>{const z=Math.round(map.getBoundsZoom(AREA)),t=(la,lo)=>{const n=2**z,r=la*Math.PI/180;return [Math.floor((lo+180)/360*n),Math.floor((1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n)]};
+ const [x0,y0]=t(41.935,-87.70),[x1,y1]=t(41.857,-87.58),Q=[];for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++)Q.push(EURL.replace('{z}',z).replace('{y}',y).replace('{x}',x));
+ const w=()=>{const u=Q.shift();if(!u)return;const im=new Image();im.onload=im.onerror=w;im.src=u};for(let k=0;k<6;k++)w()})();
+const M=buildModel(7),cells=M.cells,HMAX=Math.max(...cells.map(c=>c.h));
+// 1871 shoreline (approximate): east of it is later landfill (Grant Park, Streeterville, the lakefront parks)
+const SHORE=[[41.8660,-87.6238],[41.8740,-87.6245],[41.8880,-87.6245],[41.8960,-87.6215],[41.9050,-87.6265],[41.9130,-87.6300],[41.9200,-87.6330],[41.9250,-87.6360],[41.9300,-87.6390]];
+L.polyline(SHORE,{color:'#a9b0b8',weight:1.5,dashArray:'2 6',opacity:.9}).addTo(map);
+L.marker([41.8790,-87.6205],{interactive:false,icon:L.divIcon({className:'',iconAnchor:[0,0],html:'<div class=shore>1871 SHORELINE<br>EAST OF IT: LATER LANDFILL</div>'})}).addTo(map);
+L.polygon(BURN,{color:'#e5322d',weight:1,opacity:.0,fill:false}).addTo(map);
+// events: [hours after 21:00 Oct 8, label time, text, marker lat/lon or null, marker label]
+const EV=[[0,'21:00 OCT 8','FIRE BREAKS OUT IN THE O’LEARY BARN, DEKOVEN STREET. THE SITE IS NOW THE CHICAGO FIRE ACADEMY.',[41.8691,-87.6417],'IGNITION POINT'],
+ [3,'~00:00','THE FIRE JUMPS THE SOUTH BRANCH OF THE RIVER INTO THE BUSINESS DISTRICT.',[41.8785,-87.6380],'RIVER CROSSING'],
+ [4.5,'~01:30','THE COURTHOUSE BURNS; ITS BELL LATER CRASHES THROUGH THE TOWER.',[41.8835,-87.6318],'COURTHOUSE'],
+ [6.33,'~03:20','THE PUMPING STATION ROOF CATCHES FIRE. THE CITY’S WATER SUPPLY FAILS.',[41.8973,-87.6236],'PUMPING STATION'],
+ [12,'OCT 9','THE NORTH SIDE BURNS. THOUSANDS FLEE TO THE LAKESHORE AND LINCOLN PARK.',null,''],
+ [26,'~23:00 OCT 9','RAIN BEGINS TO FALL ON THE LAST OF THE FIRE.',null,''],
+ [30,'OCT 10','THE FIRE BURNS OUT. THE WATER TOWER IS ONE OF THE FEW BUILDINGS LEFT STANDING.',[41.8972,-87.6244],'WATER TOWER: SURVIVED']];
+const evEl=$('ev'),mk=[];
+for(const e of EV){const d=document.createElement('div');d.className='ev';d.innerHTML=`<div class=tm>${e[1]}</div><div class=tx>${e[2]}</div>`;evEl.appendChild(d);e.el=d;
+ if(e[3]){const m=L.marker(e[3],{interactive:false,icon:L.divIcon({className:'',iconAnchor:[6,6],html:`<div class="mk${e[0]<26?' hot':''}"><i></i><span>${e[4]}</span></div>`})}).addTo(map);e.mk=m}}
+const GL='ИЯƎƆƧΣΞЖ#%&';function dec(el,txt,ms){const t0=performance.now();(function f(n){const k=Math.min(txt.length,Math.floor((n-t0)/ms));
+ el.textContent=txt.slice(0,k)+(k<txt.length?(txt[k]===' '?' ':GL[Math.random()*GL.length|0]):'');if(k<txt.length)requestAnimationFrame(f)})(t0)}
+// canvas: cell rectangles projected once per map move/zoom
+// the canvas lives in its own map pane (above tiles, below the markers), re-anchored to the container's top-left
+const fp=map.createPane('fire');fp.style.zIndex=450;fp.style.pointerEvents='none';
+const cv=document.createElement('canvas');cv.id='fire';fp.appendChild(cv);const cx=cv.getContext('2d');let rects=null;
+function project(){const s=map.getSize();if(cv.width!==s.x||cv.height!==s.y){cv.width=s.x;cv.height=s.y}
+ L.DomUtil.setPosition(cv,map.containerPointToLayerPoint([0,0]));rects=cells.map(c=>{const a=map.latLngToContainerPoint([c.la+DLAT/2,c.lo-DLON/2]),
+ b=map.latLngToContainerPoint([c.la-DLAT/2,c.lo+DLON/2]);return [a.x,a.y,b.x-a.x+.6,b.y-a.y+.6]})}
+map.on('move zoom resize viewreset',project);map.on('zoomstart',()=>cv.style.opacity=0);map.on('zoomend',()=>{project();cv.style.opacity=1});project();
+const BURNH=1.8;let H=-1,speed=1,paused=false,last=null,running=false,nev=0;
+const SPEEDS=[0,1,2,4,8];
+function rate(h){return h<7?0.11:h<24?0.55:0.9}      // clock hours per real second: slow through the night, faster on Monday
+function draw(){cx.clearRect(0,0,cv.width,cv.height);if(H<0)return;const fl=performance.now()/90;
+ for(let k=0;k<cells.length;k++){const c=cells[k];if(c.h>H)continue;const a=H-c.h,[x,y,w,h]=rects[k];
+  if(a<BURNH){const f=a/BURNH,j=.82+.18*Math.sin(fl+k*1.7);
+   cx.fillStyle=f<.25?`rgba(255,${235-300*f|0},${200-600*f|0},${.95*j})`:`rgba(229,${50+40*(1-f)|0},45,${(.9-.35*f)*j})`;cx.fillRect(x-1,y-1,w+2,h+2)}
+  else{cx.fillStyle='rgba(150,22,18,.46)';cx.fillRect(x,y,w,h)}}}
+function clockTxt(h){const t=new Date(Date.UTC(1871,9,8,21,0)+h*3.6e6),d=['SUN','MON','TUE'][t.getUTCDate()-8];
+ return [String(t.getUTCHours()).padStart(2,'0')+':'+String(t.getUTCMinutes()).padStart(2,'0'),`${d} ${String(t.getUTCDate()).padStart(2,'0')} OCT 1871`]}
+function frame(now){if(!running)return;const dt=last?Math.min(.1,(now-last)/1000):0;last=now;
+ if(!paused&&H>=0){H=Math.min(31,H+dt*rate(H)*SPEEDS[speed])}
+ draw();const [a,b]=clockTxt(Math.max(0,H));$('ck').textContent=a;$('dt').textContent=b;
+ const burned=cells.filter(c=>c.h<=H).length;$('pc').textContent=Math.round(100*burned/cells.length)+'%';$('pbi').style.width=(100*Math.max(0,H)/31)+'%';
+ $('fr').textContent=H<3?'WEST SIDE':H<6.5?'BUSINESS DISTRICT':H<24?'NORTH SIDE':'DYING';
+ while(nev<EV.length&&H>=EV[nev][0]){const e=EV[nev];EV.forEach(x=>x.el.classList.remove('now'));e.el.classList.add('on','now');
+  if(e.mk)e.mk.getElement().firstChild.classList.add('on');if(nev===5)$('rain').classList.add('on');nev++;$('nev').textContent=nev+'/'+EV.length}
+ if(H>=31&&!$('fin').classList.contains('on')){$('fin').classList.add('on');$('rain').classList.remove('on')}
+ requestAnimationFrame(frame)}
+async function start(){running=false;await new Promise(r=>setTimeout(r,30));
+ H=-1;nev=0;speed=1;$('sp').textContent='x1';last=null;$('fin').classList.remove('on');$('rain').classList.remove('on');$('nev').textContent='0/'+EV.length;
+ EV.forEach(e=>{e.el.classList.remove('on','now');if(e.mk&&e.mk.getElement())e.mk.getElement().firstChild.classList.remove('on')});
+ $('ttl').textContent='';dec($('ttl'),'THE GREAT CHICAGO FIRE',30);running=true;requestAnimationFrame(frame);
+ await new Promise(r=>setTimeout(r,1600));
+ map.setView(AREA.getCenter(),map.getBoundsZoom(AREA),{animate:true});              // ONE hard zoom
+ await new Promise(r=>setTimeout(r,1400));H=0}
+addEventListener('keydown',e=>{if(e.key===' '){paused=!paused;$('sp').textContent=paused?'PAUSED':'x'+SPEEDS[speed];e.preventDefault()}
+ if('1234'.includes(e.key)&&e.key){speed=+e.key;$('sp').textContent='x'+SPEEDS[speed]}});
+$('hdr').style.cursor='pointer';$('hdr').onclick=()=>{map.setView([41.885,-87.640],12,{animate:true});start()};
+const t=new Date();$('ver').textContent='v.'+Math.floor((t-new Date(t.getFullYear(),0,0))/864e5)+'.'+t.toTimeString().slice(0,8).replace(/:/g,'.');
+start();
+</script>
+<script>addEventListener('keydown',e=>{if(e.key==='Escape')location.href='../'})</script>
