@@ -1,0 +1,18 @@
+/* Phone layout for lensing-playground. Scoped to html.phone (see phone.js); the desktop display is unchanged.
+   The info panel becomes a sheet at the top: collapsed it shows the title and the status line, a tap opens the text.
+   The canvas gets an explicit CSS size: without it, at dpr 2 it is drawn twice the viewport size and the phone zooms out. */
+html.phone #c{touch-action:none;width:100%;height:100%}
+html.phone #p{top:max(8px,env(safe-area-inset-top));left:8px;right:8px;width:auto;padding:10px 12px;pointer-events:auto;cursor:pointer;
+ max-height:calc(100% - 76px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;-webkit-tap-highlight-color:transparent}
+html.phone:not(.portrait) #p{left:auto;right:max(8px,env(safe-area-inset-right));width:min(340px,44vw);max-height:calc(100% - 70px)}
+html.phone h1{font-size:15px;white-space:normal;position:relative;padding-right:70px}
+html.phone h1:after{content:'+ INFO';position:absolute;right:0;top:1px;font:500 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.15em;color:#e5322d;
+ border:1px solid #e5322d88;padding:4px 5px}
+html.phone.m-open h1:after{content:'− HIDE'}
+html.phone .sub{font-size:12px;margin:5px 0 8px}
+html.phone h2{font-size:10.5px;margin:12px 0 5px}
+html.phone .t{font-size:13px}
+html.phone .f{font-size:16px}
+html.phone .k{font-size:12px}
+html.phone #st{font-size:11px;margin-top:7px}
+html.phone:not(.m-open) #p>:not(h1):not(#st){display:none}

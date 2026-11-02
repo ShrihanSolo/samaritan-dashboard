@@ -16,6 +16,8 @@ Nine interactive data displays in a dark, Samaritan-inspired style (after the AI
 
 The displays are designed for a 1920×1050 landscape screen. Press F11 for full screen.
 
+On a phone, the wall and each display switch to a phone layout. `mobile/` holds the phone layer: `phone.css` and `phone.js` are shared and add the ◀ FEEDS button and touch buttons for the keyboard shortcuts, and `<display>.css/.js` hold the per-display rules. Everything there only applies to small screens. `mobile.py` injects it into `slides/`, and `build.py` runs it after each rebuild.
+
 The front page is a Samaritan feed wall: ↑/↓, the wheel or a swipe steps through it, Enter or a click opens a feed, and Esc on a display returns to the wall. `thumbs.sh` renders the previews. `build.py` regenerates `slides/` and `index.html` from the local gallery, inlining the Samaritan kit. It needs the local tools directory, so it only runs in the original environment.
 
 Map tiles © Esri. Built with [Leaflet](https://leafletjs.com). Live data comes from USGS, NWS, NIFC, NOAA SWPC, NASA EONET, NASA SDO, NOAA GOES, wheretheiss.at and Open-Meteo.

@@ -1,0 +1,19 @@
+/* orbit-watch on a phone: map on top, feed thumbnails in a row, telemetry panel below (scrolls inside itself).
+   Box positions come from mobile/orbit-watch.js; sizes and type here. Scoped to html.phone. */
+html.phone .s-hdr{height:34px;font-size:10px;letter-spacing:.16em;gap:14px;padding:0 10px;overflow:hidden;white-space:nowrap}
+html.phone .s-hdr .clk{margin-right:0}
+html.phone.portrait .s-hdr span:nth-of-type(2),html.phone.portrait .s-hdr i{display:none}
+html.phone:not(.portrait) .s-hdr{height:28px}
+html.phone .s-frame .tab{font-size:10px;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;box-sizing:border-box;top:-4px}
+html.phone .s-frame .tab[data-s]{font-size:0;letter-spacing:0;padding:.3em .5em}
+html.phone .s-frame .tab[data-s]:before{content:attr(data-s);font-size:10px;letter-spacing:.08em}
+html.phone .s-frame .k{width:14px;height:14px;border-width:1.5px}
+html.phone .s-frame .k.a,html.phone .s-frame .k.c{left:-5px}html.phone .s-frame .k.b,html.phone .s-frame .k.d{right:-5px}
+html.phone .s-frame .k.a,html.phone .s-frame .k.b{top:-5px}html.phone .s-frame .k.c,html.phone .s-frame .k.d{bottom:-5px}
+/* the kit's P.fit() shrinks the panel font in vw until it fits; on a phone use a fixed size and scroll instead */
+html.phone .s-panel{font-size:12px!important;width:auto;max-height:none;padding:12px 14px;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;user-select:text}
+html.phone .s-panel .s-h:first-child{margin-top:0}
+html.phone .s-big{font-size:2.6em}
+html.phone .s-info{min-height:0;margin:.8em 0}
+html.phone .s-note{margin-top:1em}
+html.phone:not(.portrait) #m-back{left:auto;right:max(10px,env(safe-area-inset-right))}

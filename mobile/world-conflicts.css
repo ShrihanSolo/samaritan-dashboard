@@ -1,0 +1,59 @@
+/* world-conflicts on a phone. Scoped to html.phone; the desktop display is unchanged.
+   Portrait: header, a horizontal strip of theatre chips, a one-line progress bar, the map, and the dossier as a
+   bottom sheet (tap to expand, tap its top bar to collapse). Landscape: the same, with the dossier on the right. */
+html.phone{--m-top:30px;--m-strip:42px;--m-bot:26px;--m-row:calc(max(10px,env(safe-area-inset-bottom)) + 44px)}
+html.phone .s-hdr{height:var(--m-top);box-sizing:border-box;padding:0 10px;gap:12px;font-size:10px;letter-spacing:.14em;overflow:hidden}
+html.phone .s-hdr span:not(:first-of-type){display:none}
+html.phone .s-hdr i{overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* theatre list -> horizontal chip strip */
+html.phone #list{left:0;right:0;top:var(--m-top);width:auto;border-width:0 0 1px 0;background:rgba(10,11,13,.96)}
+html.phone #list>.a,html.phone #list .lg{display:none}
+html.phone #items{display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+html.phone #items::-webkit-scrollbar{display:none}
+html.phone #list .it{display:flex;flex-direction:column;justify-content:center;gap:4px;flex:none;height:var(--m-strip);box-sizing:border-box;padding:0 12px;
+ font-size:11px;line-height:1.2;letter-spacing:.06em;white-space:nowrap;border-left-width:3px;border-right:1px solid #22262c}
+html.phone #list .it>.n{display:none}
+html.phone #list .it .k{display:none}
+html.phone #list .it>div:nth-child(2):before{content:attr(data-n) ' ';color:#5d636b}
+html.phone #list .it.on>div:nth-child(2):before{color:var(--red)}
+html.phone #list .it .bar{height:3px;width:100%}
+/* progress strip */
+html.phone #bot{left:0;right:0;top:calc(var(--m-top) + var(--m-strip) + 1px);bottom:auto;height:var(--m-bot);box-sizing:border-box;border-width:0 0 1px 0;
+ padding:0 10px;gap:10px;font-size:10px;letter-spacing:.12em}
+html.phone #bot #mode{display:none}
+html.phone #bot #nx{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:78%}
+html.phone #bot .pb{height:3px}
+/* dossier -> bottom sheet */
+html.phone #dos{background:#0a0b0d;left:0;right:0;top:auto;bottom:0;width:auto;border-width:1px 0 0;box-sizing:border-box;padding-bottom:var(--m-row);max-height:calc(100% - var(--m-top) - var(--m-strip) - var(--m-bot) - 60px);
+ overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;cursor:pointer}
+html.phone #dos .a{position:sticky;top:0;background:#0f1115;z-index:1;padding:7px 10px;font-size:10px;letter-spacing:.14em;gap:8px}
+html.phone #dos .a>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}html.phone #dos .a>b{white-space:nowrap}
+html.phone #dos .a:after{content:'+ MORE';color:#e6e7ea;flex:none;letter-spacing:.14em}
+html.phone #dos.m-open .a:after{content:'− LESS'}
+html.phone #dos .t{padding:8px 10px 2px;font-size:17px;line-height:1.2}
+html.phone #dos .t2{padding:0 10px 8px;font-size:10.5px;letter-spacing:.1em}
+html.phone #dos .st{margin:8px 10px 0;font-size:10px;padding:4px 6px;letter-spacing:.1em}
+html.phone #dos .g{padding:8px 10px;gap:5px 10px;font-size:11.5px;line-height:1.4}
+html.phone #dos .kf{padding:8px 10px;gap:10px}
+html.phone #dos .kf em{font-size:26px}
+html.phone #dos .kf>span{font-size:11.5px;line-height:1.4}
+html.phone #dos ul{padding:10px 10px 4px}
+html.phone #dos li{padding:0 0 9px 16px;font-size:12.5px;line-height:1.45}
+html.phone #dos li:before{top:6px;width:6px;height:6px}
+html.phone #dos .f{padding:6px 10px;font-size:10px;gap:10px;flex-wrap:wrap}
+html.phone #dos:not(.m-open) .g,html.phone #dos:not(.m-open) ul,html.phone #dos:not(.m-open) .f{display:none}
+html.phone #dos:not(.m-open) .t2{border-bottom:0}
+/* map labels a bit smaller; in the overview only the numbers, so the cluster stays readable */
+html.phone .cm .lb{font-size:10px;padding:3px 5px;letter-spacing:.1em}
+html.phone.m-ov .cm .lb .m-nm{display:none}
+html.phone .st-m .l{font-size:10.5px}
+html.phone .leaflet-control-attribution{font-size:9px;max-width:55vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.phone .leaflet-bottom.leaflet-right{bottom:auto;top:calc(var(--m-top) + var(--m-strip) + var(--m-bot) + 2px)}
+/* landscape: dossier as a side sheet on the right */
+html.phone:not(.portrait){--m-top:26px;--m-strip:36px;--m-bot:24px}
+html.phone:not(.portrait) #dos{left:auto;right:0;top:calc(var(--m-top) + var(--m-strip) + 1px);width:min(340px,42vw);max-height:none;bottom:0;border-width:0 0 0 1px}
+html.phone:not(.portrait) #dos:not(.m-open){bottom:auto;padding-bottom:0;border-bottom-width:1px;max-height:calc(100% - var(--m-top) - var(--m-strip) - var(--m-row) - 8px)}
+html.phone:not(.portrait) #bot{right:min(340px,42vw)}
+html.phone:not(.portrait) .leaflet-bottom.leaflet-right{right:min(340px,42vw)}
+/* the selected theatre is named in the sheet; its map label would sit on top of the site labels */
+html.phone .cm.on .lb{display:none}

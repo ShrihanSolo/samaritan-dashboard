@@ -1,0 +1,10 @@
+/* Shared phone rules. Everything is scoped to html.phone (set by phone.js), so the desktop display is unchanged. */
+#m-back,#m-keys{display:none}
+html.phone #m-back{display:block;position:fixed;left:max(8px,env(safe-area-inset-left));bottom:max(10px,env(safe-area-inset-bottom));z-index:9999;
+ font:600 11px/1 'DejaVu Sans Mono',Menlo,Consolas,monospace;letter-spacing:.2em;color:#e9ecec;background:rgba(10,11,13,.82);border:1px solid #3a3f46;
+ border-left:3px solid #e5322d;padding:9px 10px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+html.phone #m-keys{display:flex;gap:6px;position:fixed;right:max(8px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));z-index:9999}
+html.phone .m-k{font:600 11px/1 'DejaVu Sans Mono',Menlo,Consolas,monospace;letter-spacing:.15em;color:#e9ecec;background:rgba(10,11,13,.82);
+ border:1px solid #3a3f46;padding:9px 11px;min-width:40px;-webkit-tap-highlight-color:transparent;cursor:pointer}
+html.phone .m-k:active{border-color:#e5322d;color:#fff}
+html.phone,html.phone body{-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior:none}

@@ -1,0 +1,37 @@
+/* Phone layout for sky-watch. Scoped to html.phone (see phone.js); the desktop display is unchanged.
+   Header across the top with the UTC clock in its title bar; one bottom slot shows either the focus card or the
+   observatory list (LIST / FOCUS button); tapping a box's title bar folds it to that bar. */
+html.phone #hdr{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));width:auto}
+html.phone .box .t{padding:9px 10px;font-size:10px;letter-spacing:.14em;gap:.9em}
+html.phone #hdr .m{padding:7px 10px 8px}
+html.phone .lab{font-size:13px;line-height:1.45;padding:1px 6px}
+html.phone #hdr .s{font-size:10px;line-height:1.55;letter-spacing:.04em;margin-top:6px}
+html.phone #utc{top:calc(max(8px,env(safe-area-inset-top)) + 1px);right:calc(max(8px,env(safe-area-inset-right)) + 1px);border:0;background:none;
+ padding:7px 10px;font-size:14px;line-height:1}
+html.phone #utc span+span{font-size:10px;margin-left:.4em}
+/* bottom slot: card or list, above the FEEDS / key buttons */
+html.phone #card,html.phone #list{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));width:auto;
+ bottom:calc(max(10px,env(safe-area-inset-bottom)) + 42px)}
+html.phone #list{display:none;max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+html.phone.m-list #list{display:block}
+html.phone.m-list #card{display:none}
+html.phone #list .t{position:sticky;top:0;background:#0a0b0d}
+html.phone .row{font-size:11px;padding:3px 10px;grid-template-columns:8.8em 1fr 4em}
+html.phone .chip{font-size:10px}
+html.phone #card .nm{font-size:15px;padding:5px 10px}
+html.phone #card .bd{font-size:12px;line-height:1.6;padding:8px 10px}
+html.phone #card .t,html.phone #list .t{cursor:pointer;-webkit-tap-highlight-color:transparent}
+html.phone #card .t:after,html.phone #list .t:after{content:'−';color:#e5322d;font-weight:700;margin-left:.2em}
+html.phone .box.m-min .t:after{content:'+'}
+html.phone .box.m-min>:not(.t){display:none}
+html.phone .box.m-min .t{border-bottom:0}
+html.phone .tag{font-size:10px}
+/* tile attribution: just under the header, out of the way of the bottom slot and buttons */
+html.phone .leaflet-bottom.leaflet-right{bottom:auto;top:var(--m-hb,140px)}
+html.phone .leaflet-control-attribution{font-size:9px;max-width:calc(100vw - 16px)}
+/* landscape: header at top-left, card or list at the right */
+html.phone:not(.portrait) #hdr{width:min(360px,46vw);right:auto}
+html.phone:not(.portrait) #card,html.phone:not(.portrait) #list{left:auto;width:min(330px,42vw)}
+html.phone:not(.portrait) #list{max-height:calc(100vh - 100px)}
+html.phone:not(.portrait) .leaflet-bottom.leaflet-right{top:auto;bottom:max(10px,env(safe-area-inset-bottom));right:auto;left:calc(max(8px,env(safe-area-inset-left)) + 100px)}
+html.phone:not(.portrait) .leaflet-control-attribution{max-width:calc(100vw - 560px)}

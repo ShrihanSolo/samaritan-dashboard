@@ -1,0 +1,46 @@
+/* Phone layout for us-atlas. Scoped to html.phone (see phone.js); the desktop display is unchanged.
+   Portrait: header, the map across the full width, a two-row strip of layer chips (swipe sideways, tap to pick), and
+   the layer panel filling the rest of the screen and scrolling inside itself. Landscape: map at the left, chips under
+   it, panel as a scrolling column at the right. us-atlas.js re-fits the canvas map into the matching box. */
+html.phone .s-hdr{height:28px;font-size:10px;letter-spacing:.16em;gap:12px;padding:0 10px;padding-top:env(safe-area-inset-top);overflow:hidden}
+html.phone .s-hdr span:nth-of-type(n+2):not(.clk){display:none}
+html.phone .s-hdr .clk{margin-right:0;flex-shrink:0}
+html.phone .s-hdr i{overflow:hidden;text-overflow:ellipsis;min-width:0}
+html.phone #cv{touch-action:manipulation}
+html.phone #yr{font-size:30px}
+html.phone #tip{font-size:11px;white-space:normal;max-width:240px}
+
+/* layer chips */
+html.phone #chipw{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));bottom:auto;top:var(--m-cw,330px)}
+html.phone #chipw .hd{font-size:10px;margin-bottom:5px}
+html.phone #chipw .hd>span{font-size:0}
+html.phone #chipw .hd>span:after{content:'LAYERS · SWIPE AND TAP';font-size:10px}
+html.phone #chips{grid-template-rows:repeat(2,34px);grid-auto-columns:max-content;gap:4px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent)}
+html.phone .ch{font-size:10.5px;line-height:1;padding:0 10px;min-width:96px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent}
+html.phone .ch b{margin-right:6px}
+
+/* layer panel */
+html.phone #pn{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));width:auto;top:calc(var(--m-cw,330px) + 92px);
+ bottom:calc(max(10px,env(safe-area-inset-bottom)) + 42px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+html.phone #pn .a{padding:7px 10px;font-size:10px;position:sticky;top:0;background:rgba(13,15,18,.98);z-index:1;gap:8px}
+html.phone #pn .t{padding:10px 10px 3px;font-size:17px}
+html.phone #pn .t2{padding:0 10px 9px;font-size:10.5px}
+html.phone #pn .kf{gap:10px;padding:9px 10px}
+html.phone #pn .kf>em{font-size:26px}
+html.phone #pn .kf>span{font-size:11px}
+html.phone #pn ul{padding:10px 10px 2px}
+html.phone #pn li{padding:0 0 8px 15px;font-size:12.5px}
+html.phone #pn li:before{top:6px}
+html.phone #pn .an{margin:4px 10px 10px;padding:8px 9px;font-size:12px}
+html.phone #pn .an>i{font-size:9.5px;padding:3px 5px;margin-right:6px;vertical-align:1px}
+html.phone #pn .lg{gap:5px 12px;padding:9px 10px;font-size:10.5px}
+html.phone #pn .lg i{width:9px;height:9px;margin-right:5px;vertical-align:0}
+html.phone #pn .lg .ramp{height:8px;margin:2px 0}
+html.phone #pn .f{gap:10px;padding:6px 10px;font-size:10px}
+
+/* landscape: panel at the right, chips under the map (right of the FEEDS button) */
+html.phone:not(.portrait) #pn{left:auto;width:min(360px,42vw);top:calc(34px + env(safe-area-inset-top))}
+html.phone:not(.portrait) #chipw{top:auto;bottom:max(10px,env(safe-area-inset-bottom));left:calc(max(8px,env(safe-area-inset-left)) + 100px);
+ right:calc(max(8px,env(safe-area-inset-right)) + min(360px,42vw) + 10px)}
+html.phone:not(.portrait) #chips{grid-template-rows:34px}

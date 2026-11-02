@@ -27,3 +27,4 @@ for f in os.listdir(os.path.join(HERE, "slides")):
 items = [{"src": "slides/" + d, "thumb": "thumbs/" + d[:-5] + ".jpg", "title": t, "tag": g} for s, d, t, g in SLIDES]
 open(os.path.join(HERE, "index.html"), "w").write(open(os.path.join(HERE, "index.tpl.html")).read().replace("__ITEMS__", json.dumps(items)))
 print("index.html written")
+import mobile; [mobile.inject(os.path.join(HERE, "slides", d)) for d in keep]; print("phone layer added (mobile/)")

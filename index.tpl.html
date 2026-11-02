@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Samaritan // Public Feeds</title>
 <style>
 html,body{margin:0;height:100%;overflow:hidden;background:#c3c9ca}
@@ -25,6 +25,19 @@ html,body{margin:0;height:100%;overflow:hidden;background:#c3c9ca}
 .rd{bottom:7vh;font-size:1.35vh;line-height:1.6;letter-spacing:.08em;border:1.5px solid #2b3434;padding:1vh .8vw;background:rgba(238,242,242,.94);text-transform:uppercase;box-sizing:border-box}
 .rd b{display:block;font-weight:600;font-size:1.7vh;margin-bottom:.6vh}.rd b:before{content:'▲ ';color:#e5322d}
 .open{display:inline-block;margin-top:.8vh;background:#e5322d;color:#fff;font-weight:600;font-size:1.15vh;letter-spacing:.25em;padding:.5vh .6vw;cursor:pointer}
+/* phone (GitHub copy): one centred column of feeds, swipe to step, tap to open; readout card at the bottom */
+.ph .tt{left:12px;top:max(12px,env(safe-area-inset-top));font-size:11px;letter-spacing:.22em;padding:7px 9px}
+.ph .help{left:12px;top:calc(max(12px,env(safe-area-inset-top)) + 36px);font-size:10px;letter-spacing:.15em}
+.ph .clk{left:auto;right:12px;bottom:auto;top:calc(max(12px,env(safe-area-inset-top)) + 36px);font-size:10px;letter-spacing:.15em}
+.ph .inp,.ph .edge.r{display:none}.ph .edge{width:18px}
+.ph .col{left:7vw;width:86vw}
+.ph .fd .id{left:6px;top:6px;font-size:10px;padding:3px 5px}.ph .fd .nm{right:7px;bottom:6px;font-size:10px}
+.ph .rd{left:12px;right:12px;width:auto;bottom:max(14px,env(safe-area-inset-bottom));font-size:11px;padding:10px 12px}
+.ph .rd b{font-size:14px;margin-bottom:4px}
+.ph .open{font-size:11px;padding:9px 12px;margin-top:8px}
+.ph.land .tt{top:10px}.ph.land .help{top:44px}.ph.land .clk{top:20px;right:16px}
+.ph.land .col{left:5vw;width:52vw}
+.ph.land .rd{left:auto;right:12px;width:36vw;top:auto;bottom:50%;transform:translateY(50%)}
 </style>
 <div id=hw>
  <canvas class=bg></canvas><div class=edge></div><div class="edge r"></div>
@@ -37,20 +50,27 @@ html,body{margin:0;height:100%;overflow:hidden;background:#c3c9ca}
 </div>
 <script>
 const ITEMS=__ITEMS__;
+const PHQ=matchMedia('(max-width: 820px), (max-height: 520px)');
 const HW={items:ITEMS,sel:0,pos:0,el:document.getElementById('hw'),busy:true,idle:0,
+ get ph(){return PHQ.matches},
+ mode(){const e=this.el,p=this.ph,l=p&&innerWidth>innerHeight;e.classList.toggle('ph',p);e.classList.toggle('land',l);
+  e.querySelector('.help').textContent=p?'SWIPE ↑ ↓ · TAP TO OPEN':'↑ ↓ STEP · ENTER OPEN · ESC BACK'},
+ // vertical centre of the selected feed: the middle of the screen, or of the space above the readout card on a phone in portrait
+ cy(){if(!this.ph||innerWidth>innerHeight)return innerHeight/2;const top=70,rd=this.el.querySelector('.rd').getBoundingClientRect();return (top+rd.top)/2},
  async bgPrep(){const ld=u=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=u});
   const ims=await Promise.all(this.items.map(x=>ld(x.thumb)));const pre=(im,w,h,fl)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
    if(!im){x.fillStyle='#2b3434';x.globalAlpha=.35;x.fillRect(0,0,w,h);return c}x.filter=fl;x.drawImage(im,0,0,w,h);return c};
   this.bgG=ims.map(im=>pre(im,220,120,'grayscale(1) contrast(1.1) brightness(1.06)'));this.bgC=ims.map(im=>pre(im,256,140,'saturate(.85)'));this.drawBg()},
  drawBg(){const cv=this.el.querySelector('canvas.bg');if(!this.bgG)return;const W=innerWidth,H=innerHeight,d=devicePixelRatio||1;if(cv.width!==Math.round(W*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}
   const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,W,H);const N=this.items.length,vw=W/100,vh=H/100,R=1050/1920;
-  const greyCol=(x0,w,rate,off)=>{const h=w*R,gap=1.6*vh,p=h+gap+1.4*vh,y0=H/2-h/2-this.pos*p*rate-off*p;
+  const greyCol=(x0,w,rate,off)=>{const h=w*R,gap=1.6*vh,p=h+gap+1.4*vh,y0=this.cy()-h/2-this.pos*p*rate-off*p;
    for(let r=-3;r<=3;r++)for(let i=0;i<N;i++){const k=r*N+i,y=y0+k*p;if(y>H||y+h+gap<0)continue;x.globalAlpha=.62;x.drawImage(this.bgG[i],x0,y,w,h);x.fillStyle='#2b3434';x.globalAlpha=.4;
     x.fillRect(x0,y+h+.5*vh,w*(.25+((k*37%60+60)%60)/100),.45*vh);x.fillRect(x0,y+h+1.15*vh,w*(.15+((k*53%40+40)%40)/100),.3*vh)}x.globalAlpha=1};
+  if(this.ph){greyCol(-4*vw,9*vw,.35,0);greyCol(95*vw,9*vw,.6,.5);return}
   greyCol(15*vw,6.5*vw,.35,0);greyCol(22.5*vw,7.2*vw,.6,.5);
-  const mw=8.5*vw,mh=mw*R,mp=mh+1.2*vh,my=H/2-mh/2-this.pos*mp;for(let i=0;i<N;i++){const y=my+i*mp;if(y>H||y+mh<0)continue;
+  const mw=8.5*vw,mh=mw*R,mp=mh+1.2*vh,my=this.cy()-mh/2-this.pos*mp;for(let i=0;i<N;i++){const y=my+i*mp;if(y>H||y+mh<0)continue;
    x.globalAlpha=i===this.sel?1:.78;x.drawImage(this.bgC[i],69*vw,y,mw,mh);x.globalAlpha=1;x.lineWidth=i===this.sel?2.5:1;x.strokeStyle=i===this.sel?'#e5322d':'#8a9192';x.strokeRect(69*vw-.5,y-.5,mw+1,mh+1)}},
- zoom(){const col=this.el.querySelector('.col'),w=col.clientWidth,x0=col.offsetLeft,h=w*1050/1920,top=(innerHeight-h)/2,s=innerWidth/w,cx=x0+w/2,cy=top+h/2;
+ zoom(){const col=this.el.querySelector('.col'),w=col.clientWidth,x0=col.offsetLeft,h=w*1050/1920,top=this.cy()-h/2,s=innerWidth/w,cx=x0+w/2,cy=top+h/2;
   return `translate(${innerWidth/2-s*cx}px,${innerHeight/2-s*cy}px) scale(${s})`},
  dec(el,txt,ms){const G='ИЯƎƆƧΣΞЖ#%&<>=+0123456789';let k=0;clearInterval(el._t);el._t=setInterval(()=>{k++;el.textContent=txt.slice(0,k)+(k<txt.length?G[Math.random()*G.length|0]:'');if(k>=txt.length)clearInterval(el._t)},ms)},
  go(k,now){const N=this.items.length;k=(k+N)%N;const jump=Math.abs(k-this.sel)>1&&!now;this.sel=k;const it=this.items[k];
@@ -58,12 +78,12 @@ const HW={items:ITEMS,sel:0,pos:0,el:document.getElementById('hw'),busy:true,idl
   this.el.querySelectorAll('.inp>div').forEach(d=>d.onclick=()=>{this.touch();this.go(+d.dataset.i)});
   this.dec(this.el.querySelector('.rd b'),it.title.toUpperCase(),18);this.dec(this.el.querySelector('.rd>span'),'FEED '+String(k+1).padStart(2,'0')+' OF '+String(N).padStart(2,'0')+' · '+it.tag,10);
   const p0=this.pos,t0=performance.now(),D=now?1:(jump?500:320),self=this;(function f(){const u=Math.min(1,(performance.now()-t0)/D),e=u<.5?4*u*u*u:1-Math.pow(2-2*u,3)/2;self.pos=p0+(k-p0)*e;self.lay();self.drawBg();if(u<1)requestAnimationFrame(f)})()},
- lay(){const col=this.el.querySelector('.col'),W=col.clientWidth,h=W*1050/1920,gap=innerHeight*.018,p=h+gap,top=(innerHeight-h)/2,N=this.items.length,want=new Set();
+ lay(){const col=this.el.querySelector('.col'),W=col.clientWidth,h=W*1050/1920,gap=this.ph?14:innerHeight*.018,p=h+gap,top=this.cy()-h/2,N=this.items.length,want=new Set();
   for(let i=Math.floor(this.pos-top/p)-1;i<=this.pos+(innerHeight-top)/p+1;i++){if(i<0||i>=N)continue;want.add(i);let d=col.querySelector('[data-i="'+i+'"]');const x=this.items[i];
    if(!d){d=document.createElement('div');d.className='fd';d.dataset.i=i;d.innerHTML=`<img src="${x.thumb}" alt=""><div class=id>F${String(i+1).padStart(3,'0')} // FEED</div><div class=nm></div>`;
     d.querySelector('.nm').textContent=x.title+' · '+x.tag;d.onclick=()=>{this.touch();if(i===this.sel)this.dive();else this.go(i)};col.appendChild(d)}
    d.style.top=(top+(i-this.pos)*p)+'px';d.classList.toggle('on',i===this.sel);
-   let fr=d.querySelector('iframe');const live=i===this.sel;
+   let fr=d.querySelector('iframe');const live=i===this.sel&&!this.ph;
    if(live&&!fr){fr=document.createElement('iframe');fr.tabIndex=-1;fr.style.transform='scale('+(W/1920)+')';fr.style.opacity=0;fr.style.transition='opacity .4s';
     fr.onload=()=>setTimeout(()=>fr.style.opacity=1,250);d.appendChild(fr);clearTimeout(this.lt);this.lt=setTimeout(()=>{if(fr.isConnected)fr.src=x.src},350)}
    else if(!live&&fr)fr.remove();if(fr)fr.style.transform='scale('+(W/1920)+')'}
@@ -78,10 +98,10 @@ addEventListener('keydown',e=>{if(HW.busy)return;const k=e.key;HW.touch();
 let wl=0;addEventListener('wheel',e=>{if(HW.busy)return;const t=performance.now();if(t-wl<380)return;wl=t;HW.touch();HW.go(HW.sel+(e.deltaY>0?1:-1))},{passive:true});
 let ty=null;addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});addEventListener('touchend',e=>{if(ty===null||HW.busy)return;const dy=e.changedTouches[0].clientY-ty;ty=null;if(Math.abs(dy)>40){HW.touch();HW.go(HW.sel+(dy<0?1:-1))}});
 document.querySelector('.open').onclick=()=>{HW.touch();HW.dive()};
-addEventListener('resize',()=>{HW.lay();HW.drawBg()});
+addEventListener('resize',()=>{HW.mode();HW.lay();HW.drawBg()});
 addEventListener('pageshow',e=>{if(e.persisted){HW.el.style.transition='none';HW.el.style.transform='none';HW.busy=false}});
 setInterval(()=>{if(!HW.busy&&performance.now()-HW.idle>12000){HW.go(HW.sel+1);HW.idle=performance.now()}},1000);
-(async()=>{const s=+(sessionStorage.getItem('feed')||0);HW.sel=HW.pos=s;await HW.bgPrep();HW.go(s,true);const e=HW.el;e.style.transform=HW.zoom();await new Promise(r=>setTimeout(r,450));
+(async()=>{HW.mode();const s=+(sessionStorage.getItem('feed')||0);HW.sel=HW.pos=s;await HW.bgPrep();HW.go(s,true);const e=HW.el;e.style.transform=HW.zoom();await new Promise(r=>setTimeout(r,450));
  e.style.transition='transform .9s cubic-bezier(.65,0,.35,1)';e.style.transform='none';setTimeout(()=>{HW.busy=false;HW.touch()},920)})();
 addEventListener('beforeunload',()=>sessionStorage.setItem('feed',HW.sel));
 </script>

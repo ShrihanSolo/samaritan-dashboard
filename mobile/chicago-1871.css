@@ -1,0 +1,40 @@
+/* chicago-1871 on a phone: header and clock stacked at the top, the event log as a bottom sheet (tap to expand),
+   touch buttons for pause / speed / replay. Desktop untouched: every rule is scoped to html.phone. */
+html.phone .bz,html.phone #help{display:none!important}
+html.phone .box .t{font-size:10px;letter-spacing:.16em;gap:.8em;padding:.45em .7em;overflow:hidden}
+html.phone #hdr,html.phone #clock{left:max(8px,env(safe-area-inset-left));width:auto;right:max(8px,env(safe-area-inset-right))}
+html.phone #hdr{top:max(8px,env(safe-area-inset-top))}
+html.phone #hdr .m{padding:.5em .7em .55em}
+html.phone .lab,html.phone .cur{font-size:17px}
+html.phone #hdr .s{font-size:10px;line-height:1.5;letter-spacing:.1em;margin-top:.45em}
+html.phone #clock{top:150px}
+html.phone #clock .m{padding:.35em .7em .3em}
+html.phone #ck{font-size:26px}html.phone #dt{font-size:11px;letter-spacing:.16em}
+html.phone #stat{font-size:10.5px;line-height:1.6;letter-spacing:.1em;padding:0 .7em .5em}
+html.phone #pb{margin:0 .7em .6em}
+/* event log: bottom sheet; collapsed it shows only the latest event */
+html.phone #log{top:auto;left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));width:auto;
+ bottom:calc(max(10px,env(safe-area-inset-bottom)) + 58px);max-height:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+html.phone #log .t{padding:.75em .7em}
+html.phone #log .t::after{content:'+ ALL';color:#e6e7ea}
+html.phone #log.m-open .t::after{content:'\2212  CLOSE'}
+html.phone #ev{padding:0;max-height:42vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+html.phone #log:not(.m-open) .ev:not(.now){display:none}
+html.phone .ev{grid-template-columns:6.4em 1fr;padding:.5em .7em;transform:none}
+html.phone .ev .tm{font-size:11px}html.phone .ev .tx{font-size:12px;line-height:1.5}
+html.phone #fin{width:calc(100vw - 32px)}html.phone #fin .m{font-size:12.5px;line-height:1.8}
+html.phone .leaflet-bottom.leaflet-right{bottom:calc(max(10px,env(safe-area-inset-bottom)) + 38px)}
+/* landscape: panels in two side columns, map in the middle */
+html.phone:not(.portrait) #hdr,html.phone:not(.portrait) #clock{right:auto;width:290px}
+html.phone:not(.portrait) .lab,html.phone:not(.portrait) .cur{font-size:15px}
+html.phone:not(.portrait) #hdr .s{font-size:9.5px;letter-spacing:.06em}
+html.phone:not(.portrait) #ck{font-size:22px}
+html.phone:not(.portrait) #log{left:auto;width:280px;top:max(8px,env(safe-area-inset-top));bottom:auto}
+html.phone:not(.portrait) #ev{max-height:calc(100vh - 110px)}
+html.phone:not(.portrait) #fin{width:min(420px,calc(100vw - 32px))}
+html.phone:not(.portrait) #fin .m{font-size:11.5px;line-height:1.65;padding:.6em .9em}
+html.phone:not(.portrait) .leaflet-bottom.leaflet-right{bottom:calc(max(10px,env(safe-area-inset-bottom)) + 34px)}
+html.phone .shore{font-size:9.5px;letter-spacing:.1em;white-space:normal;width:100px;transform:translate(36px,16px)}
+html.phone .ev:not(.on){display:none}
+html.phone:not(.portrait) #hdr,html.phone:not(.portrait) #clock{width:318px}
+html.phone:not(.portrait) #log{width:270px}

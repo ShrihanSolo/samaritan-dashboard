@@ -1,0 +1,123 @@
+/* chicago-board-president on a phone. Scoped to html.phone; the desktop display is unchanged.
+   Portrait: header, wire ticker, the panel stage (tabs scroll sideways, the panel scrolls inside itself, swipe for
+   prev/next), the assessment as a bottom sheet (tap to expand), and the ballot column as an overlay (BALLOT button).
+   Landscape: stage on the left, assessment on the right, ticker in the bottom row. */
+html.phone{--m-top:30px;--m-tick:24px;--m-sheet:108px;--m-row:calc(max(10px,env(safe-area-inset-bottom)) + 44px)}
+html.phone .s-hdr{height:var(--m-top);box-sizing:border-box;padding:0 10px;gap:12px;font-size:10px;letter-spacing:.14em;overflow:hidden}
+html.phone .s-hdr span:not(:first-of-type){display:none}
+html.phone .s-hdr i{overflow:hidden;text-overflow:ellipsis;min-width:0}
+html.phone .bx>.a{padding:7px 10px;font-size:10px;letter-spacing:.14em;gap:8px}
+/* ticker under the header */
+html.phone #tick{left:0;right:0;top:var(--m-top);bottom:auto;height:var(--m-tick);border-width:0 0 1px}
+html.phone #tick>.lb{padding:0 8px;font-size:10px;letter-spacing:.14em}
+html.phone #tick .tr>span{font-size:11px;padding-right:28px}
+html.phone #tick .tr>span>b{margin-right:6px}
+/* stage */
+html.phone #stage{left:0;right:0;width:auto;top:calc(var(--m-top) + var(--m-tick));bottom:calc(var(--m-sheet) + var(--m-row));border-width:0}
+html.phone #tabs{overflow-x:auto;scrollbar-width:none;flex:none}
+html.phone #tabs::-webkit-scrollbar{display:none}
+html.phone #tabs>div{flex:none;padding:12px 12px 11px;font-size:10.5px;letter-spacing:.1em;white-space:nowrap}
+html.phone #pb{height:3px;flex:none}
+html.phone #sh{padding:9px 12px 2px;gap:10px;flex:none}
+html.phone #sh .t{font-size:17px;line-height:1.2}
+html.phone #sh .n{font-size:10px;letter-spacing:.14em}
+html.phone #ss{padding:0 12px 8px;font-size:10.5px;letter-spacing:.08em;line-height:1.35;flex:none}
+html.phone #body{overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+html.phone #foot{padding:6px 12px;font-size:10px;letter-spacing:.1em;flex:none}
+html.phone #foot #mode{display:none}
+html.phone #foot #nx{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* panel content: flows and scrolls inside #body (inline vh/vw sizes are converted to px by the .js) */
+html.phone .pn{position:relative;inset:auto;padding:12px 12px 18px}
+html.phone .lbl{font-size:10px;letter-spacing:.14em;margin:0 0 7px}
+html.phone .note{font-size:10.5px!important;line-height:1.45}
+html.phone .big3{grid-template-columns:1fr!important;gap:12px}
+html.phone .hb{grid-template-columns:96px 1fr 76px!important;gap:8px;margin:0 0 9px}
+html.phone .hb>.k{font-size:11.5px}html.phone .hb>.k small{font-size:10px}
+html.phone .hb>.bar{height:16px}
+html.phone .hb>.v{font-size:14px}html.phone .hb>.v small{font-size:10px}
+html.phone .chip{margin:0 5px 6px 0;padding:4px 6px;font-size:11px}
+html.phone .fade{transform:translateY(6px)}html.phone .fade.in{transform:none}
+html.phone #body .note[style*="absolute"]{position:static!important;margin-top:14px}
+/* 01 RACE */
+html.phone #fun{flex-wrap:wrap}html.phone #fun>div{flex:1 1 28%!important}
+/* 02 MONEY: the big-checks strip becomes a list */
+html.phone #m3{height:auto!important}
+html.phone #m3>div:not(.fade){display:none}
+html.phone #m3>.fade{position:relative!important;left:auto!important;top:auto!important;height:auto!important;padding:6px 0 6px 18px;border-bottom:1px solid #22262c}
+html.phone #m3>.fade>div:first-child{left:2px!important;top:11px!important;width:8px!important;height:8px!important}
+html.phone #m3>.fade>div:last-child{position:static!important;width:auto!important;text-align:left!important;display:flex;gap:10px;align-items:baseline}
+html.phone #m3>.fade>div:last-child>div:first-child{flex:none;min-width:58px}
+/* 03 DONORS: segment labels fit their bars */
+html.phone #dm [data-w]{font-size:10px!important;letter-spacing:0!important;padding-left:5px!important}
+/* 04 OUTSIDE $: the flow chart keeps a readable size and scrolls sideways */
+html.phone #body.m-p3 .pn{width:720px;height:100%;min-height:500px;padding:0}
+/* 06 ISSUES: three candidate columns, the issue name as a full-width row label */
+html.phone #body.m-p5 .pn>div{grid-template-columns:repeat(3,1fr)!important}
+html.phone #body.m-p5 .pn>div>div:first-child{display:none}
+html.phone #body.m-p5 .pn>div>div:nth-child(4n+5){grid-column:1/-1;padding:10px 0 4px!important;color:#c9ccd1!important}
+html.phone #body.m-p5 .pn>div>.rw{font-size:11px!important;padding:6px!important}
+html.phone #body.m-p5 .pn>div>div:nth-child(4n+6){border-left:0!important}
+/* 08 TIMELINE: one column */
+html.phone #tl{grid-template-columns:1fr!important;grid-auto-flow:row!important;grid-template-rows:none!important}
+html.phone #tl>div{grid-template-columns:84px 1fr!important;gap:8px!important;padding:7px 0!important}
+/* 09 STAKES: one column */
+html.phone #body.m-p8 .pn>div{grid-template-columns:1fr!important;height:auto!important;gap:14px!important}
+/* assessment -> bottom sheet */
+html.phone #dos{left:0;right:0;width:auto;top:auto;bottom:0;height:calc(var(--m-sheet) + var(--m-row));box-sizing:border-box;padding-bottom:var(--m-row);
+ border-width:1px 0 0;background:#0a0b0d;display:block;overflow:hidden;cursor:pointer;z-index:25}
+html.phone #dos.m-open{height:auto;max-height:calc(100% - var(--m-top) - var(--m-tick) - 44px);overflow-y:auto;overscroll-behavior:contain}
+html.phone #dos>.a{position:sticky;top:0;background:#0f1115;z-index:1}
+html.phone #dos>.a>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+html.phone #dos>.a>b{white-space:nowrap}
+html.phone #dos>.a:after{content:'+ MORE';color:#e6e7ea;flex:none}
+html.phone #dos.m-open>.a:after{content:'− LESS'}
+html.phone #dos .kf{padding:9px 10px;gap:10px}
+html.phone #dos .kf em{font-size:26px}
+html.phone #dos .kf>span{font-size:11.5px;line-height:1.4;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+html.phone #dos.m-open .kf>span{display:block}
+html.phone #dos ul{padding:10px 10px 4px;overflow:visible}
+html.phone #dos li{padding:0 0 9px 16px;font-size:12.5px;line-height:1.45}
+html.phone #dos li:before{top:6px;width:6px;height:6px}
+html.phone #dos .f{padding:7px 10px;font-size:10px}
+/* ballot column -> overlay */
+html.phone #left{display:none;left:0;right:0;width:auto;top:calc(var(--m-top) + var(--m-tick));bottom:var(--m-row);overflow-y:auto;overscroll-behavior:contain;z-index:30;
+ background:rgba(10,11,13,.98);border-width:1px 0}
+html.phone.m-ballot #left{display:block}
+html.phone #left>.a{position:sticky;top:0;background:#0f1115;z-index:1;cursor:pointer}
+html.phone #left>.a:after{content:'× CLOSE';color:#e6e7ea;flex:none}
+html.phone #cd{padding:10px}
+html.phone #cd .l1,html.phone #cd .l2{font-size:10.5px}
+html.phone #cd .big{font-size:30px;margin:4px 0 2px}
+html.phone #cd .big small{font-size:11px;margin-left:8px}
+html.phone .cc{padding:10px 10px 10px 16px}
+html.phone .cc:before{width:4px}
+html.phone .cc .top{gap:10px}
+html.phone .cc .mono{width:38px;height:38px;font-size:15px}
+html.phone .cc .nm{font-size:15px}
+html.phone .cc .rl,html.phone .cc .bio{font-size:11px;line-height:1.4}
+html.phone .cc .bio{margin:6px 0}
+html.phone .cc .st{gap:4px 12px}
+html.phone .cc .st>div>span{font-size:10px}
+html.phone .cc .st>div>b{font-size:17px!important;white-space:normal}
+html.phone .cc .st>div>i{font-size:10px}
+html.phone .cc .lab{font-size:10.5px;margin-top:6px}
+html.phone #vit{margin-top:0}
+html.phone #vit>div{padding:9px 10px}
+html.phone #vit b{font-size:19px}html.phone #vit span{font-size:10.5px}
+html.phone #rev{padding:10px;font-size:11px}
+/* landscape: stage left, assessment right (always open), ticker in the bottom row between the buttons */
+html.phone:not(.portrait){--m-top:26px}
+html.phone:not(.portrait) #tick{top:auto;bottom:max(10px,env(safe-area-inset-bottom));left:112px;right:252px;height:34px;border-width:1px}
+html.phone:not(.portrait) #stage{top:var(--m-top);right:42vw;bottom:var(--m-row)}
+html.phone:not(.portrait) #ss{display:none}
+html.phone:not(.portrait) #tabs>div{padding:9px 10px 8px}
+html.phone:not(.portrait) #sh{padding:6px 12px 4px}
+html.phone:not(.portrait) #dos{left:auto;right:0;width:42vw;top:var(--m-top);bottom:var(--m-row);height:auto;max-height:none;padding-bottom:0;border-width:0 0 1px 1px;overflow-y:auto;cursor:auto}
+html.phone:not(.portrait) #dos>.a:after{content:none}
+html.phone:not(.portrait) #dos ul,html.phone:not(.portrait) #dos .f{display:block!important}
+html.phone:not(.portrait) #dos .kf>span{display:block}
+html.phone:not(.portrait) #left{top:var(--m-top);right:42vw}
+/* collapsed sheet (portrait): key figure only */
+html.phone.portrait #dos:not(.m-open) ul,html.phone.portrait #dos:not(.m-open) .f{display:none}
+html.phone .cc .st>div:last-child>b{font-size:13px!important;line-height:1.3}
+html.phone .m-k.on{border-color:var(--red);color:#fff}
