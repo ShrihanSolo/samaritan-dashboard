@@ -1,0 +1,605 @@
+<!doctype html><meta charset=utf-8><title>CPS board president race</title><style>/* Samaritan kit CSS. body.dark (default) or body.light. Inlined by web.py push for pages containing <!--SAMKIT-->. */
+:root{--red:#e5322d;--gold:#ffd27a;--mono:'DejaVu Sans Mono',Menlo,Consolas,monospace}
+body,body.dark{--bg:#0a0b0d;--panel:#15181d;--line:#1a1d22;--ink:#e6e7ea;--hi:#fff;--dim:#8d939b;--dim2:#6d737c;--feed:#050607;--btn:#0a0b0d;--btnline:#2a2e35;--scan:rgba(255,255,255,.022)}
+body.light{--bg:#d4dcdd;--panel:#eef2f2;--line:#aab5b8;--ink:#2b3434;--hi:#14161a;--dim:#6f7a7c;--dim2:#9aa0a8;--feed:#14161a;--btn:#eef2f2;--btnline:#aab5b8;--scan:rgba(0,0,0,.025);--gold:#b5541d}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--mono);user-select:none}
+body:before{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px);pointer-events:none;z-index:50}
+.s-hdr{position:fixed;left:0;right:0;top:0;height:4.2vh;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:3vw;padding:0 2vw;font-size:.85vw;letter-spacing:.25em;color:var(--dim);z-index:40;text-transform:uppercase}
+.s-hdr b{color:var(--ink)}.s-hdr i{color:var(--red);font-style:normal}.s-hdr .clk{margin-left:auto;margin-right:5vw}
+.s-frame{position:fixed;background:var(--feed)}.s-frame .tab{position:absolute;left:0;top:-.6em;transform:translateY(-100%);font-size:.75vw;letter-spacing:.25em;background:var(--panel);color:var(--ink);border-left:3px solid var(--red);padding:.3em .8em;text-transform:uppercase}
+.s-frame .k{position:absolute;width:40px;height:40px;border:2px solid var(--dim);pointer-events:none}
+.s-frame .k.a{left:-8px;top:-8px;border-right:0;border-bottom:0}.s-frame .k.b{right:-8px;top:-8px;border-left:0;border-bottom:0}
+.s-frame .k.c{left:-8px;bottom:-8px;border-right:0;border-top:0}.s-frame .k.d{right:-8px;bottom:-8px;border-left:0;border-top:0}
+.s-panel{position:fixed;right:2.5vw;top:9vh;width:25vw;max-height:86vh;overflow:hidden;font-size:.95vw;line-height:1.55;background:var(--panel);border:1px solid var(--line);padding:1.6vw;box-shadow:0 2px 20px rgba(0,0,0,.35);z-index:30}
+.s-panel h1,.s-h{font-weight:600;font-size:.9em;letter-spacing:.3em;color:var(--ink);margin:1em 0 .4em;text-transform:uppercase}.s-panel h1:before,.s-h:before{content:"▲ ";color:var(--red)}
+.s-big{font-size:3.4em;color:var(--hi);border-bottom:2px solid var(--ink);display:inline-block}
+.s-sub{color:var(--dim);text-transform:uppercase;letter-spacing:.12em;font-size:.84em;margin:.5em 0 1em}
+.s-info{min-height:5em;border-left:3px solid var(--red);padding:.3em 0 .3em 1em;margin:1em 0;text-transform:uppercase;font-size:.9em;letter-spacing:.08em}
+.s-info b,.s-gold{color:var(--gold);font-weight:normal}
+.s-row{margin:.3em 0}.s-row label{display:block;font-size:.8em;letter-spacing:.15em;color:var(--dim);text-transform:uppercase}
+input[type=range]{width:100%;accent-color:var(--red)}
+.s-btn{background:var(--btn);color:var(--dim);border:1px solid var(--btnline);padding:.35em .8em;margin:.25em .3em .25em 0;font:.84em var(--mono);letter-spacing:.15em;cursor:pointer;text-transform:uppercase}
+.s-btn.on{background:var(--line);color:var(--ink);border-color:var(--red)}
+.s-note{color:var(--dim2);font-size:.8em;margin-top:1.4em;text-transform:uppercase;letter-spacing:.06em}
+.s-tip{position:fixed;pointer-events:none;font:12px var(--mono);letter-spacing:.15em;color:var(--ink);background:var(--panel);padding:2px 6px;border-left:2px solid var(--red);text-transform:uppercase;z-index:60;display:none}
+</style><script>function roll(root){if(!root)return;const GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789',S=[];
+ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('script,style,.lab,.cur,#hdr,.k')?2:(n.nodeValue.trim()?1:2)});
+ const ns=[];while(w.nextNode())ns.push(w.currentNode);
+ ns.forEach(n=>{const f=document.createDocumentFragment(),hl=!!n.parentElement.closest('b,strong');for(const c of n.nodeValue){const s=document.createElement('span');s.textContent=c;
+  if(c.trim()||hl){s.style.visibility='hidden';s.dataset.c=c;S.push(s)}f.appendChild(s)}n.replaceWith(f)});root.classList.add('rl');
+ if(!S.length)return;const G=new Map();S.forEach(s=>{const b=s.closest('p,li,h1,h2,h3,pre,.q,td,div')||root;if(!G.has(b))G.set(b,[]);G.get(b).push(s)});
+ const gs=[...G.values()],L=Math.max(...gs.map(g=>g.length)),ms=Math.max(4,Math.min(28,1800/L)),t0=performance.now()+250,ks=gs.map(()=>0);let done=false;
+ const fin=()=>{done=true;S.forEach(s=>{s.textContent=s.dataset.c;s.style.visibility='';s.style.color=''})};
+ addEventListener('click',fin,{once:true});addEventListener('keydown',fin,{once:true});
+ (function f(now){if(done)return;const K=Math.max(0,Math.floor((now-t0)/ms));let left=false;
+  gs.forEach((g,i)=>{const k2=Math.min(g.length,K);for(let k=ks[i];k<k2;k++){g[k].textContent=g[k].dataset.c;g[k].style.visibility='';g[k].style.color=''}ks[i]=k2;
+   if(k2<g.length){left=true;const s=g[k2];s.style.visibility='';s.textContent=GL[Math.random()*GL.length|0];s.style.color='#e5322d'}});
+  if(left)requestAnimationFrame(f)})(performance.now())}
+/* Samaritan kit JS (window.S). See SKILL.md "Samaritan kit". */
+const S=(()=>{const S={};S.GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789';S.C={red:'#e5322d',gold:'#ffd27a',ink:'#e6e7ea',dim:'#8d939b',bg:'#0a0b0d',panel:'#15181d',feed:'#050607'};
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};S.el=el;
+// decode one element's text (Promise). ms per letter.
+S.decode=(e,txt,ms=28)=>new Promise(r=>{txt=txt??e.textContent;const t0=performance.now();(function f(n){const k=Math.min(txt.length,(n-t0)/ms|0);
+ if(k<txt.length){e.textContent=txt.slice(0,k)+(txt[k]===' '?' ':S.GL[Math.random()*S.GL.length|0]);requestAnimationFrame(f)}else{e.textContent=txt;r()}})(t0)});
+// roll all text under root in parallel (layout-stable). Provided by web.ROLL_JS as global roll(); alias here.
+S.roll=r=>window.roll&&window.roll(r);
+// canvas with dpr; returns object whose W,H update on resize. box: fn()->{x,y,w,h} in CSS px (default full window)
+S.canvas=(box,onResize)=>{const c=el('canvas');c.style.position='fixed';document.body.appendChild(c);const o={c,ctx:c.getContext('2d')};
+ const sz=()=>{const d=devicePixelRatio||1,b=box?box():{x:0,y:0,w:innerWidth,h:innerHeight};Object.assign(c.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+  c.width=b.w*d;c.height=b.h*d;o.ctx.setTransform(d,0,0,d,0,0);o.W=b.w;o.H=b.h;o.dpr=d;onResize&&onResize(o)};addEventListener('resize',sz);sz();return o};
+// animation loop fn(tSeconds, dtSeconds); returns stop()
+S.loop=fn=>{let on=true,last=performance.now();const f=n=>{if(!on)return;const dt=Math.min(.1,(n-last)/1000);last=n;fn(n/1000,dt);requestAnimationFrame(f)};requestAnimationFrame(f);return()=>on=false};
+// header strip: S.header(['SKY_SURVEY v1','LOC ...'],{status:'OBSERVATION ACTIVE',clock:true})
+S.header=(items=[],o={})=>{const h=el('div','s-hdr','<b>SAMARITAN</b>'+items.map(s=>`<span>${s}</span>`).join('')+(o.status?`<i>▲ ${o.status}</i>`:'')+(o.clock!==false?'<span class=clk></span>':''));
+ document.body.appendChild(h);const c=h.querySelector('.clk');if(c){const u=()=>c.textContent=new Date().toISOString().slice(11,19)+' UTC';u();setInterval(u,1000)}return h};
+// FEED frame with tab + corner brackets at box fn()->{x,y,w,h}
+S.frame=(label,box)=>{const f=el('div','s-frame',`<div class=tab>${label}</div><i class="k a"></i><i class="k b"></i><i class="k c"></i><i class="k d"></i>`);document.body.appendChild(f);
+ const p=()=>{const b=box();Object.assign(f.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'})};addEventListener('resize',p);p();return f};
+// side panel with builders
+S.panel=(title)=>{const p=el('div','s-panel');document.body.appendChild(p);const add=(h,c,t='div')=>{const e=el(t,c,h);p.appendChild(e);return e};
+ const P={el:p,h:t=>add(t,'s-h'),big:t=>add(t,'s-big'),sub:t=>add(t,'s-sub'),html:(h,c)=>add(h,c),note:t=>add(t,'s-note'),info:(t='SELECT A TARGET.')=>add(t,'s-info'),
+  slider(label,min,max,val,cb,step=1){const r=add(`<label>${label}</label><input type=range min=${min} max=${max} step=${step} value=${val}>`,'s-row').querySelector('input');r.oninput=()=>cb(+r.value);return r},
+  buttons(){return add('','s-row')},
+  toggle(label,on,cb,row){const b=el('button','s-btn'+(on?' on':''),label);(row||add('','s-row')).appendChild(b);b.onclick=()=>{on=!on;b.classList.toggle('on',on);cb(on)};return b},
+  button(label,cb,row){const b=el('button','s-btn',label);(row||add('','s-row')).appendChild(b);b.onclick=()=>cb(b);return b}};
+ // auto-fit: shrink the panel's font (all sizes are em) until it fits its max-height; re-runs on content change and resize
+ let q=0;P.fit=()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;let s=.95;p.style.fontSize=s+'vw';while(p.scrollHeight>p.clientHeight+1&&s>.45){s-=.025;p.style.fontSize=s+'vw'}})};
+ new MutationObserver(P.fit).observe(p,{childList:true,subtree:true});addEventListener('resize',P.fit);
+ if(title)P.h(title);return P};
+// hover/click nearest item. items()->[{x,y,label|n|name}] in client px. Generous radius; picks on pointerdown so moving targets are easy to hit.
+S.pick=(target,items,o={})=>{const tip=el('div','s-tip');document.body.appendChild(tip);const r=o.r||32;
+ const lab=it=>o.tip?o.tip(it):(it.label??it.n??it.name??'');
+ const near=e=>{let b=null,bd=r;for(const it of items()){const d=Math.hypot(it.x-e.clientX,it.y-e.clientY);if(d<bd){bd=d;b=it}}return b};
+ target.addEventListener('pointermove',e=>{const it=near(e),s=it&&lab(it);tip.style.display=s?'block':'none';target.style.cursor=it?'pointer':'';
+  if(s){tip.style.left=e.clientX+16+'px';tip.style.top=e.clientY-30+'px';tip.textContent=s}});
+ target.addEventListener('pointerleave',()=>tip.style.display='none');
+ target.addEventListener('pointerdown',e=>o.onPick&&o.onPick(near(e)))};
+// Samaritan drawing vocabulary: thin lines, brackets, mono tags, one red accent.
+S.grid=(ctx,W,H,step=40)=>{ctx.strokeStyle='rgba(230,231,234,.045)';ctx.lineWidth=1;ctx.beginPath();for(let x=step;x<W;x+=step){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H)}for(let y=step;y<H;y+=step){ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5)}ctx.stroke()};
+S.reticle=(ctx,x,y,s=12,col='rgba(230,231,234,.8)')=>{ctx.strokeStyle=col;ctx.lineWidth=1;const k=s*.45;ctx.beginPath();
+ for(const[a,b]of[[-1,-1],[1,-1],[-1,1],[1,1]]){ctx.moveTo(x+a*s,y+b*(s-k));ctx.lineTo(x+a*s,y+b*s);ctx.lineTo(x+a*(s-k),y+b*s)}ctx.stroke()};
+S.tag=(ctx,x,y,txt,o={})=>{ctx.font=(o.size||11)+'px '+getComputedStyle(document.body).getPropertyValue('--mono');const w=ctx.measureText(txt).width+12,h=(o.size||11)+8;
+ ctx.fillStyle=o.bg||'rgba(21,24,29,.9)';ctx.fillRect(x,y-h/2,w,h);ctx.fillStyle=o.red?S.C.red:S.C.red+'00';if(o.red!==false){ctx.fillStyle=S.C.red;ctx.fillRect(x,y-h/2,2,h)}
+ ctx.fillStyle=o.col||S.C.ink;ctx.textBaseline='middle';ctx.fillText(txt,x+7,y+.5);ctx.textBaseline='alphabetic';return w};
+// red triangle marker around a point
+S.marker=(ctx,x,y,s=18)=>{ctx.strokeStyle=S.C.red;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y-s);ctx.lineTo(x+s*.87,y+s*.5);ctx.lineTo(x-s*.87,y+s*.5);ctx.closePath();ctx.stroke()};
+// glowing dot; rgb as 'r,g,b'
+S.glow=(ctx,x,y,r,rgb,core=.25)=>{const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,`rgba(${rgb},1)`);g.addColorStop(core,`rgba(${rgb},.5)`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill()};
+S.keys=map=>addEventListener('keydown',e=>{const f=map[e.key];if(f){f(e);e.preventDefault()}});
+// astronomy (J2000, low precision, fine for display)
+const R=Math.PI/180;S.astro={jd:d=>(d instanceof Date?d.getTime():d)/86400000+2440587.5,
+ gmst:jd=>((280.46061837+360.98564736629*(jd-2451545))%360+360)%360,
+ altaz(ra,dec,lat,lon,jd){const H=(S.astro.gmst(jd)+lon-ra)*R,d=dec*R,p=lat*R;const alt=Math.asin(Math.sin(d)*Math.sin(p)+Math.cos(d)*Math.cos(p)*Math.cos(H));
+  const az=Math.atan2(-Math.cos(d)*Math.sin(H),Math.sin(d)*Math.cos(p)-Math.cos(d)*Math.sin(p)*Math.cos(H));return[alt/R,(az/R+360)%360]},
+ dir:az=>['north','north-east','east','south-east','south','south-west','west','north-west'][Math.round(az/45)%8]};
+return S})();
+
+/* ---- Reference screens (from the show; see /workspace/screen-archive/references/samaritan/). Adapted from gallery/wakeup.tpl.html. ---- */
+S._load=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+S._pre=(im,w,h,filter,fit)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.filter=filter||'none';
+ if(im&&fit==='contain'){const s=Math.min(w/im.width,h/im.height),dw=im.width*s,dh=im.height*s;x.fillStyle='#16191d';x.fillRect(0,0,w,h);x.drawImage(im,(w-dw)/2,(h-dh)/2,dw,dh)}
+ else if(im){const a=im.width/im.height,b=w/h;let sw=im.width,sh=im.height,sx=0,sy=0;if(a>b){sw=sh*b;sx=(im.width-sw)/2}else{sh=sw/b;sy=(im.height-sh)/2}x.drawImage(im,sx,sy,sw,sh,0,0,w,h)}
+ else{x.fillStyle='#2b3434';x.fillRect(0,0,w,h)}return c};
+S._light=e=>{e.style.cssText+=';position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 46%,#fbfbfb 0%,#e9ecec 55%,#c3c9ca 100%)'};
+S._css=(id,css)=>{if(document.getElementById(id))return;const s=document.createElement('style');s.id=id;s.textContent=css;document.head.appendChild(s)};
+
+// 1) DATA WALL ("TOTAL ACCESS ACHIEVED"): pale screen of scrolling columns (grey thumbnails + data bars), a box in the
+// middle whose lines decode in turn. S.assimilate({images:[url], lines:[[main,sub],...], title, hold}) -> Promise (resolves after the last line).
+S.assimilate=async(o={})=>{S._css('s-asm',`.s-asm .box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34vw;min-width:420px;z-index:2}
+.s-asm .t{background:#fff;border:2px solid #222;color:#111;font:600 2.1vh/1 var(--mono);letter-spacing:.12em;padding:.7vh .8vw;text-transform:uppercase}
+.s-asm .s{background:#0d0f10;color:#f2f2f2;font:600 2.1vh/1 var(--mono);letter-spacing:.1em;padding:1.1vh .8vw .5vh;margin-top:2px;min-height:2.1vh;text-transform:uppercase}
+.s-asm .u{background:#0d0f10;color:#8d9497;font:500 1.5vh/1 var(--mono);letter-spacing:.12em;padding:.2vh .8vw 1vh;min-height:1.5vh;text-transform:uppercase}
+.s-asm .bl{animation:sb 1s steps(1) infinite}@keyframes sb{50%{opacity:0}}`);
+ const root=S.el('div','s-asm');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ const box=S.el('div','box',`<div class=t>${o.title||'TOTAL ACCESS ACHIEVED'}</div><div class=s><span></span><span class=bl>_</span></div><div class=u></div>`);root.appendChild(box);
+ const g=(await Promise.all((o.images||[]).map(S._load))).filter(Boolean).map(im=>S._pre(im,176,99,'grayscale(1) contrast(1.15) brightness(1.05)'));
+ const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,cols=[];let x=-20,k=0;
+ while(x<W){const w=[22,30,44,60,88,120][Math.random()*6|0],items=[];let L=0;
+  while(L<H*1.2){if(g.length&&Math.random()<.45){const h=w*99/176;items.push([g[(k++)%g.length],L,w,h]);L+=h+14}else{const h=4+Math.random()*30|0;items.push([null,L,w*(.2+Math.random()*.8)|0,h]);L+=h+14}}
+  const s=S.el('canvas');s.width=Math.ceil(w*d);s.height=Math.ceil(L*d);const sx=s.getContext('2d');sx.scale(d,d);
+  for(const[im,y,iw,ih]of items){if(im){sx.globalAlpha=.75;sx.drawImage(im,0,y,iw,ih)}else{sx.globalAlpha=.55;sx.fillStyle='#2b3434';sx.fillRect(0,y,iw,ih)}}
+  cols.push({x,w,L,s,v:(Math.random()<.5?-1:1)*(40+Math.random()*260),y:-Math.random()*L});x+=w+8+Math.random()*40}
+ cv.width=W*d;cv.height=H*d;const cx=cv.getContext('2d');let alive=true;const t0=performance.now();
+ (function f(n){if(!alive)return;const t=(n-t0)/1000;cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);
+  for(const c of cols){let y=((c.y+c.v*t)%c.L+c.L)%c.L-c.L;for(;y<H;y+=c.L)cx.drawImage(c.s,c.x,y,c.w,c.L)}requestAnimationFrame(f)})(t0);
+ const sl=box.querySelector('.s span'),ul=box.querySelector('.u');let skip=false;root.onclick=()=>skip=true;
+ for(const[a,b]of(o.lines||[['ASSIMILATING DATA','']])){if(skip)break;ul.textContent='';await S.decode(sl,a,22);ul.textContent=b||'';await new Promise(r=>setTimeout(r,o.hold||1700))}
+ if(o.keep)return root;alive=false;root.remove()};
+
+// 2) FEED WALL (surveillance wall): pale screen, a central column of large framed feeds that steps through items, a
+// blurred grey column on the left, a column of small feeds on the right, an INPUT list and a decoding readout.
+// S.feedwall({feeds:[{src,id,name,meta,text}], title, auto:ms|0}) -> {go(i)}. Up/Down or click a feed to step.
+S.feedwall=async(o={})=>{S._css('s-fw',`.s-fw .inp{position:absolute;right:23vw;top:9vh;color:#2b3434;font:500 1.25vh/1.75 var(--mono);letter-spacing:.08em;white-space:pre}
+.s-fw .inp .hi{background:#2b3434;color:#f4f4f4}.s-fw .rd{position:absolute;right:2.5vw;bottom:8vh;width:18vw;color:#2b3434;font:500 1.4vh/1.6 var(--mono);letter-spacing:.08em;border:1.5px solid #2b3434;padding:1vh .7vw;background:rgba(238,242,242,.85);text-transform:uppercase}
+.s-fw .rd b{display:block;font-weight:600;font-size:1.7vh;margin-bottom:.6vh}.s-fw .rd b:before{content:"▲ ";color:var(--red)}
+.s-fw .tt{position:absolute;left:2.5vw;top:3vh;z-index:3;background:rgba(238,242,242,.92);padding:.8vh .8vw;border-left:3px solid var(--red);color:#2b3434;font:600 1.5vh/1 var(--mono);letter-spacing:.3em;text-transform:uppercase}.s-fw .tt i{color:var(--red);font-style:normal}
+.s-fw .edge{position:absolute;top:0;bottom:0;left:0;width:6vw;background:linear-gradient(90deg,#1a1c1d,rgba(26,28,29,0))}`);
+ const root=S.el('div','s-fw');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ root.appendChild(S.el('div','edge'));root.appendChild(S.el('div','tt',`<i>▲</i> SAMARITAN · ${o.title||'FEED WALL'}`));const inp=S.el('div','inp');root.appendChild(inp);const rd=S.el('div','rd','<b></b><span></span>');root.appendChild(rd);
+ const F=o.feeds||[],N=F.length,ims=await Promise.all(F.map(f=>S._load(f.src)));
+ const big=ims.map(im=>S._pre(im,960,540,'none',o.fit||'contain')),side=ims.map(im=>S._pre(im,256,144,'saturate(.6)')),left=ims.map(im=>S._pre(im,176,99,'grayscale(1) blur(.6px)'));
+ const cx=cv.getContext('2d'),MONO=getComputedStyle(document.body).getPropertyValue('--mono')||'monospace';let pos=0,sel=0,hits=[];
+ const col=(L,idx,x,w,off,gap,a,ol)=>{const H=innerHeight,h=w*9/16,p=h+gap;cx.globalAlpha=a;for(let j=Math.floor(off/p);j*p-off<H;j++){const y=j*p-off;cx.drawImage(L[idx(j)],x,y,w,h);if(ol){cx.strokeStyle='#8a9192';cx.lineWidth=1;cx.strokeRect(x-.5,y-.5,w+1,h+1)}}cx.globalAlpha=1};
+ const md=i=>((i%N)+N)%N;
+ function draw(){const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,vw=W/100,vh=H/100;if(cv.width!==Math.round(W*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}
+  cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);const w=o.width?o.width*vw:34*vw,x=44*vw-w/2,h=w*9/16,p=h+1.6*vh,top=(H-h)/2;hits=[];
+  if(N){col(left,j=>md(j*5),12*vw,6.5*vw,pos*p*.3,.7*vh,.7,false);col(side,j=>md(j*3+1),W-20*vw+(o.width?0:0),7*vw,pos*p*.55,.8*vh,1,true);}
+  for(let i=Math.floor(pos-top/p)-1;i<=pos+H/p+1;i++){const y=top+(i-pos)*p;if(y>H||y+h<0||!N)continue;const k=md(i),f=F[k],on=k===sel&&Math.abs(i-pos)<.5;hits.push([y,y+h,i]);
+   cx.fillStyle='#111';cx.fillRect(x,y,w,h);cx.drawImage(big[k],x+2,y+2,w-4,h-4);cx.strokeStyle='#f4f4f4';cx.lineWidth=2;cx.strokeRect(x+1,y+1,w-2,h-2);
+   cx.strokeStyle=on?S.C.red:'#8a9192';cx.lineWidth=on?3:1;cx.strokeRect(x-1.5,y-1.5,w+3,h+3);
+   cx.textBaseline='top';cx.textAlign='left';cx.font=`600 ${1.25*vh}px ${MONO}`;const kt=`${f.id||('F'+String(k+1).padStart(2,'0'))} // FEED`,kw=cx.measureText(kt).width;
+   if(on){cx.fillStyle=S.C.red;cx.fillRect(x+.3*vw,y+.35*vh,kw+.6*vw,1.75*vh)}cx.shadowColor='#000';cx.shadowBlur=on?0:3;cx.fillStyle='#e9ecec';cx.fillText(kt,x+.6*vw,y+.6*vh);
+   cx.shadowBlur=3;cx.textAlign='right';cx.textBaseline='bottom';cx.font=`500 ${1.2*vh}px ${MONO}`;cx.fillText((f.name||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh-1.6*vh);cx.fillText((f.meta||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh);cx.shadowBlur=0}}
+ const go=async k=>{sel=md(k);inp.innerHTML=Array.from({length:Math.min(12,N)},(_,i)=>{const f=F[md(sel+i-1)],s=`INPUT_${String(md(sel+i-1)+1).padStart(2,'0')}  ${(f.id||'').padEnd(5)} ${i===1?'<<':'  '}`;return i===1?`<span class=hi>${s}</span>`:s}).join('\n');
+  const f=F[sel];S.decode(rd.querySelector('b'),(f.name||'').toUpperCase(),14);S.decode(rd.querySelector('span'),f.text||f.meta||'',8);
+  let tgt=k;const p0=pos,t0=performance.now();for(;;){const u=Math.min(1,(performance.now()-t0)/300),e=u<.5?4*u*u*u:1-Math.pow(2-2*u,3)/2;pos=p0+(tgt-p0)*e;draw();if(u>=1)break;await new Promise(r=>requestAnimationFrame(r))}};
+ let cur=o.start||0,timer=null;const step=n=>{cur+=n;go(cur);if(o.auto){clearInterval(timer);timer=setInterval(()=>{cur++;go(cur)},o.auto)}};
+ addEventListener('keydown',e=>{if(e.key=='ArrowDown'){step(1);e.preventDefault()}if(e.key=='ArrowUp'){step(-1);e.preventDefault()}});
+ cv.addEventListener('pointerdown',e=>{for(const[a,b,i]of hits)if(e.clientY>=a&&e.clientY<=b&&e.clientX>innerWidth*.27&&e.clientX<innerWidth*.61){cur=i;step(0)}});
+ addEventListener('resize',draw);step(0);return{go:i=>{cur=i;step(0)},root}};
+
+// 3) MANDATE box (dark map screens): bordered panel with a top line, a red-chip message and a footer.
+// S.mandate({top:['SAMARITAN','v.305'], chip:'AUXILIARY MANDATE:', msg:'LOCATE TARGET', foot:'...'}) -> element
+S.mandate=(o={})=>{S._css('s-md',`.s-md{position:fixed;left:26vw;top:7vh;width:48vw;border:2px solid #cfd3d4;background:rgba(10,11,12,.92);z-index:35;font-family:var(--mono)}
+.s-md .a{display:flex;justify-content:space-between;color:#cfd3d4;font:600 1.5vh/1 var(--mono);letter-spacing:.14em;padding:.6vh .6vw;border-bottom:1px solid #555}
+.s-md .m{padding:1.2vh .6vw 1.4vh;color:#fff;font:600 2.6vh/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}.s-md .m b{background:var(--red);color:#fff;padding:.25vh .4vw;font-weight:600;margin-right:.8vw}
+.s-md .f{display:flex;justify-content:flex-end;color:#7d8587;font:500 1.1vh/1 var(--mono);letter-spacing:.1em;padding:.4vh .6vw;border-top:1px solid #333}`);
+ const e=S.el('div','s-md',`<div class=a>${(o.top||['SAMARITAN','']).map(s=>`<span>${s}</span>`).join('')}</div><div class=m><b>${o.chip||'PRIMARY MANDATE:'}</b><span></span></div><div class=f>${o.foot||''}</div>`);
+ document.body.appendChild(e);S.decode(e.querySelector('.m span'),o.msg||'',24);return e};
+// Dark Leaflet map (Esri dark grey, greyed): S.leafletDark(div,{center,zoom,...leaflet opts}) -> Promise<map>. Chrome loads Leaflet from unpkg.
+S.leafletDark=(box,o={})=>new Promise((res,rej)=>{S._css('s-lf',`.leaflet-container{background:#1d1f22!important;font-family:var(--mono)}.leaflet-tile-pane{filter:grayscale(1) brightness(1.45) contrast(1.1)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}`);
+ const go=()=>{const m=L.map(box,Object.assign({zoomControl:false,attributionControl:true,worldCopyJump:true},o));
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap'}).addTo(m);res(m)};
+ if(window.L)return go();const l=document.createElement('link');l.rel='stylesheet';l.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(l);
+ const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=go;s.onerror=rej;document.head.appendChild(s)});
+</script>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#0a0b0d}
+.s-hdr span,.s-hdr i{white-space:nowrap}
+#scan{position:fixed;inset:0;z-index:50;pointer-events:none;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px)}
+#bgc{position:fixed;inset:0;z-index:0}
+.bx{position:fixed;z-index:20;background:rgba(10,11,13,.92);border:1px solid #3a3f46;color:var(--ink);font-family:var(--mono)}
+.bx>.a{display:flex;justify-content:space-between;gap:1vw;padding:.55vh .7vw;border-bottom:1px solid #2a2e35;color:var(--dim);font:600 1.15vh/1.2 var(--mono);letter-spacing:.2em}
+.bx>.a b{color:var(--red);font-weight:600}
+/* left column */
+#left{left:1.1vw;top:6.2vh;width:22.6vw;bottom:6.4vh;display:flex;flex-direction:column;overflow:hidden}
+#cd{padding:1vh .8vw;border-bottom:1px solid #2a2e35}
+#cd .l1{font:600 1.1vh/1.3 var(--mono);letter-spacing:.2em;color:var(--dim)}
+#cd .big{font:700 4.6vh/1.05 var(--mono);color:#fff;letter-spacing:.04em;margin:.4vh 0 .2vh;white-space:nowrap}
+#cd .big small{font-size:1.4vh;color:var(--red);letter-spacing:.2em;margin-left:.5vw;vertical-align:middle}
+#cd .l2{font:500 1.15vh/1.4 var(--mono);color:#a8adb4;letter-spacing:.08em}
+.cc{position:relative;padding:.8vh .8vw .8vh 1.3vw;border-bottom:1px solid #2a2e35;transition:background .5s}
+.cc:before{content:'';position:absolute;left:0;top:0;bottom:0;width:.32vw;background:var(--c)}
+.cc.on{background:#161a20}
+.cc .top{display:flex;gap:.7vw;align-items:center}
+.cc .mono{width:4.6vh;height:4.6vh;border:1.5px solid var(--c);color:var(--c);display:flex;align-items:center;justify-content:center;font:700 1.9vh/1 var(--mono);letter-spacing:.05em;flex:none}
+.cc .nm{font:700 2.05vh/1.1 var(--mono);color:#fff;letter-spacing:.06em;text-transform:uppercase}
+.cc .rl{font:500 1.12vh/1.3 var(--mono);color:#a8adb4;letter-spacing:.05em;margin-top:.25vh}
+.cc .bio{font:400 1.12vh/1.35 var(--mono);color:#8d939b;margin:.45vh 0 .4vh}
+.cc .st{display:grid;grid-template-columns:1fr 1fr;gap:.2vh .8vw}
+.cc .st>div>span{display:block;font:600 .98vh/1.3 var(--mono);color:#6d737c;letter-spacing:.18em}
+.cc .st>div>b{display:block;font:700 2.2vh/1.15 var(--mono);color:var(--c);letter-spacing:.02em;white-space:nowrap}
+.cc .st>div>i{display:block;font:400 .98vh/1.25 var(--mono);color:#7d838b;font-style:normal}
+.cc .lab{margin-top:.5vh;font:600 1.02vh/1.3 var(--mono);letter-spacing:.14em;color:#c9ccd1}
+#vit{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #2a2e35}
+#vit>div{padding:.9vh .8vw;border-bottom:1px solid #22262c}#vit>div:nth-child(odd){border-right:1px solid #22262c}
+#vit b{display:block;font:700 2.4vh/1.1 var(--mono);color:#fff}#vit span{display:block;font:500 1vh/1.35 var(--mono);color:#8d939b;letter-spacing:.05em;margin-top:.3vh}
+#rev{padding:.9vh .8vw;font:500 1.12vh/1.45 var(--mono);color:#8d939b;letter-spacing:.06em;border-top:1px solid #2a2e35}
+#rev b{color:#c9ccd1;font-weight:600}
+/* stage */
+#stage{left:24.6vw;top:6.2vh;width:45.4vw;bottom:6.4vh;display:flex;flex-direction:column}
+#tabs{display:flex;border-bottom:1px solid #2a2e35}
+#tabs>div{flex:1;padding:.6vh 0 .5vh;text-align:center;font:600 1.02vh/1.2 var(--mono);letter-spacing:.12em;color:#5d636b;cursor:pointer;border-right:1px solid #22262c;position:relative}
+#tabs>div:last-child{border-right:0}
+#tabs>div.on{color:#fff;background:#1b1f25}
+#tabs>div.on:after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--red)}
+#pb{height:.35vh;background:#1a1d22;position:relative}#pb i{position:absolute;left:0;top:0;bottom:0;background:var(--red);width:0}
+#sh{padding:1.2vh 1vw .4vh;display:flex;justify-content:space-between;align-items:baseline}
+#sh .t{font:700 2.7vh/1.1 var(--mono);color:#fff;letter-spacing:.08em;text-transform:uppercase}
+#sh .n{font:600 1.15vh/1 var(--mono);color:var(--red);letter-spacing:.2em;white-space:nowrap}
+#ss{padding:0 1vw 1vh;font:500 1.25vh/1.3 var(--mono);color:var(--dim);letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #2a2e35}
+#body{flex:1;position:relative;overflow:hidden}
+#foot{display:flex;justify-content:space-between;padding:.55vh 1vw;border-top:1px solid #2a2e35;font:600 1.02vh/1.2 var(--mono);color:#6d737c;letter-spacing:.14em}
+#foot b{color:#fff;font-weight:600}
+/* dossier */
+#dos{right:1.1vw;top:6.2vh;width:27.6vw;bottom:6.4vh;display:flex;flex-direction:column}
+#dos .kf{display:flex;align-items:baseline;gap:.8vw;padding:1.3vh .9vw;border-bottom:1px solid #2a2e35}
+#dos .kf em{font-style:normal;font:700 4.6vh/1 var(--mono);color:var(--gold);white-space:nowrap}
+#dos .kf>span{font:500 1.25vh/1.4 var(--mono);color:#a8adb4;letter-spacing:.04em}
+#dos ul{margin:0;padding:1.3vh .9vw .4vh;list-style:none;flex:1;overflow:hidden}
+#dos li{position:relative;padding:0 0 1.05vh 1.2vw;font:400 1.45vh/1.45 var(--mono);color:#d4d6da}
+#dos li:before{content:'';position:absolute;left:0;top:.6vh;width:.42vw;height:.42vw;max-width:7px;max-height:7px;background:var(--red)}
+#dos li b{color:#fff;font-weight:700;background:linear-gradient(transparent 62%,rgba(229,50,45,.5) 62%)}
+#dos .f{padding:.6vh .9vw;border-top:1px solid #2a2e35;color:#6d737c;font:500 1vh/1.5 var(--mono);letter-spacing:.1em}
+/* ticker */
+#tick{left:1.1vw;right:1.1vw;bottom:1.4vh;height:3.6vh;overflow:hidden;display:flex;align-items:center}
+#tick>.lb{flex:none;height:100%;display:flex;align-items:center;padding:0 .8vw;background:var(--red);color:#fff;font:700 1.15vh/1 var(--mono);letter-spacing:.2em}
+#tick>.w{flex:1;overflow:hidden;position:relative;height:100%}
+#tick .tr{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;white-space:nowrap;will-change:transform}
+#tick .tr>span{font:500 1.3vh/1 var(--mono);color:#c9ccd1;letter-spacing:.06em;padding-right:3vw}
+#tick .tr>span>b{color:var(--gold);font-weight:600;margin-right:.6vw}
+/* shared panel bits */
+.pn{position:absolute;inset:0;padding:1.4vh 1vw}
+.lbl{font:600 1.05vh/1.3 var(--mono);letter-spacing:.2em;color:var(--dim);margin:0 0 .8vh}
+.fade{opacity:0;transform:translateY(.8vh);transition:opacity .6s,transform .6s}
+.fade.in{opacity:1;transform:none}
+.hb{display:grid;grid-template-columns:9vw 1fr 8.5vw;align-items:center;gap:.6vw;margin:0 0 1vh}
+.hb>.k{font:700 1.45vh/1.2 var(--mono);letter-spacing:.08em;color:#e6e7ea}
+.hb>.k small{display:block;font:500 .95vh/1.3 var(--mono);color:#6d737c;letter-spacing:.1em}
+.hb>.bar{height:2.5vh;background:#181b20;position:relative;border:1px solid #23272d}
+.hb>.bar>i{position:absolute;left:0;top:0;bottom:0;width:0;transition:width 1.6s cubic-bezier(.2,.7,.2,1)}
+.hb>.v{font:700 1.9vh/1 var(--mono);text-align:right;white-space:nowrap}
+.hb>.v small{display:block;font:500 .9vh/1.4 var(--mono);color:#7d838b;letter-spacing:.06em;white-space:normal}
+.note{font:400 1.05vh/1.45 var(--mono);color:#7d838b;letter-spacing:.04em}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:1vw}
+.chip{display:inline-block;margin:0 .3vw .55vh 0;padding:.4vh .45vw;border:1px solid #33383f;font:500 1.12vh/1.25 var(--mono);color:#d4d6da;letter-spacing:.03em;opacity:0;transform:scale(.9);transition:opacity .4s,transform .4s}
+.chip.in{opacity:1;transform:none}
+.chip.g{border-color:var(--c);color:#fff}
+.chip sup{color:var(--gold)}
+</style>
+<body class=dark>
+<canvas id=bgc></canvas><div id=scan></div>
+<div class=bx id=left>
+ <div class=a><span>BALLOT // CITYWIDE</span><b>NONPARTISAN</b></div>
+ <div id=cd><div class=l1>POLLS CLOSE · TUE 03 NOV · 7:00 PM CT</div><div class=big id=cdv>--:--:--</div><div class=l2 id=cdl>POLLS OPEN 6:00 AM CT · EARLY VOTING ENDS 02 NOV</div></div>
+ <div id=cards></div>
+ <div id=vit></div>
+ <div id=rev><b>ALSO ON BALLOT:</b> SENDHIL REVULURI, former board VP. Suspended 30 Sep, endorsed no one. <b>WITHDREW:</b> JENNIFER CUSTER, 27 Aug.</div>
+</div>
+<div class=bx id=stage>
+ <div id=tabs></div><div id=pb><i id=pbi></i></div>
+ <div id=sh><div class=t id=st></div><div class=n id=sn></div></div><div id=ss></div>
+ <div id=body></div>
+ <div id=foot><span id=mode></span><span id=nx></span></div>
+</div>
+<div class=bx id=dos></div>
+<div class=bx id=tick><div class=lb>WIRE</div><div class=w><div class=tr id=tr></div></div></div>
+<script>
+const D={
+ "asof": "02 NOV 2026",
+ "pollsClose": "2026-11-04T01:00:00Z",
+ "pollsOpen": "2026-11-03T12:00:00Z",
+ "cands": [
+  {
+   "id": "B",
+   "name": "Jessica Biggs",
+   "short": "BIGGS",
+   "col": "#ffd27a",
+   "age": "43",
+   "role": "Board member, subdistrict 6B (elected 2024)",
+   "bio": "Former CPS teacher; Burke Elementary principal for 6 years (fired 2018)",
+   "label": "SEIU · labor federation · Tribune",
+   "raised": "≈ $1.0M",
+   "raisedNote": "raised directly, Oct 2025 – Oct 15 (Sun-Times/WBEZ)",
+   "top": "Michael Sacks $700K+",
+   "site": "biggs4chicago.com"
+  },
+  {
+   "id": "D",
+   "name": "Hilario Dominguez",
+   "short": "DOMINGUEZ",
+   "col": "#6fd3ff",
+   "age": "n/a",
+   "role": "Former CTU deputy political director (on leave)",
+   "bio": "Former CPS special-ed teacher; Pilsen native; Whitney Young grad",
+   "label": "CTU · Mayor Johnson",
+   "raised": "≈ $1.0M",
+   "raisedNote": "raised directly, Oct 2025 – Oct 15 (Sun-Times/WBEZ)",
+   "top": "CTU and affiliates $614K",
+   "site": "hilarioforcps.com"
+  },
+  {
+   "id": "H",
+   "name": "Victor P. Henderson",
+   "short": "HENDERSON",
+   "col": "#c3a3ff",
+   "age": "65",
+   "role": "Trial attorney, Henderson Parks LLC",
+   "bio": "Ex-CPA; past Chicago Bar Association president; Urban Prep board",
+   "label": "Self-funded · Davis, Kelly, Vallas",
+   "raised": "$659K",
+   "raisedNote": "loans + donations by mid-July; latest full total reported",
+   "top": "Self-loan $500K",
+   "site": "—"
+  }
+ ],
+ "sources": {
+  "money": [
+   "Sun-Times/WBEZ 16 Oct",
+   "Chalkbeat 21 Oct",
+   "Chalkbeat 17 Jul",
+   "Sun-Times 27 Aug",
+   "TRiiBE Oct",
+   "Illinois Policy 19 Oct"
+  ],
+  "outside": [
+   "Sun-Times/WBEZ 16 Oct",
+   "Chalkbeat 5 & 21 Oct",
+   "Tribune mid-Oct ($12.8M)"
+  ],
+  "endorse": [
+   "CBS Chicago",
+   "Axios 9 Oct",
+   "FOX 32",
+   "Tribune 27 Sep",
+   "Chalkbeat 23 Jul",
+   "WBEZ",
+   "CTU"
+  ],
+  "issues": [
+   "WTTW forum 15 Sep",
+   "WBEZ/Sun-Times/Chalkbeat forum 14 Oct",
+   "Sun-Times 28 Oct",
+   "CBS budget"
+  ],
+  "scrutiny": [
+   "Chalkbeat 22-23 Sep, 7 & 14 Oct",
+   "WBEZ 16 Oct",
+   "Sun-Times 23 Sep",
+   "CBS"
+  ],
+  "stakes": [
+   "CPS FY27 budget overview",
+   "Civic Federation",
+   "Chalkbeat 30 Mar",
+   "Sun-Times/WBEZ 20 Aug poll"
+  ]
+ },
+ "sourceLog": [
+  "https://www.chalkbeat.org/chicago/2026/09/24/school-board-election-2026-president-candidates-voter-guide/",
+  "https://www.chalkbeat.org/chicago/2026/10/21/chicago-school-board-election-campaign-spending-skyrockets/",
+  "https://www.chalkbeat.org/chicago/2026/07/17/campaign-contribution-limits-lifted-in-school-board-president-election/",
+  "https://www.wbez.org/education/2026/10/16/cash-floods-cps-school-board-races-with-big-money-groups-outraising-the-chicago-teachers-union-5-to-1",
+  "https://chicago.suntimes.com/chicago-school-board/2026/08/27/jennifer-custer-drops-out-of-race-for-chicago-school-board-president",
+  "https://www.wbez.org/education/2026/09/30/cps-school-board-candidate-sendhil-revuluri-drops-out-making-it-a-three-way-race",
+  "https://thetriibe.com/2026/10/whos-funding-the-candidates-in-chicagos-school-board-race/",
+  "https://www.illinoispolicy.org/chicago-teachers-union-1-5-million-chicago-school-board-candidates-2026/",
+  "https://www.yahoo.com/news/politics/articles/billionaire-donor-michael-sacks-gives-210600158.html",
+  "https://www.yahoo.com/news/politics/articles/more-12-8-million-flows-234000750.html",
+  "https://www.chalkbeat.org/chicago/2026/10/05/super-pacs-ramp-up-spending-in-2026-school-board-election/",
+  "https://www.yahoo.com/news/politics/articles/editorial-jessica-biggs-chicago-school-100000235.html",
+  "https://www.axios.com/local/chicago/2026/10/09/chicago-school-board-election-guide",
+  "https://www.fox32chicago.com/news/who-is-running-chicago-school-board-president",
+  "https://www.cbsnews.com/chicago/news/chicago-election-school-board-president-jessica-biggs-hilario-dominguez-victor-henderson/",
+  "https://www.cbsnews.com/chicago/news/mayor-brandon-johnson-chicago-school-board-president-candidate-hilario-dominguez/",
+  "https://hilarioforcps.com/the-peoples-lobby-and-illinois-independent-precinct-organization-endorse-hilario-dominguez/",
+  "https://frankcalabrese.substack.com/p/chicagos-school-board-president-race",
+  "https://www.wbez.org/education/2026/10/14/4-takeaways-from-cps-school-board-president-forum",
+  "https://news.wttw.com/2026/09/15/chicago-school-board-president-candidates-talk-budgets-closures-and-why-election-matters",
+  "https://chicago.suntimes.com/education/2026/10/28/chicago-ditched-school-ratings-years-ago-but-1-in-5-school-board-candidates-want-to-bring-them-back",
+  "https://www.cbsnews.com/chicago/news/chicago-school-board-president-candidates-cps-budget/",
+  "https://www.chalkbeat.org/chicago/2026/09/23/jessica-biggs-firing-shadows-cps-school-board-president-race/",
+  "https://www.chalkbeat.org/chicago/2026/10/14/chicago-public-schools-watchdog-closes-hilario-dominguez-inquiry/",
+  "https://www.wbez.org/education/2026/10/16/insufficient-evidence-that-chicago-school-board-candidate-engaged-in-sexual-misconduct-watchdog-report-finds",
+  "https://www.wbez.org/education/2026/09/22/school-board-president-candidate-victor-henderson-defends-disciplining-his-children-says-school-staff-should-never-use-corporal-punishment",
+  "https://www.chalkbeat.org/chicago/2026/10/23/school-board-campaign-mailer-ads-fact-check/",
+  "https://www.cps.edu/about/finance/budget/budget-2027/budget-overview-2027/",
+  "https://civicfed.org/Wake-of-CPS-budget-vote-what-comes-next",
+  "https://www.chalkbeat.org/chicago/2026/03/30/chicago-board-of-education-hires-macquline-king/",
+  "https://chicago.suntimes.com/chicago-school-board/2026/08/20/no-clear-leader-in-race-for-chicago-school-board-president-poll-finds",
+  "https://chicago.suntimes.com/city-hall/2026/10/27/mayor-brandon-johnson-political-attack-michael-sacks-chicago-school-board-election",
+  "https://www.cps.edu/sites/cps-policy-rules/bylaws/chapter-1/1-5/"
+ ],
+ "gaps": [
+  "No Sept 30 / October totals per candidate from the Sun-Times tracker (page not fetchable); used ~$1M each (Sun-Times/WBEZ 16 Oct)",
+  "Henderson full-period total not found; shows $659K by mid-July",
+  "Dominguez age not found",
+  "No Dominguez charter position found",
+  "Delia Ramirez endorsement single-sourced (Substack citing campaign)",
+  "No poll after Aug 20"
+ ]
+};
+const UPD=D.asof, C={B:D.cands[0],D:D.cands[1],H:D.cands[2]};
+const col=k=>C[k].col;
+S.header(["CPS BOARD // PRESIDENT","RACE MONITOR V.11.02","DATA AS OF "+UPD],{status:'RACE MONITOR ACTIVE'});
+const hst=document.querySelector('.s-hdr i');
+const $=id=>document.getElementById(id);
+const fmt=n=>n>=1e6?'$'+(n/1e6).toFixed(n>=1e7?1:2).replace(/\.?0+$/,'')+'M':'$'+Math.round(n/1e3)+'K';
+function countUp(el,to,ms=1500,f=fmt,pre=''){const t0=performance.now();(function s(){const k=Math.min(1,(performance.now()-t0)/ms),e=1-Math.pow(1-k,3);el.textContent=pre+f(to*e);if(k<1&&el.isConnected)requestAnimationFrame(s)})()}
+const stag=(els,ms,cls='in',d0=0)=>els.forEach((e,i)=>setTimeout(()=>e.classList.add(cls),d0+i*ms));
+
+/* ---------- candidate cards ---------- */
+D.cands.forEach(c=>{const e=S.el('div','cc',`<div class=top><div class=mono>${c.name.split(' ')[0][0]}${c.name.split(' ').slice(-1)[0][0]}</div><div><div class=nm>${c.name}</div><div class=rl>${c.role}</div></div></div>
+<div class=bio>${c.bio}${c.age!=='n/a'?' · age '+c.age:''}</div>
+<div class=st><div><span>RAISED</span><b>${c.raised}</b><i>${c.raisedNote}</i></div><div><span>TOP SOURCE</span><b style="font-size:1.6vh">${c.top}</b></div></div>
+<div class=lab>${c.label}</div>`);e.style.setProperty('--c',c.col);e.dataset.k=c.id;$('cards').appendChild(e)});
+[['$12.8M+','into all 21 board races by mid-Oct (Tribune)'],['$8.1M','PAC and super PAC spending to 15 Oct (Sun-Times/WBEZ)']].forEach(v=>$('vit').appendChild(S.el('div','',`<b>${v[0]}</b><span>${v[1]}</span>`)));
+function hiCards(ks){document.querySelectorAll('.cc').forEach(e=>e.classList.toggle('on',ks.includes(e.dataset.k)))}
+
+/* ---------- countdown ---------- */
+const tClose=Date.parse(D.pollsClose),tOpen=Date.parse(D.pollsOpen);
+(function cd(){const now=Date.now();let ms=tClose-now;const v=$('cdv'),l=$('cdl');
+ if(ms>0){const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);v.innerHTML=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}<small>${now<tOpen?'TO CLOSE':'POLLS OPEN'}</small>`;
+  if(now>=tOpen)l.textContent='VOTING UNDER WAY · 6:00 AM – 7:00 PM CT';}
+ else{v.innerHTML='CLOSED<small>RESULTS PENDING</small>';l.textContent='CHECK CHICAGOELECTIONS.GOV FOR RESULTS'}
+ setTimeout(cd,250)})();
+
+/* ---------- ticker ---------- */
+const WIRE=[['31 OCT','Final forum before Election Day, at Rainbow PUSH'],['27 OCT','Mayor Johnson steps up attacks on billionaire Michael Sacks'],['23 OCT','Chalkbeat fact-check of mailers: no link between Biggs and Trump'],['21 OCT','Spending on board races passes $9 million (Chalkbeat)'],['16 OCT','Anti-CTU groups outraise the CTU 5 to 1 (Sun-Times/WBEZ)'],['14 OCT','CPS inspector general closes Dominguez inquiry: no actionable finding'],['14 OCT','WBEZ / Sun-Times / Chalkbeat forum'],['02 OCT','Sacks gives Biggs $150K; Paul Finnegan gives $100K'],['30 SEP','Revuluri suspends campaign; his name stays on the ballot'],['27 SEP','Tribune editorial board endorses Biggs'],['15 SEP','WTTW forum with four candidates'],['27 AUG','Custer withdraws, citing special-interest money'],['20 AUG','Only public poll: no clear leader, about 80% have no opinion'],['23 JUL','SEIU endorses Biggs, breaking with the CTU'],['16 JUL','Henderson loans his campaign $500K, lifting contribution caps'],['13 JUL','CTU endorses Dominguez']];
+(function(){const tr=$('tr');const html=WIRE.map(w=>`<span><b>${w[0]}</b>${w[1]}</span>`).join('');tr.innerHTML=html+html;let x=0,last=performance.now();
+ (function mv(t){const dt=(t-last)/1000;last=t;x-=dt*innerWidth*.035;const w=tr.scrollWidth/2;if(-x>w)x+=w;tr.style.transform=`translateX(${x}px)`;requestAnimationFrame(mv)})(last)})();
+
+/* ---------- background drift ---------- */
+(function(){const cv=$('bgc'),cx=cv.getContext('2d');let W,H;const P=[];function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener('resize',rs);
+ for(let i=0;i<90;i++)P.push({x:Math.random(),y:Math.random(),v:.004+Math.random()*.01,k:'BDH'[i%3]});
+ (function f(){cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(255,255,255,.035)';cx.lineWidth=1;for(let x=0;x<W;x+=W/48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke()}
+  P.forEach(p=>{p.y-=p.v/60;if(p.y<0)p.y=1;cx.fillStyle=C[p.k].col+'40';cx.fillRect(p.x*W,p.y*H,2,2)});requestAnimationFrame(f)})()})();
+
+/* ---------- panels ---------- */
+const P=[];
+P.push({tab:'RACE',t:'The race',s:'Chicago elects its school board president for the first time',k:['B','D','H'],
+ draw(b){b.innerHTML=`<div class=pn>
+ <div class=big3 id=r3>${['B','D','H'].map(k=>`<div class=fade style="border:1px solid #2a2e35;border-top:3px solid ${col(k)};padding:1.4vh .8vw">
+  <div style="font:700 6vh/1 var(--mono);color:${col(k)}">${C[k].name.split(' ')[0][0]}${C[k].name.split(' ').slice(-1)[0][0]}</div>
+  <div style="font:700 1.9vh/1.2 var(--mono);color:#fff;margin:.8vh 0 .4vh;letter-spacing:.06em">${C[k].short}</div>
+  <div class=note style="font-size:1.15vh;color:#a8adb4">${C[k].role}</div>
+  <div style="font:600 1.1vh/1.4 var(--mono);color:#c9ccd1;margin-top:.8vh;letter-spacing:.1em">${C[k].label}</div></div>`).join('')}</div>
+ <div class=lbl style="margin-top:2.6vh">FIELD // 5 FILED, 3 ACTIVE</div>
+ <div id=fun style="display:flex;gap:.6vw">${[['BIGGS','B',''],['DOMINGUEZ','D',''],['HENDERSON','H',''],['REVULURI','',"OUT 30 SEP · ON BALLOT"],['CUSTER','',"OUT 27 AUG"]].map(f=>`<div class=fade style="flex:1;padding:1vh .5vw;border:1px solid ${f[1]?col(f[1]):'#3a3f46'};text-align:center;font:700 1.3vh/1.3 var(--mono);letter-spacing:.08em;color:${f[1]?'#fff':'#6d737c'};">${f[2]?'<s>'+f[0]+'</s>':f[0]}<div style="font:500 .95vh/1.3 var(--mono);color:${f[2]?'var(--red)':'#7d838b'};text-decoration:none;display:block;margin-top:.3vh">${f[2]||'ACTIVE'}</div></div>`).join('')}</div>
+ <div class=lbl style="margin-top:2.6vh">THE JOB</div>
+ <div id=job style="display:grid;grid-template-columns:1fr 1fr;gap:.8vh 1vw">${[['PRESIDES','runs board meetings, helps set the agenda'],['ONE VOTE','votes like any member, no veto (bylaw 1-5)'],['4-YEAR TERM','begins 15 Jan 2027'],['UNPAID','board members get no salary'],['21 SEATS','president + 20 subdistrict members, all elected'],['$10.1B','annual CPS budget the board approves, plus union contracts']].map(j=>`<div class=fade style="border-left:2px solid var(--red);padding:.3vh .6vw"><div style="font:700 1.6vh/1.2 var(--mono);color:var(--gold);letter-spacing:.06em">${j[0]}</div><div class=note style="font-size:1.12vh;color:#a8adb4">${j[1]}</div></div>`).join('')}</div></div>`;
+  stag([...b.querySelectorAll('#r3>div')],250);stag([...b.querySelectorAll('#fun>div')],180,'in',900);stag([...b.querySelectorAll('#job>div')],150,'in',1900)},
+ kf:['1st','time Chicago voters pick the board president, ending more than 30 years of mayoral control'],
+ b:['Election Day is <b>Tue 3 Nov</b>. The race is <b>nonpartisan</b>, so no party labels appear on the ballot.','All <b>21 seats</b> are on the ballot. The hybrid board seated in 2025 had 10 elected and 11 appointed members.','Two candidates quit and both blamed <b>special-interest money</b>: Custer (27 Aug) and Revuluri (30 Sep). Revuluri\'s name <b>stays on the ballot</b>.','The race has become a proxy fight between the <b>Chicago Teachers Union</b> and its critics, led by billionaire <b>Michael Sacks</b>.','The current president, <b>Sean Harden</b>, was appointed by Mayor Johnson in Dec 2024.'],
+ src:'CHALKBEAT 24 SEP · CBS CHICAGO · CPS BYLAW 1-5 · SUN-TIMES'});
+
+P.push({tab:'MONEY',t:'Campaign money',s:'Direct contributions to the candidates\' own committees',k:['B','D','H'],
+ draw(b){b.innerHTML=`<div class=pn>
+ <div class=lbl>RAISED DIRECTLY · LATEST REPORTED TOTAL</div><div id=m1></div>
+ <div class=note style="margin:-.3vh 0 1.8vh">Biggs and Dominguez: about $1M each, filings 1 Oct 2025 – 15 Oct 2026 (Sun-Times/WBEZ, 16 Oct). Henderson: $659K in loans and donations by mid-July (Chalkbeat), plus $35K raised Jul–Sep. No full October total for him was found.</div>
+ <div class=lbl>CASH ON HAND · 30 JUNE (Q2 REPORTS)</div><div id=m2></div>
+ <div class=lbl style="margin-top:1.4vh">BIG CHECKS · 2026</div><div id=m3 style="position:relative;height:13vh"></div></div>`;
+  const bars=(id,rows,max)=>{const h=$(id);rows.forEach(r=>{const e=S.el('div','hb',`<div class=k>${r[0]}<small>${r[3]||''}</small></div><div class=bar><i style="background:${r[2]}"></i></div><div class=v style="color:${r[2]}"><span>$0</span><small>${r[4]||''}</small></div>`);h.appendChild(e);
+   setTimeout(()=>{e.querySelector('i').style.width=(r[1]/max*100)+'%';countUp(e.querySelector('.v>span'),r[1],1600,r[5]||fmt)},200)})};
+  bars('m1',[['BIGGS',1e6,col('B'),'','≈ through 15 Oct',n=>'≈ '+fmt(n)],['DOMINGUEZ',1e6,col('D'),'','≈ through 15 Oct',n=>'≈ '+fmt(n)],['HENDERSON',659e3,col('H'),'incl. $500K self-loan','by mid-July']],1.1e6);
+  bars('m2',[['HENDERSON',598e3,col('H')],['REVULURI',216e3,'#8d939b','withdrew 30 Sep'],['BIGGS',121e3,col('B')],['CUSTER',24e3,'#5d636b','withdrew 27 Aug']],1.1e6);
+  const ev=[[0,'16 JUL','H','$500K','Henderson self-loan, caps lifted'],[.45,'30 SEP','D','$300K','Our Schools PAC to Dominguez'],[.52,'02 OCT','B','$250K','Sacks $150K + Finnegan $100K'],[.76,'15 OCT','B','$400K','Sacks total to Biggs'],[.86,'19 OCT','D','$614K','CTU total to Dominguez'],[1,'20 OCT','B','$700K','Sacks total after another $300K']];
+  const m3=$('m3');m3.innerHTML='<div style="position:absolute;left:6%;right:6%;top:6.2vh;height:1px;background:#3a3f46"></div>';
+  ev.forEach((e,i)=>{const up=i%2===0;const d=S.el('div','fade',`<div style="position:absolute;left:-.5vh;top:5.7vh;width:1vh;height:1vh;background:${col(e[2])};box-shadow:0 0 8px ${col(e[2])}"></div><div style="position:absolute;left:-4.2vw;width:8.4vw;text-align:center;${up?'top:0':'top:7.8vh'}"><div style="font:700 1.7vh/1.1 var(--mono);color:${col(e[2])}">${e[3]}</div><div style="font:500 .95vh/1.3 var(--mono);color:#a8adb4">${e[1]} · ${e[4]}</div></div>`);
+   d.style.cssText+=`;position:absolute;left:${10+e[0]*80}%;top:0;height:100%`;m3.appendChild(d)});stag([...m3.querySelectorAll('.fade')],380,'in',1200)},
+ kf:['$500K','Henderson\'s self-loan in July. Under Illinois law, a self-contribution over $100K lifts the donation caps for every candidate in the race'],
+ b:['Normal caps are <b>$7,300</b> from an individual and <b>$14,600</b> from a corporation or union. They no longer apply in this race.','By mid-October, <b>Biggs and Dominguez had each raised about $1M</b> directly. Henderson trailed and had no union or PAC support.','Henderson had just over <b>$300K on hand</b> on 30 Sep and <b>filed his quarterly report late</b>.','Revuluri had about <b>$750K</b>, including a <b>$400K self-loan</b>, when he quit.','The Sun-Times tracker is frozen at <b>30 Sep</b>. Late A-1 filings are not reflected here.'],
+ src:'SUN-TIMES/WBEZ 16 JUL, 27 AUG, 16 OCT · CHALKBEAT 17 JUL, 21 OCT · TRIIBE · ILLINOIS POLICY 19 OCT'});
+
+P.push({tab:'DONORS',t:'Who funds each campaign',s:'Share of each candidate\'s fundraising, as reported',k:['B','D','H'],
+ draw(b){b.innerHTML=`<div class=pn><div id=dm></div><div class=big3 id=tops style="margin-top:2vh"></div></div>`;
+  const R=[['B','BIGGS',[['MICHAEL SACKS',37,'#ffd27a'],['SEIU',17,'#c99a4a'],['ALL OTHER',46,'#4a4336']],'Chalkbeat, 21 Oct'],['D','DOMINGUEZ',[['CTU',62,'#6fd3ff'],['OUR SCHOOLS PAC',36,'#3b8db3'],['',2,'#24414f']],'Chalkbeat, 21 Oct. Our Schools is CTU-funded'],['H','HENDERSON',[['SELF-LOAN',76,'#c3a3ff'],['INDIVIDUALS',24,'#5d4b80']],'Derived: $500K of $659K raised by mid-July']];
+  const dm=$('dm');R.forEach((r,i)=>{const e=S.el('div','',`<div style="display:flex;justify-content:space-between;font:700 1.5vh/1.2 var(--mono);color:#fff;letter-spacing:.08em;margin-bottom:.5vh"><span style="color:${col(r[0])}">${r[1]}</span><span class=note>${r[3]}</span></div>
+   <div style="display:flex;height:4.4vh;background:#15181c;border:1px solid #23272d;margin-bottom:1.6vh">${r[2].map(s=>`<div style="width:0;background:${s[2]};transition:width 1.4s cubic-bezier(.2,.7,.2,1);overflow:hidden;white-space:nowrap;display:flex;align-items:center;padding-left:${s[1]>5?'.5vw':'0'};font:700 1.25vh/1 var(--mono);color:#0a0b0d;letter-spacing:.06em" data-w=${s[1]}>${s[1]>5?s[0]+' '+s[1]+'%':''}</div>`).join('')}</div>`);dm.appendChild(e);
+   setTimeout(()=>e.querySelectorAll('[data-w]').forEach(x=>x.style.width=x.dataset.w+'%'),200+i*350)});
+  const T={B:[['Michael Sacks','$700K+','$400K by 15 Oct, $300K more by 20 Oct'],['SEIU IL Council PAC','$150K',''],['Paul Finnegan','$100K','2 Oct'],['SEIU Local 73','$25K','']],D:[['CTU and affiliates','$614K','total as of 19 Oct'],['Our Schools Chicago PAC','$355K+','incl. $300K on 30 Sep'],['CTU in-kind','≈ $85K','from two CTU PACs']],H:[['Victor Henderson (loan)','$500K','July'],['Individuals','—','"almost all" other money'],['Unions / PACs','none','per WBEZ']]};
+  const tp=$('tops');['B','D','H'].forEach(k=>{tp.appendChild(S.el('div','fade',`<div class=lbl style="color:${col(k)}">TOP SOURCES · ${C[k].short}</div>${T[k].map(t=>`<div style="display:flex;justify-content:space-between;gap:.4vw;border-bottom:1px solid #22262c;padding:.5vh 0"><div style="font:500 1.15vh/1.3 var(--mono);color:#d4d6da">${t[0]}${t[2]?`<div class=note style="font-size:.92vh">${t[2]}</div>`:''}</div><div style="font:700 1.5vh/1.2 var(--mono);color:${col(k)};white-space:nowrap">${t[1]}</div></div>`).join('')}`))});
+  stag([...tp.children],300,'in',1400)},
+ kf:['37%','of Biggs\'s money came from Michael Sacks, GCM Grosvenor CEO and Democratic donor. Dominguez gets 98% from the CTU and its PAC'],
+ b:['Sacks\'s <b>$150K on 2 Oct</b> was the largest individual contribution in the race at that point. He had given <b>$700K+</b> by 20 Oct.','<b>SEIU</b>, once a close CTU ally, backs Biggs with <b>$175K</b> from two affiliates.','Money moves from the <b>CTU to Our Schools PAC</b> ($300K, 29 Jun) and then to <b>Dominguez</b> ($300K, 30 Sep).','Dominguez says he <b>left the CTU payroll</b> before announcing in May.','Henderson\'s money is mostly his own <b>$500K loan</b>. Nearly all the rest comes from individuals.'],
+ src:'CHALKBEAT 21 OCT · TRIIBE OCT · ILLINOIS POLICY 19 OCT · TRIBUNE (YAHOO) 2 OCT · WBEZ 16 OCT'});
+
+P.push({tab:'OUTSIDE $',t:'Outside money',s:'Super PACs and independent spending, mostly aimed at one candidate',k:['D','B'],
+ draw(b){b.innerHTML=`<div class=pn style="padding:0"><canvas id=fl style="position:absolute;inset:0;width:100%;height:100%"></canvas></div>`;
+  const cv=$('fl'),cx=cv.getContext('2d'),dpr=devicePixelRatio||1;let W,H;function rs(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0)}rs();
+  const N={sacks:[.07,.2,'MICHAEL SACKS','#ffd27a'],seiu:[.07,.42,'SEIU','#c99a4a'],ctu:[.07,.62,'CHICAGO TEACHERS UNION','#6fd3ff'],incs:[.07,.87,'INCS ACTION (CHARTERS)','#e5322d'],
+   cg:[.47,.2,'COMMON GROUND COLLECTIVE','#ffd27a'],os:[.47,.76,'OUR SCHOOLS PAC','#6fd3ff'],
+   bg:[.93,.36,'BIGGS CAMPAIGN','#ffd27a'],dm:[.93,.56,'DOMINGUEZ CAMPAIGN','#6fd3ff'],ml:[.93,.73,'PRO-DOMINGUEZ MAILERS','#6fd3ff'],ads:[.93,.9,'ADS AGAINST DOMINGUEZ','#e5322d']};
+  // [from,to,amount,label,sub,t of label,side(-1 above,+1 below)]
+  const E=[['sacks','cg',4.7e6,'$4.7M','to PAC + IE committee, all races',.5,1],['sacks','bg',7e5,'$700K+','direct',.7,-1],['seiu','bg',1.75e5,'$175K','direct',.35,1],['cg','ads',1.8e6,'≥ $1.8M','attack ads (by 21 Oct)',.4,-1],
+   ['incs','ads',4.5e5,'$450K','digital ad',.5,1],['ctu','os',3e5,'$300K','29 Jun',.42,1],['ctu','dm',6e5,'$600K+','direct',.45,-1],['os','dm',3.55e5,'$355K+','direct',.28,-1],['os','ml',3.05e5,'≈ $305K','mailers',.62,1]];
+  const wOf=v=>Math.max(2,Math.sqrt(v/1e5)*4.2);
+  const pts=[];let t0=performance.now();
+  function pos(n){return[N[n][0]*W,N[n][1]*H]}
+  function curve(a,b,t){const[x0,y0]=pos(a),[x1,y1]=pos(b),mx=(x0+x1)/2;const u=1-t;return[u*u*u*x0+3*u*u*t*mx+3*u*t*t*mx+t*t*t*x1,u*u*u*y0+3*u*u*t*y0+3*u*t*t*y1+t*t*t*y1]}
+  E.forEach((e,i)=>{const n=Math.round(4+Math.sqrt(e[2]/1e5)*2.2);for(let k=0;k<n;k++)pts.push({e:i,t:Math.random(),v:.08+Math.random()*.05})});
+  const F=s=>`${s}px DejaVu Sans Mono,monospace`;
+  function tag(x,y,a,b2,c){const f1=H*.029,f2=H*.019;cx.font='700 '+F(f1);const w1=cx.measureText(a).width;cx.font='500 '+F(f2);const w2=cx.measureText(b2).width;const w=Math.max(w1,w2)+12,h=f1+f2+10;
+   cx.fillStyle='rgba(10,11,13,.88)';cx.fillRect(x-w/2,y-h/2,w,h);cx.strokeStyle=c+'88';cx.lineWidth=1;cx.strokeRect(x-w/2,y-h/2,w,h);cx.textAlign='center';cx.textBaseline='alphabetic';
+   cx.font='700 '+F(f1);cx.fillStyle='#fff';cx.fillText(a,x,y-h/2+f1+2);cx.font='500 '+F(f2);cx.fillStyle='#a8adb4';cx.fillText(b2,x,y+h/2-5)}
+  let last=performance.now();
+  (function f(now){if(!cv.isConnected)return;const dt=Math.min(.05,(now-last)/1000);last=now;const age=(now-t0)/1000;cx.clearRect(0,0,W,H);
+   E.forEach((e,i)=>{const rev=Math.min(1,Math.max(0,(age-i*.35)/1.2));if(rev<=0)return;cx.strokeStyle=N[e[0]][3]+'40';cx.lineWidth=wOf(e[2]);cx.beginPath();const M=48;for(let k=0;k<=M*rev;k++){const p=curve(e[0],e[1],k/M);k?cx.lineTo(p[0],p[1]):cx.moveTo(p[0],p[1])}cx.stroke()});
+   pts.forEach(p=>{const e=E[p.e];if(age<p.e*.35+1.2)return;p.t+=p.v*dt;if(p.t>1)p.t-=1;const q=curve(e[0],e[1],p.t);cx.fillStyle=N[e[0]][3];cx.fillRect(q[0]-1.5,q[1]-1.5,3,3)});
+   Object.entries(N).forEach(([k,n])=>{const[x,y]=pos(k);const left=n[0]<.3,right=n[0]>.8;cx.fillStyle='#0a0b0d';cx.strokeStyle=n[3];cx.lineWidth=1.5;const bw=W*.011;cx.fillRect(x-bw/2,y-H*.03,bw,H*.06);cx.strokeRect(x-bw/2,y-H*.03,bw,H*.06);
+    cx.font='700 '+F(H*.024);cx.fillStyle='#fff';cx.textAlign=left?'left':right?'right':'center';cx.textBaseline='alphabetic';cx.fillText(n[2],left?x-bw/2:right?x+bw/2:x,k==='os'?y+H*.062:y-H*.042)});
+   E.forEach((e,i)=>{if(age<i*.35+1.2)return;const p=curve(e[0],e[1],e[5]);tag(p[0],p[1]+e[6]*H*.045,e[3],e[4],N[e[0]][3])});
+   cx.font='600 '+F(H*.02);cx.fillStyle='#6d737c';cx.textAlign='left';cx.fillText('FUNDERS',W*.02,H*.06);cx.textAlign='center';cx.fillText('COMMITTEES',W*.47,H*.06);cx.textAlign='right';cx.fillText('DESTINATION',W*.98,H*.06);
+   cx.fillText('LINE WIDTH ∝ √AMOUNT · FIGURES FROM DIFFERENT DATES, NOT ADDITIVE',W*.98,H*.985);
+   requestAnimationFrame(f)})(last)},
+ kf:['>¼','of the $8.1M spent by PACs and super PACs on all 21 board races (to 15 Oct) targeted Dominguez'],
+ b:['Anti-CTU groups <b>outraised the CTU 5 to 1</b> and outspent it <b>nearly 3 to 1</b> across board races. The CTU and Our Schools spent about <b>$2.2M</b>.','<b>Sacks</b> is the largest funder: <b>$5.5M</b> to groups in the races as of 15 Oct.','<b>Common Ground</b> had spent <b>$3.7M</b>, about half of it attacking Dominguez, and backed no one for president (Sun-Times, 16 Oct).','Total money in board races: <b>$12.8M+</b>, made up of $5.9M to candidates and $6.8M independent (Tribune, mid-Oct).','Common Ground says it operates <b>independently</b> and aims at "leveling the playing field" against the CTU.'],
+ src:'SUN-TIMES/WBEZ 16 OCT · CHALKBEAT 5, 21 OCT · TRIBUNE VIA YAHOO · TRIIBE · ILLINOIS POLICY'});
+
+P.push({tab:'ENDORSE',t:'Endorsements',s:'Groups and officials backing each candidate',k:['B','D','H'],
+ draw(b){const E={B:[['LABOR',['SEIU Illinois State Council','SEIU Local 73','Chicago Federation of Labor','Operating Engineers Local 150','Chicago Laborers\' District Council']],['OFFICIALS',['Cook County Pres. Toni Preckwinkle','Ald. Pat Dowell (3rd)','Ald. Lamont Robinson (4th)','Ald. Desmon Yancy (5th)','Ald. Scott Waguespack (32nd)','Ald. Timmy Knudsen (43rd)','State Sen. Mattie Hunter']],['EDUCATION',['Ex-CPS CEO Janice Jackson']],['PRESS / ORGS',['Chicago Tribune editorial board','40th Ward Democrats']]],
+   D:[['LABOR',['Chicago Teachers Union','Our Schools Chicago']],['OFFICIALS',['Mayor Brandon Johnson','U.S. Rep. Delia Ramirez<sup>†</sup>']],['ORGS',['The People\'s Lobby','IVI-IPO']]],
+   H:[['OFFICIALS',['U.S. Rep. Danny K. Davis','U.S. Rep. Robin Kelly','Ex-U.S. Sen. Carol Moseley Braun','Ex-Senate Pres. John Cullerton']],['EDUCATION',['Ex-CPS CEO Forrest Claypool','Ex-CPS CEO Paul Vallas']],['FAITH',['Pastors of several large Black churches']]]};
+  b.innerHTML=`<div class=pn><div class=big3 id=en>${['B','D','H'].map(k=>`<div style="--c:${col(k)}"><div style="font:700 1.7vh/1.2 var(--mono);color:${col(k)};letter-spacing:.08em;border-bottom:2px solid ${col(k)};padding-bottom:.5vh;margin-bottom:1vh">${C[k].short} <span style="float:right;color:#fff">${E[k].reduce((a,g)=>a+g[1].length,0)}</span></div>${E[k].map(g=>`<div class=lbl style="margin-top:1vh">${g[0]}</div>${g[1].map((x,i)=>`<span class="chip${(k==='B'&&g[0]==='LABOR')||(k==='D'&&i===0&&g[0]!=='ORGS')||(k==='H'&&g[0]==='EDUCATION')?' g':''}">${x}</span>`).join('')}`).join('')}</div>`).join('')}</div>
+  <div class=note style="position:absolute;left:1vw;right:1vw;bottom:1vh">† reported via the campaign's own announcement only. Revuluri was endorsed by Reps. Krishnamoorthi and Khanna before he quit. No Pritzker endorsement found. The Sun-Times editorial board made no pick that could be found.</div></div>`;
+  const ch=[];const cols=[...b.querySelectorAll('#en>div')].map(c=>[...c.querySelectorAll('.chip')]);const mx=Math.max(...cols.map(c=>c.length));for(let i=0;i<mx;i++)cols.forEach(c=>c[i]&&ch.push(c[i]));stag(ch,110,'in',300)},
+ kf:['3','former CPS CEOs split two ways: Janice Jackson backs Biggs, while Forrest Claypool and Paul Vallas back Henderson'],
+ b:['<b>SEIU broke with the CTU</b> and backed Biggs in July. Trade unions and the <b>Chicago Federation of Labor</b> followed.','The <b>Tribune</b> picked Biggs (27 Sep), citing an "ideologically diverse array" of backers. It noted that Dominguez <b>skipped its interview</b> with 34 minutes\' notice.','<b>Mayor Johnson</b> has stood by Dominguez throughout the inspector general probe.','Henderson has <b>no union or PAC</b> backing and runs on <b>independence</b>. Vallas calls him "an independent alternative".','Revuluri, now out, <b>endorsed no one</b>. Custer also made no endorsement.'],
+ src:'AXIOS 9 OCT · FOX 32 · CBS CHICAGO · TRIBUNE 27 SEP · CHALKBEAT 23 JUL · WBEZ · CTU · HILARIOFORCPS.COM'});
+
+P.push({tab:'ISSUES',t:'Where they stand',s:'From forums, questionnaires and interviews',k:['B','D','H'],
+ draw(b){const R=[['BUDGET',['5-year financial recovery plan built with the state, city and labor. Voted against the amendment that "assumed revenue that doesn\'t exist"','Press Springfield for full state funding. Tax the wealthy and corporations, "not on the backs of working people"','Forensic audit of contracts first. "Rather cut contracts than teachers." Targets about $2B in discretionary spending']],
+   ['PROPERTY-TAX MAX INCREASE',['Opposes','Supports','Critical of the annual maximum']],
+   ['SCHOOL CLOSURES',['Would consider them only with community input, "the last thing we should want." Won\'t extend the moratorium past this year','The only candidate pledging no closures. Wants to extend the moratorium','"Neither for nor against." A last resort after "hard conversations"']],
+   ['CHARTERS',['Opposes new charters and more money for charter growth','No position found','Strongly supports charters and is open to adding some. Sits on the Urban Prep board']],
+   ['SCHOOL RATINGS',['No: "set up to pick winners and losers"','No: a single grade is too simplistic','Yes, with parent, educator and community input']],
+   ['SIGNATURE IDEA',['Public CEO evaluation tied to outcomes. Track enrollment share as an accountability measure','Free full-day pre-K from age 3, universal meals, a paid job for every student','Outside experts to review the books. Avoid new debt, more transparency']]];
+  b.innerHTML=`<div class=pn style="padding-top:1vh"><div style="display:grid;grid-template-columns:7.2vw repeat(3,1fr);gap:0">
+   <div></div>${['B','D','H'].map(k=>`<div style="font:700 1.4vh/1.2 var(--mono);color:${col(k)};letter-spacing:.1em;padding:.4vh .5vw;border-bottom:2px solid ${col(k)}">${C[k].short}</div>`).join('')}
+   ${R.map(r=>`<div class="fade rw" style="font:600 1.02vh/1.35 var(--mono);color:var(--dim);letter-spacing:.14em;padding:.8vh .3vw .8vh 0;border-bottom:1px solid #22262c">${r[0]}</div>${r[1].map((x,i)=>`<div class="fade rw" style="font:400 1.34vh/1.4 var(--mono);color:${x.startsWith('No position')?'#5d636b':'#d4d6da'};padding:1vh .5vw;border-bottom:1px solid #22262c;border-left:1px solid #22262c">${x}</div>`).join('')}`).join('')}</div></div>`;
+  const rw=[...b.querySelectorAll('.rw')];const rows=[];for(let i=0;i<rw.length;i+=4)rows.push(rw.slice(i,i+4));rows.forEach((r,i)=>setTimeout(()=>r.forEach(e=>e.classList.add('in')),300+i*700))},
+ kf:['3–0','All three want CPS to stay a system of school choice. They split on closures, charters and ratings'],
+ b:['The board faces a <b>possible midyear shortfall</b>: the July budget counts on <b>$150M</b> in state money that has not been pledged.','On <b>closures</b>: the moratorium lifts in <b>2027</b>. Only <b>Dominguez</b> rules closures out.','On <b>ratings</b>: only <b>Henderson</b> would bring back school ratings.','On <b>charters</b>: <b>Henderson</b> is the only strong supporter. <b>Biggs</b> opposes more charter growth.','"No position found" means no statement turned up in the searches. It does not mean the candidate has no view.'],
+ src:'WTTW 15 SEP · WBEZ/SUN-TIMES/CHALKBEAT 14-15 OCT · SUN-TIMES 28 OCT · CBS · HPHERALD · BIGGS4CHICAGO'});
+
+P.push({tab:'SCRUTINY',t:'Under scrutiny',s:'Background questions each campaign has faced',k:['B','D','H'],
+ draw(b){const R={B:[['2018','Fired as Burke Elementary principal. The OIG found attendance-marking and transport-policy violations and recommended discipline, not firing'],['2023–24','Appeals of her Do Not Hire status denied'],['2025','Removed from the list after her election. The Sun-Times says the timeline does not support quid-pro-quo claims'],['NOW','Says the firing was unjust and she was targeted for speaking out']],
+   D:[['2017','Alleged misconduct toward a 17-year-old at the Resurrection Project, which he denies'],['26 JUN','CPS OIG report: "not substantiated"'],['EARLY OCT','Probe reopened after the accuser came forward; closed 14 Oct with no actionable finding'],['NOW','16 alders ask AG Raoul for an outside probe. The accuser\'s attorney disputes that he was "cleared"']],
+   H:[['2011–12','Ex-wife\'s divorce filings alleged abuse of their sons'],['RESPONSE','Acknowledges disciplining them but denies abuse. No charges or court findings'],['COURT','Overnight parenting time continued. Both parents told not to use corporal punishment'],['FINANCE','Q3 campaign report filed late; fine possible']]};
+  b.innerHTML=`<div class=pn><div class=big3>${['B','D','H'].map(k=>`<div><div style="font:700 1.6vh/1.2 var(--mono);color:${col(k)};letter-spacing:.1em;border-bottom:2px solid ${col(k)};padding-bottom:.5vh;margin-bottom:1.2vh">${C[k].short}</div>${R[k].map(r=>`<div class="fade sc" style="position:relative;padding:0 0 1.6vh 1.1vw;border-left:1px solid #33383f;margin-left:.3vw"><i style="position:absolute;left:-.42vh;top:.3vh;width:.84vh;height:.84vh;background:${col(k)}"></i><div style="font:700 1.12vh/1.2 var(--mono);color:${col(k)};letter-spacing:.12em">${r[0]}</div><div style="font:400 1.36vh/1.45 var(--mono);color:#d4d6da;margin-top:.3vh">${r[1]}</div></div>`).join('')}</div>`).join('')}</div>
+  <div class=note style="position:absolute;left:1vw;right:1vw;bottom:1vh">Facts as reported. Allegations are not findings. At the 14 Oct forum, Dominguez and Henderson accused Biggs of resurfacing these stories, and she denies it.</div></div>`;
+  const cs=[...b.querySelectorAll('.big3>div')].map(c=>[...c.querySelectorAll('.sc')]);const o=[];for(let i=0;i<4;i++)cs.forEach(c=>c[i]&&o.push(c[i]));stag(o,260,'in',300)},
+ kf:['0','criminal charges or court findings against any of the three candidates, according to the reporting'],
+ b:['The CPS inspector general says the Dominguez probe was <b>"in no way rushed."</b> A 34-page report found <b>insufficient evidence</b>, with no eyewitnesses.','Dominguez calls it the <b>fourth time</b> he has been cleared. The accuser says the finding <b>does not exonerate</b> him.','Biggs\'s firing became a <b>debate flashpoint</b> in September. Rivals questioned how she came off the Do Not Hire list.','Henderson\'s supporters call the focus a <b>"smear campaign"</b>. Opponents say the allegations make him unfit.','<b>Mailer fact-check</b> (Chalkbeat, 23 Oct): Chalkbeat found <b>no link</b> between Biggs and Trump. Some of her donors have given to Republicans in the past.'],
+ src:'CHALKBEAT 22-23 SEP, 7, 14, 23 OCT · WBEZ 22 SEP, 16 OCT · SUN-TIMES 23 SEP · CBS · NBC 5'});
+
+P.push({tab:'TIMELINE',t:'Campaign timeline',s:'December 2024 to January 2027',k:['B','D','H'],
+ draw(b){const T=[['DEC 2024','Johnson appoints Sean Harden board president; board fires CEO Pedro Martinez',''],['15 OCT 25','Revuluri enters the race',''],['30 MAR','Board hires Macquline King as permanent CEO, 18–1',''],['16 APR','Biggs launches her campaign','B'],['MAY','Dominguez announces after leaving the CTU payroll','D'],['26 JUN','OIG closes first Dominguez inquiry: not substantiated','D'],['13 JUL','CTU endorses Dominguez','D'],['16 JUL','Henderson\'s $500K loan lifts the caps','H'],['23 JUL','SEIU endorses Biggs','B'],['30 JUL','Board passes $10.11B budget','' ],['20 AUG','Only poll: Dominguez 20%, Henderson 14%',''],['27 AUG','Custer withdraws',''],['15 SEP','WTTW forum',''],['27 SEP','Tribune endorses Biggs','B'],['30 SEP','Revuluri suspends his campaign',''],['02 OCT','Sacks gives Biggs $150K','B'],['EARLY OCT','OIG reopens Dominguez probe','D'],['14 OCT','Main forum; OIG closes the probe again','D'],['16 OCT','Sun-Times/WBEZ: 5:1 money gap',''],['31 OCT','Final forum at Rainbow PUSH',''],['03 NOV','ELECTION DAY','!'],['15 JAN 27','Winner takes office','!']];
+  b.innerHTML=`<div class=pn><div id=tl style="display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(11,auto);gap:0 1.4vw;position:relative">${T.map(t=>{const c=t[2]==='!'?'var(--red)':t[2]?col(t[2]):'#8d939b';return `<div class="fade" style="display:grid;grid-template-columns:6.6vw 1fr;gap:.6vw;padding:.9vh 0;border-bottom:1px solid #1e2227;align-items:baseline"><div style="font:700 1.25vh/1.2 var(--mono);color:${c};letter-spacing:.1em;white-space:nowrap">${t[0]}</div><div style="font:${t[2]==='!'?'700':'400'} 1.42vh/1.4 var(--mono);color:${t[2]==='!'?'#fff':'#d4d6da'}">${t[1]}</div></div>`}).join('')}</div>
+  <div class=note style="margin-top:1.2vh">Dates in 2026 unless shown otherwise. Colour marks the candidate involved; grey is the race as a whole.</div></div>`;
+  const it=[...b.querySelectorAll('#tl>div')];stag(it,160,'in',200)},
+ kf:['13','months from the first candidate entering (Oct 2025) to Election Day'],
+ b:['The race opened with <b>three</b> declared candidates in April: Biggs, Custer and Revuluri. <b>Dominguez</b> joined in May and <b>Henderson</b> later.','The board was in turmoil: <b>Martinez was fired without cause</b> after clashing with Johnson over a <b>high-interest loan</b> for pensions.','<b>King</b>, interim CEO since June 2025, was made permanent. Custer cast the only no vote.','Most of the money arrived in <b>September and October</b>, after the caps were lifted in July.','The <b>veto session</b> on 17–19 Nov and 1–3 Dec decides whether the $150M in state money arrives.'],
+ src:'CHALKBEAT 15 OCT 25, 30 MAR, 23 JUL · HPHERALD 16 APR · SUN-TIMES · WBEZ · CIVIC FEDERATION'});
+
+P.push({tab:'STAKES',t:'Stakes and signals',s:'The budget the winner inherits, and the one public poll',k:['D','H','B'],
+ draw(b){b.innerHTML=`<div class=pn><div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;height:100%">
+  <div><div class=lbl>FY2027 BUDGET</div>${[[10.11e9,'$10.11B','approved 30 Jul, a record'],[732.5e6,'$732.5M','starting deficit (CPS figure; Civic Federation says $748M)'],[285e6,'$285M','assumed city TIF surplus (a later city estimate was about $187M)'],[150e6,'$150M','state money assumed but not pledged; a midyear gap in December if it fails'],[42e6,'$42M','paid last year to borrow short term for payroll']].map(r=>`<div class=fade style="border-left:2px solid var(--red);padding:.4vh .7vw;margin-bottom:1.3vh"><div style="font:700 2.9vh/1.1 var(--mono);color:var(--gold)" data-n="${r[0]}">${r[1]}</div><div class=note style="font-size:1.12vh;color:#a8adb4">${r[2]}</div></div>`).join('')}</div>
+  <div><div class=lbl>THE ONLY PUBLIC POLL · DAVID BINDER RESEARCH · REPORTED 20 AUG</div><div id=pl></div>
+   <div class=note style="margin:.6vh 0 2vh">Five candidates were in the race at the time. About <b style="color:#fff">80%</b> of likely voters had no opinion of any candidate. No later public poll was found.</div>
+   <div class=lbl>TURNOUT SIGNAL</div><div class=fade id=to style="border-left:2px solid var(--gold);padding:.4vh .7vw"><div style="font:700 2.9vh/1.1 var(--mono);color:#fff">+11%</div><div class=note style="font-size:1.12vh;color:#a8adb4">Chicago early voting vs the 2022 midterm, about a week out (Chicago Board of Elections). Early voting ends 2 Nov.</div></div></div></div></div>`;
+  stag([...b.querySelectorAll('.pn>div>div:first-child>.fade')],350,'in',200);
+  const pl=$('pl');[['DOMINGUEZ',20,col('D')],['HENDERSON',14,col('H')],['REVULURI',11,'#6d737c'],['BIGGS',11,col('B')],['CUSTER',9,'#4d535b']].forEach((r,i)=>{const e=S.el('div','hb',`<div class=k>${r[0]}</div><div class=bar><i style="background:${r[2]}"></i></div><div class=v style="color:${r[2]}"><span>0%</span></div>`);e.style.gridTemplateColumns='8vw 1fr 4vw';pl.appendChild(e);setTimeout(()=>{e.querySelector('i').style.width=(r[1]/25*100)+'%';countUp(e.querySelector('.v>span'),r[1],1300,n=>Math.round(n)+'%')},400+i*200)});
+  setTimeout(()=>$('to').classList.add('in'),2200)},
+ kf:['$150M','in unpledged state money. The board\'s budget depends on it, and whoever wins inherits that gap'],
+ b:['The president leads the board that approves a <b>$10B+ budget</b> and the <b>union contracts</b>. That makes the CTU\'s stake direct.','The Tribune called it the most important vote <b>after next year\'s mayoral race</b>. Vallas called it "even more important".','<b>CEO King\'s</b> three-year contract runs to June 2029 at $380K a year.','The August poll is <b>stale</b>: two candidates have since quit, and most voters had no opinion yet.','Results will be posted at <b>chicagoelections.gov</b> after 7 PM CT on 3 Nov.'],
+ src:'CPS FY27 BUDGET OVERVIEW · CIVIC FEDERATION · SUN-TIMES/WBEZ 20 AUG · WBEZ 3 AUG · ABC7 · TRIBUNE 27 SEP'});
+
+/* ---------- engine ---------- */
+const DWELL=17000;let cur=-1,timer=0,t0=0,paused=false;
+P.forEach((p,i)=>{const d=S.el('div','',`${String(i+1).padStart(2,'0')} ${p.tab}`);d.onclick=()=>go(i);$('tabs').appendChild(d)});
+function dossier(p,i){$('dos').innerHTML=`<div class=a><span>SAMARITAN // ASSESSMENT ${String(i+1).padStart(2,'0')}/${P.length}</span><b>▲ ${p.tab}</b></div>
+<div class=kf><em>${p.kf[0]}</em><span>${p.kf[1]}</span></div><ul>${p.b.map(x=>`<li>${x}</li>`).join('')}</ul><div class=f>SRC: ${p.src}<br>COMPILED FROM PUBLISHED REPORTING · AS OF ${UPD}</div>`;S.roll($('dos'))}
+function go(i){clearTimeout(timer);cur=i;const p=P[i];[...$('tabs').children].forEach((e,k)=>e.classList.toggle('on',k===i));
+ $('st').textContent=p.t;$('sn').textContent=String(i+1).padStart(2,'0')+' / '+String(P.length).padStart(2,'0');$('ss').textContent=p.s;
+ const bd=$('body');bd.innerHTML='';p.draw(bd);dossier(p,i);hiCards(p.k);S.roll($('sh'));
+ hst.textContent='▲ PANEL '+String(i+1).padStart(2,'0')+' · '+p.tab;$('mode').innerHTML='PANEL <b>'+String(i+1).padStart(2,'0')+'</b> · '+p.t.toUpperCase();
+ t0=performance.now();if(!paused)timer=setTimeout(()=>go((cur+1)%P.length),DWELL)}
+(function bar(){const f=paused?0:Math.min(1,(performance.now()-t0)/DWELL);$('pbi').style.width=(f*100)+'%';
+ $('nx').innerHTML=paused?'<b>PAUSED</b> · SPACE TO RESUME':'NEXT: '+P[(cur+1)%P.length].tab+' · '+Math.max(0,Math.ceil(DWELL*(1-f)/1000))+'S · SPACE PAUSE · ←/→';requestAnimationFrame(bar)})();
+addEventListener('keydown',e=>{if(e.key===' '){paused=!paused;if(paused)clearTimeout(timer);else{t0=performance.now();timer=setTimeout(()=>go((cur+1)%P.length),DWELL)}e.preventDefault()}
+ else if(e.key==='ArrowRight')go((cur+1)%P.length);else if(e.key==='ArrowLeft')go((cur-1+P.length)%P.length)});
+go(0);
+</script>
+</body>

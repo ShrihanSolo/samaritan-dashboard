@@ -1,0 +1,78 @@
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Samaritan // Gallery</title>
+<meta name=description content="Interactive data displays in a Samaritan-inspired style: maps, live feeds, sky charts and dashboards.">
+<style>
+:root{--bg:#0a0b0d;--ink:#e6e7ea;--dim:#8d939b;--red:#e5322d;--gold:#ffd27a;--line:#2a2e35;--mono:'DejaVu Sans Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono)}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+.hdr{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:2.2vw;padding:10px 24px;background:rgba(10,11,13,.94);border-bottom:1px solid var(--line);font:600 12px/1 var(--mono);letter-spacing:.3em;color:var(--dim);white-space:nowrap;overflow:hidden}
+.hdr b{color:#fff;font-weight:700}.hdr i{font-style:normal;color:var(--red)}.hdr .clk{margin-left:auto}
+.hero{max-width:1480px;margin:0 auto;padding:56px 24px 28px}
+.chip{display:inline-block;background:var(--red);color:#fff;font:700 12px/1 var(--mono);letter-spacing:.25em;padding:6px 10px}
+h1{margin:18px 0 10px;font:700 clamp(28px,4vw,52px)/1.05 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.sub{max-width:900px;color:#a8adb4;font:400 15px/1.6 var(--mono)}
+.stat{display:flex;gap:40px;margin-top:26px;flex-wrap:wrap}
+.stat div{border-left:2px solid var(--red);padding:2px 12px}.stat b{display:block;font:700 26px/1.1 var(--mono);color:var(--gold)}.stat span{font:500 11px/1.4 var(--mono);color:var(--dim);letter-spacing:.18em}
+.grid{max-width:1480px;margin:0 auto;padding:12px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:22px}
+.card{display:block;color:inherit;text-decoration:none;border:1px solid #3a3f46;background:#0e1013;transition:border-color .25s,transform .25s;opacity:0;animation:in .6s forwards;animation-delay:calc(var(--i)*90ms)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card:hover{border-color:var(--red);transform:translateY(-2px)}
+.card:first-child{grid-column:span 2}
+@media(max-width:960px){.card:first-child{grid-column:auto}.grid{grid-template-columns:1fr}}
+.pv{position:relative;aspect-ratio:1920/1050;overflow:hidden;background:#07080a;border-bottom:1px solid var(--line)}
+.pv iframe{position:absolute;left:0;top:0;width:1920px;height:1050px;border:0;transform-origin:0 0;pointer-events:none;background:#0a0b0d;z-index:1}
+.pv .ld{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:600 11px/1 var(--mono);letter-spacing:.3em;color:#4d535b}
+.pv:after{content:'';position:absolute;inset:8px;pointer-events:none;background:
+ linear-gradient(var(--gold),var(--gold)) 0 0/14px 1.5px no-repeat,linear-gradient(var(--gold),var(--gold)) 0 0/1.5px 14px no-repeat,
+ linear-gradient(var(--gold),var(--gold)) 100% 100%/14px 1.5px no-repeat,linear-gradient(var(--gold),var(--gold)) 100% 100%/1.5px 14px no-repeat;opacity:.7}
+.meta{display:flex;gap:14px;align-items:center;padding:14px 16px 6px}
+.meta .n{font:700 13px/1 var(--mono);color:var(--red);letter-spacing:.15em;border:1px solid var(--red);padding:6px 7px}
+.meta .t{font:700 19px/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.meta .g{font:600 11px/1.4 var(--mono);letter-spacing:.2em;color:var(--dim);margin-top:4px}
+.card p{margin:6px 16px 10px;font:400 13px/1.6 var(--mono);color:#c9ccd1}
+.card .k{margin:0 16px 14px;padding-top:8px;border-top:1px solid #1e2227;font:500 11px/1.5 var(--mono);color:#7d838b;letter-spacing:.08em}
+.foot{max-width:1480px;margin:0 auto;padding:18px 24px 40px;border-top:1px solid var(--line);font:500 11px/1.8 var(--mono);color:#6d737c;letter-spacing:.08em}
+.foot a{color:var(--dim)}
+</style>
+<div class=hdr><b>▲ SAMARITAN</b><span>GALLERY V.11.02</span><span>7 FEEDS ONLINE</span><i>▲ OBSERVATION ACTIVE</i><span class=clk id=clk></span></div>
+<section class=hero>
+ <span class=chip>PUBLIC FEEDS</span>
+ <h1 id=h1>Samaritan // Gallery</h1>
+ <div class=sub>Interactive data displays in a style borrowed from the surveillance AI of <i>Person of Interest</i>: thin lines, monospace, one red accent. Each page is a single self-contained HTML file that runs in your browser. The live ones fetch public feeds directly. They are designed for a 1920×1050 landscape screen.</div>
+ <div class=stat><div><b>7</b><span>DISPLAYS</span></div><div><b>50</b><span>MAP LAYERS IN THE ATLAS</span></div><div><b>0</b><span>SERVERS · ALL CLIENT-SIDE</span></div></div>
+</section>
+<main class=grid>
+<a class=card href="slides/us-atlas.html" style="--i:0"><div class=pv><iframe data-src="slides/us-atlas.html" tabindex=-1 loading=lazy title="US Atlas"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>01</div><div><div class=t>US Atlas</div><div class=g>50 LAYERS · 40+ DATASETS</div></div></div>
+<p>One Albers map of the United States with 50 data layers: 3,143-county election maps, air routes, power plants, tornado tracks, meteorites, nuclear tests, Walmart and post-office spread over time, and live earthquakes, weather alerts, wildfires and aurora.</p><div class=k>Auto tour · click a chip to jump · scroll the chip strip</div></a>
+<a class=card href="slides/world-conflicts.html" style="--i:1"><div class=pv><iframe data-src="slides/world-conflicts.html" tabindex=-1 loading=lazy title="Conflict Monitor"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>02</div><div><div class=t>Conflict Monitor</div><div class=g>11 ACTIVE THEATRES</div></div></div>
+<p>Active wars on a dark map. The tour flies to each theatre and opens a dossier with status, parties, a key figure and sourced notes. Facts as of 2 Nov 2026.</p><div class=k>Space pause · O overview · click a theatre</div></a>
+<a class=card href="slides/chicago-board-president.html" style="--i:2"><div class=pv><iframe data-src="slides/chicago-board-president.html" tabindex=-1 loading=lazy title="CPS Board President"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>03</div><div><div class=t>CPS Board President</div><div class=g>RACE MONITOR · NOV 2026</div></div></div>
+<p>Chicago&#x27;s first elected school board president race: money, donor mix, an outside-money flow chart, endorsements, positions, scrutiny, timeline and the budget at stake. Compiled from about 60 searches of published reporting.</p><div class=k>Space pause · ←/→ step panels</div></a>
+<a class=card href="slides/night-sky.html" style="--i:3"><div class=pv><iframe data-src="slides/night-sky.html" tabindex=-1 loading=lazy title="Night Sky"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>04</div><div><div class=t>Night Sky</div><div class=g>CHICAGO · ALL-SKY</div></div></div>
+<p>Chicago&#x27;s sky through the night of 1–2 Nov 2026, with planet and Moon tracks computed with astropy. Scrub the time slider, zoom and rotate, click a target.</p><div class=k>Drag slider or press play · scroll to zoom · click targets</div></a>
+<a class=card href="slides/orbit-watch.html" style="--i:4"><div class=pv><iframe data-src="slides/orbit-watch.html" tabindex=-1 loading=lazy title="Orbit Watch"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>05</div><div><div class=t>Orbit Watch</div><div class=g>LIVE FEEDS</div></div></div>
+<p>Live ISS position and ground track, the day/night terminator, GOES-East full disk, SDO solar imagery and the NOAA aurora forecast, all fetched live by your browser.</p><div class=k>Click a feed to enlarge</div></a>
+<a class=card href="slides/us-weather.html" style="--i:5"><div class=pv><iframe data-src="slides/us-weather.html" tabindex=-1 loading=lazy title="US Weather"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>06</div><div><div class=t>US Weather</div><div class=g>LIVE · OPEN-METEO</div></div></div>
+<p>Live surface wind particles across the continental US with temperature, cloud and precipitation layers, a hover readout, extremes and cities.</p><div class=k>Hover for readout · layer buttons</div></a>
+<a class=card href="slides/nyc-tour.html" style="--i:6"><div class=pv><iframe data-src="slides/nyc-tour.html" tabindex=-1 loading=lazy title="NYC Tour"></iframe><span class=ld>LOADING FEED…</span></div>
+<div class=meta><div class=n>07</div><div><div class=t>NYC Tour</div><div class=g>GEO // AERIAL SURVEY</div></div></div>
+<p>A guided tour of Manhattan in hard Samaritan steps, from the Statue of Liberty up to the Met, with borough data boxes from the 2020 census.</p><div class=k>Space pause · N next · click map to stop</div></a>
+</main>
+<div class=foot>Built with Claude Code. Map tiles © Esri; Leaflet. Live data from USGS, NWS, NIFC, NOAA SWPC, NASA EONET and SDO, GOES, wheretheiss.at and Open-Meteo. Facts on the dated pages are as of 2 Nov 2026. Previews below load live and pause off-screen. Open a display for full size, and press F11 for full screen.</div>
+<script>
+(function c(){const d=new Date();document.getElementById('clk').textContent=d.toISOString().slice(11,19)+' UTC';setTimeout(c,1000)})();
+function fit(){document.querySelectorAll('.pv').forEach(p=>{const f=p.querySelector('iframe');f.style.transform=`scale(${p.clientWidth/1920})`})}
+addEventListener('resize',fit);fit();
+const io=new IntersectionObserver(es=>es.forEach(e=>{const f=e.target.querySelector('iframe');
+ if(e.isIntersecting){if(!f.src||f.src==='about:blank')f.src=f.dataset.src}else if(f.src&&f.src!=='about:blank')f.src='about:blank'}),{rootMargin:'100px'});
+document.querySelectorAll('.pv').forEach(p=>io.observe(p));
+(function dec(){const h=document.getElementById('h1'),T=h.textContent,G='ИЯƎƆƧΣΞЖ#%&<>=+0123456789';let k=0;const iv=setInterval(()=>{h.textContent=T.split('').map((c,i)=>i<k||c===' '?c:G[Math.random()*G.length|0]).join('');if(++k>T.length)clearInterval(iv)},35)})();
+</script>
+</html>

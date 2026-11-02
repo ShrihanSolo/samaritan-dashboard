@@ -1,0 +1,335 @@
+<!doctype html><meta charset=utf-8><title>Active conflicts</title><style>/* Samaritan kit CSS. body.dark (default) or body.light. Inlined by web.py push for pages containing <!--SAMKIT-->. */
+:root{--red:#e5322d;--gold:#ffd27a;--mono:'DejaVu Sans Mono',Menlo,Consolas,monospace}
+body,body.dark{--bg:#0a0b0d;--panel:#15181d;--line:#1a1d22;--ink:#e6e7ea;--hi:#fff;--dim:#8d939b;--dim2:#6d737c;--feed:#050607;--btn:#0a0b0d;--btnline:#2a2e35;--scan:rgba(255,255,255,.022)}
+body.light{--bg:#d4dcdd;--panel:#eef2f2;--line:#aab5b8;--ink:#2b3434;--hi:#14161a;--dim:#6f7a7c;--dim2:#9aa0a8;--feed:#14161a;--btn:#eef2f2;--btnline:#aab5b8;--scan:rgba(0,0,0,.025);--gold:#b5541d}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--mono);user-select:none}
+body:before{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px);pointer-events:none;z-index:50}
+.s-hdr{position:fixed;left:0;right:0;top:0;height:4.2vh;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:3vw;padding:0 2vw;font-size:.85vw;letter-spacing:.25em;color:var(--dim);z-index:40;text-transform:uppercase}
+.s-hdr b{color:var(--ink)}.s-hdr i{color:var(--red);font-style:normal}.s-hdr .clk{margin-left:auto;margin-right:5vw}
+.s-frame{position:fixed;background:var(--feed)}.s-frame .tab{position:absolute;left:0;top:-.6em;transform:translateY(-100%);font-size:.75vw;letter-spacing:.25em;background:var(--panel);color:var(--ink);border-left:3px solid var(--red);padding:.3em .8em;text-transform:uppercase}
+.s-frame .k{position:absolute;width:40px;height:40px;border:2px solid var(--dim);pointer-events:none}
+.s-frame .k.a{left:-8px;top:-8px;border-right:0;border-bottom:0}.s-frame .k.b{right:-8px;top:-8px;border-left:0;border-bottom:0}
+.s-frame .k.c{left:-8px;bottom:-8px;border-right:0;border-top:0}.s-frame .k.d{right:-8px;bottom:-8px;border-left:0;border-top:0}
+.s-panel{position:fixed;right:2.5vw;top:9vh;width:25vw;max-height:86vh;overflow:hidden;font-size:.95vw;line-height:1.55;background:var(--panel);border:1px solid var(--line);padding:1.6vw;box-shadow:0 2px 20px rgba(0,0,0,.35);z-index:30}
+.s-panel h1,.s-h{font-weight:600;font-size:.9em;letter-spacing:.3em;color:var(--ink);margin:1em 0 .4em;text-transform:uppercase}.s-panel h1:before,.s-h:before{content:"▲ ";color:var(--red)}
+.s-big{font-size:3.4em;color:var(--hi);border-bottom:2px solid var(--ink);display:inline-block}
+.s-sub{color:var(--dim);text-transform:uppercase;letter-spacing:.12em;font-size:.84em;margin:.5em 0 1em}
+.s-info{min-height:5em;border-left:3px solid var(--red);padding:.3em 0 .3em 1em;margin:1em 0;text-transform:uppercase;font-size:.9em;letter-spacing:.08em}
+.s-info b,.s-gold{color:var(--gold);font-weight:normal}
+.s-row{margin:.3em 0}.s-row label{display:block;font-size:.8em;letter-spacing:.15em;color:var(--dim);text-transform:uppercase}
+input[type=range]{width:100%;accent-color:var(--red)}
+.s-btn{background:var(--btn);color:var(--dim);border:1px solid var(--btnline);padding:.35em .8em;margin:.25em .3em .25em 0;font:.84em var(--mono);letter-spacing:.15em;cursor:pointer;text-transform:uppercase}
+.s-btn.on{background:var(--line);color:var(--ink);border-color:var(--red)}
+.s-note{color:var(--dim2);font-size:.8em;margin-top:1.4em;text-transform:uppercase;letter-spacing:.06em}
+.s-tip{position:fixed;pointer-events:none;font:12px var(--mono);letter-spacing:.15em;color:var(--ink);background:var(--panel);padding:2px 6px;border-left:2px solid var(--red);text-transform:uppercase;z-index:60;display:none}
+</style><script>function roll(root){if(!root)return;const GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789',S=[];
+ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('script,style,.lab,.cur,#hdr,.k')?2:(n.nodeValue.trim()?1:2)});
+ const ns=[];while(w.nextNode())ns.push(w.currentNode);
+ ns.forEach(n=>{const f=document.createDocumentFragment(),hl=!!n.parentElement.closest('b,strong');for(const c of n.nodeValue){const s=document.createElement('span');s.textContent=c;
+  if(c.trim()||hl){s.style.visibility='hidden';s.dataset.c=c;S.push(s)}f.appendChild(s)}n.replaceWith(f)});root.classList.add('rl');
+ if(!S.length)return;const G=new Map();S.forEach(s=>{const b=s.closest('p,li,h1,h2,h3,pre,.q,td,div')||root;if(!G.has(b))G.set(b,[]);G.get(b).push(s)});
+ const gs=[...G.values()],L=Math.max(...gs.map(g=>g.length)),ms=Math.max(4,Math.min(28,1800/L)),t0=performance.now()+250,ks=gs.map(()=>0);let done=false;
+ const fin=()=>{done=true;S.forEach(s=>{s.textContent=s.dataset.c;s.style.visibility='';s.style.color=''})};
+ addEventListener('click',fin,{once:true});addEventListener('keydown',fin,{once:true});
+ (function f(now){if(done)return;const K=Math.max(0,Math.floor((now-t0)/ms));let left=false;
+  gs.forEach((g,i)=>{const k2=Math.min(g.length,K);for(let k=ks[i];k<k2;k++){g[k].textContent=g[k].dataset.c;g[k].style.visibility='';g[k].style.color=''}ks[i]=k2;
+   if(k2<g.length){left=true;const s=g[k2];s.style.visibility='';s.textContent=GL[Math.random()*GL.length|0];s.style.color='#e5322d'}});
+  if(left)requestAnimationFrame(f)})(performance.now())}
+/* Samaritan kit JS (window.S). See SKILL.md "Samaritan kit". */
+const S=(()=>{const S={};S.GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789';S.C={red:'#e5322d',gold:'#ffd27a',ink:'#e6e7ea',dim:'#8d939b',bg:'#0a0b0d',panel:'#15181d',feed:'#050607'};
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};S.el=el;
+// decode one element's text (Promise). ms per letter.
+S.decode=(e,txt,ms=28)=>new Promise(r=>{txt=txt??e.textContent;const t0=performance.now();(function f(n){const k=Math.min(txt.length,(n-t0)/ms|0);
+ if(k<txt.length){e.textContent=txt.slice(0,k)+(txt[k]===' '?' ':S.GL[Math.random()*S.GL.length|0]);requestAnimationFrame(f)}else{e.textContent=txt;r()}})(t0)});
+// roll all text under root in parallel (layout-stable). Provided by web.ROLL_JS as global roll(); alias here.
+S.roll=r=>window.roll&&window.roll(r);
+// canvas with dpr; returns object whose W,H update on resize. box: fn()->{x,y,w,h} in CSS px (default full window)
+S.canvas=(box,onResize)=>{const c=el('canvas');c.style.position='fixed';document.body.appendChild(c);const o={c,ctx:c.getContext('2d')};
+ const sz=()=>{const d=devicePixelRatio||1,b=box?box():{x:0,y:0,w:innerWidth,h:innerHeight};Object.assign(c.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+  c.width=b.w*d;c.height=b.h*d;o.ctx.setTransform(d,0,0,d,0,0);o.W=b.w;o.H=b.h;o.dpr=d;onResize&&onResize(o)};addEventListener('resize',sz);sz();return o};
+// animation loop fn(tSeconds, dtSeconds); returns stop()
+S.loop=fn=>{let on=true,last=performance.now();const f=n=>{if(!on)return;const dt=Math.min(.1,(n-last)/1000);last=n;fn(n/1000,dt);requestAnimationFrame(f)};requestAnimationFrame(f);return()=>on=false};
+// header strip: S.header(['SKY_SURVEY v1','LOC ...'],{status:'OBSERVATION ACTIVE',clock:true})
+S.header=(items=[],o={})=>{const h=el('div','s-hdr','<b>SAMARITAN</b>'+items.map(s=>`<span>${s}</span>`).join('')+(o.status?`<i>▲ ${o.status}</i>`:'')+(o.clock!==false?'<span class=clk></span>':''));
+ document.body.appendChild(h);const c=h.querySelector('.clk');if(c){const u=()=>c.textContent=new Date().toISOString().slice(11,19)+' UTC';u();setInterval(u,1000)}return h};
+// FEED frame with tab + corner brackets at box fn()->{x,y,w,h}
+S.frame=(label,box)=>{const f=el('div','s-frame',`<div class=tab>${label}</div><i class="k a"></i><i class="k b"></i><i class="k c"></i><i class="k d"></i>`);document.body.appendChild(f);
+ const p=()=>{const b=box();Object.assign(f.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'})};addEventListener('resize',p);p();return f};
+// side panel with builders
+S.panel=(title)=>{const p=el('div','s-panel');document.body.appendChild(p);const add=(h,c,t='div')=>{const e=el(t,c,h);p.appendChild(e);return e};
+ const P={el:p,h:t=>add(t,'s-h'),big:t=>add(t,'s-big'),sub:t=>add(t,'s-sub'),html:(h,c)=>add(h,c),note:t=>add(t,'s-note'),info:(t='SELECT A TARGET.')=>add(t,'s-info'),
+  slider(label,min,max,val,cb,step=1){const r=add(`<label>${label}</label><input type=range min=${min} max=${max} step=${step} value=${val}>`,'s-row').querySelector('input');r.oninput=()=>cb(+r.value);return r},
+  buttons(){return add('','s-row')},
+  toggle(label,on,cb,row){const b=el('button','s-btn'+(on?' on':''),label);(row||add('','s-row')).appendChild(b);b.onclick=()=>{on=!on;b.classList.toggle('on',on);cb(on)};return b},
+  button(label,cb,row){const b=el('button','s-btn',label);(row||add('','s-row')).appendChild(b);b.onclick=()=>cb(b);return b}};
+ // auto-fit: shrink the panel's font (all sizes are em) until it fits its max-height; re-runs on content change and resize
+ let q=0;P.fit=()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;let s=.95;p.style.fontSize=s+'vw';while(p.scrollHeight>p.clientHeight+1&&s>.45){s-=.025;p.style.fontSize=s+'vw'}})};
+ new MutationObserver(P.fit).observe(p,{childList:true,subtree:true});addEventListener('resize',P.fit);
+ if(title)P.h(title);return P};
+// hover/click nearest item. items()->[{x,y,label|n|name}] in client px. Generous radius; picks on pointerdown so moving targets are easy to hit.
+S.pick=(target,items,o={})=>{const tip=el('div','s-tip');document.body.appendChild(tip);const r=o.r||32;
+ const lab=it=>o.tip?o.tip(it):(it.label??it.n??it.name??'');
+ const near=e=>{let b=null,bd=r;for(const it of items()){const d=Math.hypot(it.x-e.clientX,it.y-e.clientY);if(d<bd){bd=d;b=it}}return b};
+ target.addEventListener('pointermove',e=>{const it=near(e),s=it&&lab(it);tip.style.display=s?'block':'none';target.style.cursor=it?'pointer':'';
+  if(s){tip.style.left=e.clientX+16+'px';tip.style.top=e.clientY-30+'px';tip.textContent=s}});
+ target.addEventListener('pointerleave',()=>tip.style.display='none');
+ target.addEventListener('pointerdown',e=>o.onPick&&o.onPick(near(e)))};
+// Samaritan drawing vocabulary: thin lines, brackets, mono tags, one red accent.
+S.grid=(ctx,W,H,step=40)=>{ctx.strokeStyle='rgba(230,231,234,.045)';ctx.lineWidth=1;ctx.beginPath();for(let x=step;x<W;x+=step){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H)}for(let y=step;y<H;y+=step){ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5)}ctx.stroke()};
+S.reticle=(ctx,x,y,s=12,col='rgba(230,231,234,.8)')=>{ctx.strokeStyle=col;ctx.lineWidth=1;const k=s*.45;ctx.beginPath();
+ for(const[a,b]of[[-1,-1],[1,-1],[-1,1],[1,1]]){ctx.moveTo(x+a*s,y+b*(s-k));ctx.lineTo(x+a*s,y+b*s);ctx.lineTo(x+a*(s-k),y+b*s)}ctx.stroke()};
+S.tag=(ctx,x,y,txt,o={})=>{ctx.font=(o.size||11)+'px '+getComputedStyle(document.body).getPropertyValue('--mono');const w=ctx.measureText(txt).width+12,h=(o.size||11)+8;
+ ctx.fillStyle=o.bg||'rgba(21,24,29,.9)';ctx.fillRect(x,y-h/2,w,h);ctx.fillStyle=o.red?S.C.red:S.C.red+'00';if(o.red!==false){ctx.fillStyle=S.C.red;ctx.fillRect(x,y-h/2,2,h)}
+ ctx.fillStyle=o.col||S.C.ink;ctx.textBaseline='middle';ctx.fillText(txt,x+7,y+.5);ctx.textBaseline='alphabetic';return w};
+// red triangle marker around a point
+S.marker=(ctx,x,y,s=18)=>{ctx.strokeStyle=S.C.red;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y-s);ctx.lineTo(x+s*.87,y+s*.5);ctx.lineTo(x-s*.87,y+s*.5);ctx.closePath();ctx.stroke()};
+// glowing dot; rgb as 'r,g,b'
+S.glow=(ctx,x,y,r,rgb,core=.25)=>{const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,`rgba(${rgb},1)`);g.addColorStop(core,`rgba(${rgb},.5)`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill()};
+S.keys=map=>addEventListener('keydown',e=>{const f=map[e.key];if(f){f(e);e.preventDefault()}});
+// astronomy (J2000, low precision, fine for display)
+const R=Math.PI/180;S.astro={jd:d=>(d instanceof Date?d.getTime():d)/86400000+2440587.5,
+ gmst:jd=>((280.46061837+360.98564736629*(jd-2451545))%360+360)%360,
+ altaz(ra,dec,lat,lon,jd){const H=(S.astro.gmst(jd)+lon-ra)*R,d=dec*R,p=lat*R;const alt=Math.asin(Math.sin(d)*Math.sin(p)+Math.cos(d)*Math.cos(p)*Math.cos(H));
+  const az=Math.atan2(-Math.cos(d)*Math.sin(H),Math.sin(d)*Math.cos(p)-Math.cos(d)*Math.sin(p)*Math.cos(H));return[alt/R,(az/R+360)%360]},
+ dir:az=>['north','north-east','east','south-east','south','south-west','west','north-west'][Math.round(az/45)%8]};
+return S})();
+
+/* ---- Reference screens (from the show; see /workspace/screen-archive/references/samaritan/). Adapted from gallery/wakeup.tpl.html. ---- */
+S._load=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+S._pre=(im,w,h,filter,fit)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.filter=filter||'none';
+ if(im&&fit==='contain'){const s=Math.min(w/im.width,h/im.height),dw=im.width*s,dh=im.height*s;x.fillStyle='#16191d';x.fillRect(0,0,w,h);x.drawImage(im,(w-dw)/2,(h-dh)/2,dw,dh)}
+ else if(im){const a=im.width/im.height,b=w/h;let sw=im.width,sh=im.height,sx=0,sy=0;if(a>b){sw=sh*b;sx=(im.width-sw)/2}else{sh=sw/b;sy=(im.height-sh)/2}x.drawImage(im,sx,sy,sw,sh,0,0,w,h)}
+ else{x.fillStyle='#2b3434';x.fillRect(0,0,w,h)}return c};
+S._light=e=>{e.style.cssText+=';position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 46%,#fbfbfb 0%,#e9ecec 55%,#c3c9ca 100%)'};
+S._css=(id,css)=>{if(document.getElementById(id))return;const s=document.createElement('style');s.id=id;s.textContent=css;document.head.appendChild(s)};
+
+// 1) DATA WALL ("TOTAL ACCESS ACHIEVED"): pale screen of scrolling columns (grey thumbnails + data bars), a box in the
+// middle whose lines decode in turn. S.assimilate({images:[url], lines:[[main,sub],...], title, hold}) -> Promise (resolves after the last line).
+S.assimilate=async(o={})=>{S._css('s-asm',`.s-asm .box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34vw;min-width:420px;z-index:2}
+.s-asm .t{background:#fff;border:2px solid #222;color:#111;font:600 2.1vh/1 var(--mono);letter-spacing:.12em;padding:.7vh .8vw;text-transform:uppercase}
+.s-asm .s{background:#0d0f10;color:#f2f2f2;font:600 2.1vh/1 var(--mono);letter-spacing:.1em;padding:1.1vh .8vw .5vh;margin-top:2px;min-height:2.1vh;text-transform:uppercase}
+.s-asm .u{background:#0d0f10;color:#8d9497;font:500 1.5vh/1 var(--mono);letter-spacing:.12em;padding:.2vh .8vw 1vh;min-height:1.5vh;text-transform:uppercase}
+.s-asm .bl{animation:sb 1s steps(1) infinite}@keyframes sb{50%{opacity:0}}`);
+ const root=S.el('div','s-asm');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ const box=S.el('div','box',`<div class=t>${o.title||'TOTAL ACCESS ACHIEVED'}</div><div class=s><span></span><span class=bl>_</span></div><div class=u></div>`);root.appendChild(box);
+ const g=(await Promise.all((o.images||[]).map(S._load))).filter(Boolean).map(im=>S._pre(im,176,99,'grayscale(1) contrast(1.15) brightness(1.05)'));
+ const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,cols=[];let x=-20,k=0;
+ while(x<W){const w=[22,30,44,60,88,120][Math.random()*6|0],items=[];let L=0;
+  while(L<H*1.2){if(g.length&&Math.random()<.45){const h=w*99/176;items.push([g[(k++)%g.length],L,w,h]);L+=h+14}else{const h=4+Math.random()*30|0;items.push([null,L,w*(.2+Math.random()*.8)|0,h]);L+=h+14}}
+  const s=S.el('canvas');s.width=Math.ceil(w*d);s.height=Math.ceil(L*d);const sx=s.getContext('2d');sx.scale(d,d);
+  for(const[im,y,iw,ih]of items){if(im){sx.globalAlpha=.75;sx.drawImage(im,0,y,iw,ih)}else{sx.globalAlpha=.55;sx.fillStyle='#2b3434';sx.fillRect(0,y,iw,ih)}}
+  cols.push({x,w,L,s,v:(Math.random()<.5?-1:1)*(40+Math.random()*260),y:-Math.random()*L});x+=w+8+Math.random()*40}
+ cv.width=W*d;cv.height=H*d;const cx=cv.getContext('2d');let alive=true;const t0=performance.now();
+ (function f(n){if(!alive)return;const t=(n-t0)/1000;cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);
+  for(const c of cols){let y=((c.y+c.v*t)%c.L+c.L)%c.L-c.L;for(;y<H;y+=c.L)cx.drawImage(c.s,c.x,y,c.w,c.L)}requestAnimationFrame(f)})(t0);
+ const sl=box.querySelector('.s span'),ul=box.querySelector('.u');let skip=false;root.onclick=()=>skip=true;
+ for(const[a,b]of(o.lines||[['ASSIMILATING DATA','']])){if(skip)break;ul.textContent='';await S.decode(sl,a,22);ul.textContent=b||'';await new Promise(r=>setTimeout(r,o.hold||1700))}
+ if(o.keep)return root;alive=false;root.remove()};
+
+// 2) FEED WALL (surveillance wall): pale screen, a central column of large framed feeds that steps through items, a
+// blurred grey column on the left, a column of small feeds on the right, an INPUT list and a decoding readout.
+// S.feedwall({feeds:[{src,id,name,meta,text}], title, auto:ms|0}) -> {go(i)}. Up/Down or click a feed to step.
+S.feedwall=async(o={})=>{S._css('s-fw',`.s-fw .inp{position:absolute;right:23vw;top:9vh;color:#2b3434;font:500 1.25vh/1.75 var(--mono);letter-spacing:.08em;white-space:pre}
+.s-fw .inp .hi{background:#2b3434;color:#f4f4f4}.s-fw .rd{position:absolute;right:2.5vw;bottom:8vh;width:18vw;color:#2b3434;font:500 1.4vh/1.6 var(--mono);letter-spacing:.08em;border:1.5px solid #2b3434;padding:1vh .7vw;background:rgba(238,242,242,.85);text-transform:uppercase}
+.s-fw .rd b{display:block;font-weight:600;font-size:1.7vh;margin-bottom:.6vh}.s-fw .rd b:before{content:"▲ ";color:var(--red)}
+.s-fw .tt{position:absolute;left:2.5vw;top:3vh;z-index:3;background:rgba(238,242,242,.92);padding:.8vh .8vw;border-left:3px solid var(--red);color:#2b3434;font:600 1.5vh/1 var(--mono);letter-spacing:.3em;text-transform:uppercase}.s-fw .tt i{color:var(--red);font-style:normal}
+.s-fw .edge{position:absolute;top:0;bottom:0;left:0;width:6vw;background:linear-gradient(90deg,#1a1c1d,rgba(26,28,29,0))}`);
+ const root=S.el('div','s-fw');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ root.appendChild(S.el('div','edge'));root.appendChild(S.el('div','tt',`<i>▲</i> SAMARITAN · ${o.title||'FEED WALL'}`));const inp=S.el('div','inp');root.appendChild(inp);const rd=S.el('div','rd','<b></b><span></span>');root.appendChild(rd);
+ const F=o.feeds||[],N=F.length,ims=await Promise.all(F.map(f=>S._load(f.src)));
+ const big=ims.map(im=>S._pre(im,960,540,'none',o.fit||'contain')),side=ims.map(im=>S._pre(im,256,144,'saturate(.6)')),left=ims.map(im=>S._pre(im,176,99,'grayscale(1) blur(.6px)'));
+ const cx=cv.getContext('2d'),MONO=getComputedStyle(document.body).getPropertyValue('--mono')||'monospace';let pos=0,sel=0,hits=[];
+ const col=(L,idx,x,w,off,gap,a,ol)=>{const H=innerHeight,h=w*9/16,p=h+gap;cx.globalAlpha=a;for(let j=Math.floor(off/p);j*p-off<H;j++){const y=j*p-off;cx.drawImage(L[idx(j)],x,y,w,h);if(ol){cx.strokeStyle='#8a9192';cx.lineWidth=1;cx.strokeRect(x-.5,y-.5,w+1,h+1)}}cx.globalAlpha=1};
+ const md=i=>((i%N)+N)%N;
+ function draw(){const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,vw=W/100,vh=H/100;if(cv.width!==Math.round(W*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}
+  cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);const w=o.width?o.width*vw:34*vw,x=44*vw-w/2,h=w*9/16,p=h+1.6*vh,top=(H-h)/2;hits=[];
+  if(N){col(left,j=>md(j*5),12*vw,6.5*vw,pos*p*.3,.7*vh,.7,false);col(side,j=>md(j*3+1),W-20*vw+(o.width?0:0),7*vw,pos*p*.55,.8*vh,1,true);}
+  for(let i=Math.floor(pos-top/p)-1;i<=pos+H/p+1;i++){const y=top+(i-pos)*p;if(y>H||y+h<0||!N)continue;const k=md(i),f=F[k],on=k===sel&&Math.abs(i-pos)<.5;hits.push([y,y+h,i]);
+   cx.fillStyle='#111';cx.fillRect(x,y,w,h);cx.drawImage(big[k],x+2,y+2,w-4,h-4);cx.strokeStyle='#f4f4f4';cx.lineWidth=2;cx.strokeRect(x+1,y+1,w-2,h-2);
+   cx.strokeStyle=on?S.C.red:'#8a9192';cx.lineWidth=on?3:1;cx.strokeRect(x-1.5,y-1.5,w+3,h+3);
+   cx.textBaseline='top';cx.textAlign='left';cx.font=`600 ${1.25*vh}px ${MONO}`;const kt=`${f.id||('F'+String(k+1).padStart(2,'0'))} // FEED`,kw=cx.measureText(kt).width;
+   if(on){cx.fillStyle=S.C.red;cx.fillRect(x+.3*vw,y+.35*vh,kw+.6*vw,1.75*vh)}cx.shadowColor='#000';cx.shadowBlur=on?0:3;cx.fillStyle='#e9ecec';cx.fillText(kt,x+.6*vw,y+.6*vh);
+   cx.shadowBlur=3;cx.textAlign='right';cx.textBaseline='bottom';cx.font=`500 ${1.2*vh}px ${MONO}`;cx.fillText((f.name||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh-1.6*vh);cx.fillText((f.meta||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh);cx.shadowBlur=0}}
+ const go=async k=>{sel=md(k);inp.innerHTML=Array.from({length:Math.min(12,N)},(_,i)=>{const f=F[md(sel+i-1)],s=`INPUT_${String(md(sel+i-1)+1).padStart(2,'0')}  ${(f.id||'').padEnd(5)} ${i===1?'<<':'  '}`;return i===1?`<span class=hi>${s}</span>`:s}).join('\n');
+  const f=F[sel];S.decode(rd.querySelector('b'),(f.name||'').toUpperCase(),14);S.decode(rd.querySelector('span'),f.text||f.meta||'',8);
+  let tgt=k;const p0=pos,t0=performance.now();for(;;){const u=Math.min(1,(performance.now()-t0)/300),e=u<.5?4*u*u*u:1-Math.pow(2-2*u,3)/2;pos=p0+(tgt-p0)*e;draw();if(u>=1)break;await new Promise(r=>requestAnimationFrame(r))}};
+ let cur=o.start||0,timer=null;const step=n=>{cur+=n;go(cur);if(o.auto){clearInterval(timer);timer=setInterval(()=>{cur++;go(cur)},o.auto)}};
+ addEventListener('keydown',e=>{if(e.key=='ArrowDown'){step(1);e.preventDefault()}if(e.key=='ArrowUp'){step(-1);e.preventDefault()}});
+ cv.addEventListener('pointerdown',e=>{for(const[a,b,i]of hits)if(e.clientY>=a&&e.clientY<=b&&e.clientX>innerWidth*.27&&e.clientX<innerWidth*.61){cur=i;step(0)}});
+ addEventListener('resize',draw);step(0);return{go:i=>{cur=i;step(0)},root}};
+
+// 3) MANDATE box (dark map screens): bordered panel with a top line, a red-chip message and a footer.
+// S.mandate({top:['SAMARITAN','v.305'], chip:'AUXILIARY MANDATE:', msg:'LOCATE TARGET', foot:'...'}) -> element
+S.mandate=(o={})=>{S._css('s-md',`.s-md{position:fixed;left:26vw;top:7vh;width:48vw;border:2px solid #cfd3d4;background:rgba(10,11,12,.92);z-index:35;font-family:var(--mono)}
+.s-md .a{display:flex;justify-content:space-between;color:#cfd3d4;font:600 1.5vh/1 var(--mono);letter-spacing:.14em;padding:.6vh .6vw;border-bottom:1px solid #555}
+.s-md .m{padding:1.2vh .6vw 1.4vh;color:#fff;font:600 2.6vh/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}.s-md .m b{background:var(--red);color:#fff;padding:.25vh .4vw;font-weight:600;margin-right:.8vw}
+.s-md .f{display:flex;justify-content:flex-end;color:#7d8587;font:500 1.1vh/1 var(--mono);letter-spacing:.1em;padding:.4vh .6vw;border-top:1px solid #333}`);
+ const e=S.el('div','s-md',`<div class=a>${(o.top||['SAMARITAN','']).map(s=>`<span>${s}</span>`).join('')}</div><div class=m><b>${o.chip||'PRIMARY MANDATE:'}</b><span></span></div><div class=f>${o.foot||''}</div>`);
+ document.body.appendChild(e);S.decode(e.querySelector('.m span'),o.msg||'',24);return e};
+// Dark Leaflet map (Esri dark grey, greyed): S.leafletDark(div,{center,zoom,...leaflet opts}) -> Promise<map>. Chrome loads Leaflet from unpkg.
+S.leafletDark=(box,o={})=>new Promise((res,rej)=>{S._css('s-lf',`.leaflet-container{background:#1d1f22!important;font-family:var(--mono)}.leaflet-tile-pane{filter:grayscale(1) brightness(1.45) contrast(1.1)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}`);
+ const go=()=>{const m=L.map(box,Object.assign({zoomControl:false,attributionControl:true,worldCopyJump:true},o));
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap'}).addTo(m);res(m)};
+ if(window.L)return go();const l=document.createElement('link');l.rel='stylesheet';l.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(l);
+ const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=go;s.onerror=rej;document.head.appendChild(s)});
+</script>
+<style>
+html,body{margin:0;height:100%;overflow:hidden}
+#map{position:fixed;inset:0;z-index:1}
+.s-hdr span,.s-hdr i{white-space:nowrap}
+#scan{position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px)}
+.bx{position:fixed;z-index:20;background:rgba(10,11,13,.9);border:1px solid #3a3f46;color:var(--ink);font-family:var(--mono)}
+.bx .a{display:flex;justify-content:space-between;gap:1vw;padding:.55vh .7vw;border-bottom:1px solid #2a2e35;color:var(--dim);font:600 1.15vh/1.2 var(--mono);letter-spacing:.2em}
+.bx .a b{color:var(--red);font-weight:600}
+#list{left:1.4vw;top:6.2vh;width:19vw}
+#list .it{display:grid;grid-template-columns:2.2vw 1fr 4.6vw;align-items:center;gap:.4vw;padding:.62vh .7vw;font:500 1.32vh/1.25 var(--mono);letter-spacing:.07em;color:#a8adb4;cursor:pointer;border-left:3px solid transparent}
+#list .it .n{color:#5d636b}#list .it .k{font-size:1.05vh;color:#6d737c;letter-spacing:.12em;margin-top:.15vh}
+#list .it .bar{height:.55vh;background:#22262c;position:relative}#list .it .bar i{position:absolute;left:0;top:0;bottom:0;background:#8d939b}
+#list .it.on{background:#1b1f25;color:#fff;border-left-color:var(--red)}#list .it.on .n{color:var(--red)}#list .it.on .bar i{background:var(--red)}
+#list .it:hover{background:#15181d}
+#list .lg{padding:.7vh .7vw;border-top:1px solid #2a2e35;font:500 1.02vh/1.6 var(--mono);color:#6d737c;letter-spacing:.12em}
+#dos{right:1.4vw;top:10vh;width:29vw}
+#dos .t{padding:1.1vh .9vw .4vh;font:700 2.5vh/1.15 var(--mono);letter-spacing:.09em;color:#fff;text-transform:uppercase}
+#dos .t2{padding:0 .9vw 1vh;font:500 1.25vh/1.3 var(--mono);color:var(--dim);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid #2a2e35}
+#dos .st{display:inline-block;margin:1vh .9vw 0;background:var(--red);color:#fff;font:700 1.2vh/1 var(--mono);letter-spacing:.14em;padding:.45vh .5vw}
+#dos .g{display:grid;grid-template-columns:auto 1fr;gap:.55vh .9vw;padding:1.1vh .9vw;font:500 1.3vh/1.35 var(--mono);border-bottom:1px solid #2a2e35}
+#dos .g>span{color:var(--dim);letter-spacing:.16em}#dos .g>div{color:#e6e7ea}
+#dos .kf{display:flex;align-items:baseline;gap:.8vw;padding:1.1vh .9vw;border-bottom:1px solid #2a2e35}
+#dos .kf em{font-style:normal;font:700 4.4vh/1 var(--mono);color:var(--gold);letter-spacing:.02em;white-space:nowrap}#dos .kf>span{font:500 1.22vh/1.35 var(--mono);color:#a8adb4;letter-spacing:.05em}
+#dos ul{margin:0;padding:1vh .9vw .6vh;list-style:none}
+#dos li{position:relative;padding:0 0 .85vh 1.2vw;font:400 1.42vh/1.42 var(--mono);color:#d4d6da}
+#dos li:before{content:'';position:absolute;left:0;top:.55vh;width:.45vw;height:.45vw;max-width:7px;max-height:7px;background:var(--red)}
+#dos li b{color:#fff;font-weight:700;background:linear-gradient(transparent 62%,rgba(229,50,45,.55) 62%)}
+#dos .f{display:flex;justify-content:space-between;gap:1vw;padding:.55vh .9vw;border-top:1px solid #2a2e35;color:#6d737c;font:500 1vh/1.4 var(--mono);letter-spacing:.1em}
+#bot{left:21.6vw;right:31.6vw;bottom:2.2vh;padding:.7vh .9vw;display:flex;align-items:center;gap:1vw;font:600 1.15vh/1 var(--mono);letter-spacing:.2em;color:var(--dim)}
+#bot .pb{flex:1;height:.4vh;background:#22262c;position:relative}#bot .pb i{position:absolute;left:0;top:0;bottom:0;background:var(--red);width:0}
+#bot b{color:#fff;font-weight:600}
+.cm{position:relative;pointer-events:auto;cursor:pointer}
+.cm .sq{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--red);box-shadow:0 0 12px rgba(229,50,45,.8)}
+.cm .rg{position:absolute;left:50%;top:50%;border:1.5px solid var(--red);border-radius:50%;transform:translate(-50%,-50%) scale(.3);opacity:0;animation:pl 2.4s ease-out infinite}
+.cm .rg.d{animation-delay:1.2s}
+@keyframes pl{0%{transform:translate(-50%,-50%) scale(.3);opacity:.95}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.cm .lb{position:absolute;left:14px;top:-9px;white-space:nowrap;background:rgba(10,11,13,.86);border:1px solid #3a3f46;color:#e6e7ea;font:600 11px/1 var(--mono);letter-spacing:.14em;padding:4px 6px}
+.cm .lb.lo{top:8px;left:12px}
+.cm.on .lb{border-color:var(--gold);color:var(--gold)}
+.cm.dim{opacity:.35}
+.st-m{pointer-events:none}
+.st-m .d{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border:1.5px solid var(--gold);background:rgba(255,210,122,.25)}
+.st-m .l{position:absolute;left:10px;top:-8px;white-space:nowrap;color:var(--gold);font:600 11.5px/1 var(--mono);letter-spacing:.14em;text-shadow:0 0 4px #000,0 0 8px #000}
+.st-m .l small{display:block;color:#c9ccd1;font:500 10px/1.3 var(--mono);letter-spacing:.08em;margin-top:3px}
+.rt{pointer-events:none}.rt svg{position:absolute;left:-46px;top:-46px;animation:rt 1.1s ease-out}
+@keyframes rt{0%{transform:scale(2.2);opacity:0}100%{transform:scale(1);opacity:1}}
+</style>
+<body class=dark>
+<div id=map></div><div id=scan></div>
+<div class=bx id=list><div class=a><span>ACTIVE THEATRES</span><b id=cnt></b></div><div id=items></div>
+<div class=lg>BAR = INTENSITY (ANALYST ESTIMATE)<br>CLICK A THEATRE TO JUMP · SPACE PAUSE · O OVERVIEW</div></div>
+<div class=bx id=dos></div>
+<div class=bx id=bot><span id=mode>GLOBAL SURVEY</span><div class=pb><i id=pbi></i></div><span id=nx></span></div>
+<script>
+const UPD='02 NOV 2026';
+const T=[
+{id:'ukr',name:'Russia – Ukraine',sub:'Full-scale invasion, year four',lat:48.4,lon:35.0,lvl:5,since:'24 FEB 2022',parties:'Russia vs Ukraine',status:'ACTIVE · TALKS AT IMPASSE',
+ kf:['3 SQ MI','Russia\'s net territorial gain in the four weeks to 19 Oct (DeepState), down from 37'],
+ b:['The front is <b>nearly static</b>; Ukraine has retaken ground in <b>occupied Donetsk</b>.','Russian missile and drone waves target the <b>power grid</b>: 16–17 Oct strikes cut power to <b>over 1 million</b>.','Ukraine launched <b>1,000+ drones</b> at Russia around 18 Oct, setting the <b>St Petersburg oil terminal</b> ablaze.','A US-announced <b>energy ceasefire</b> (11 Oct) collapsed within days; envoy talks are <b>stalled</b>.'],
+ src:'CNN 20 OCT · AL JAZEERA 17–19 OCT · RUSSIA MATTERS',
+ sites:[['Kyiv',50.45,30.52,'capital · grid strikes'],['Kharkiv',49.99,36.23,''],['Pokrovsk',48.28,37.18,'Donetsk front'],['St Petersburg',59.93,30.34,'oil terminal hit'],['Zaporizhzhia',47.84,35.14,'']]},
+{id:'lbn',name:'Israel – Hezbollah',sub:'Lebanon front, renewed March 2026',lat:33.3,lon:35.5,lvl:2,since:'2 MAR 2026 (RENEWED)',parties:'Israel vs Hezbollah',status:'NOMINAL CEASEFIRE · STRIKES CONTINUE',
+ kf:['1.2M','people displaced in Lebanon since 2024'],
+ b:['Hezbollah <b>resumed attacks on 2 Mar 2026</b>; Israel moved into parts of the south.','An April <b>ceasefire</b> has not stopped <b>Israeli strikes</b>, and Israel keeps the ground it seized.','Hezbollah is <b>rearming</b> but says it wants to avoid giving Israel a pretext.','The <b>Lebanese army</b> is being tested as a buffer; the disarmament plan has stalled.'],
+ src:'NPR 1 OCT · TIMES OF ISRAEL · SECURITY COUNCIL REPORT OCT',
+ sites:[['Beirut',33.89,35.50,'capital'],['Tyre',33.27,35.20,''],['Nabatieh',33.38,35.48,'southern strikes'],['Baalbek',34.01,36.21,'Bekaa valley']]},
+{id:'gza',name:'Gaza',sub:'Israel – Hamas, truce in name only',lat:31.42,lon:34.38,lvl:3,since:'7 OCT 2023 · TRUCE 10 OCT 2025',parties:'Israel vs Hamas',status:'CEASEFIRE IN NAME ONLY',
+ kf:['1,493','killed since the truce began (Gaza Health Ministry, 12 Oct)'],
+ b:['More than <b>100 NGOs</b> say the year-old ceasefire <b>exists in name only</b>.','Israel holds about <b>63–64%</b> of the Strip behind the <b>Yellow Line</b>.','Aid averages <b>~227 trucks a day</b>, under half the agreed 600; reconstruction has not begun.','<b>Hamas disarmament</b> and the international <b>stabilisation force</b> are still unresolved.'],
+ src:'AL JAZEERA 9–13 OCT · HRW 10 OCT · WASHINGTON POST',
+ sites:[['Gaza City',31.52,34.45,''],['Khan Younis',31.35,34.30,''],['Rafah',31.29,34.25,'']]},
+{id:'irn',name:'US / Israel – Iran',sub:'Iran war and the Strait of Hormuz',lat:27.6,lon:54.0,lvl:5,since:'28 FEB 2026',parties:'United States, Israel vs Iran (IRGC)',status:'ACTIVE · INDIRECT TALKS IN QATAR',
+ kf:['DAY 246','of the Hormuz closure: ~2 transits a day against 85 before the war (IMF PortWatch)'],
+ b:['The US and Israel <b>struck Iran on 28 Feb 2026</b>; a <b>US–Iran ceasefire collapsed</b> in July.','The IRGC says <b>tankers hit mines</b> in the strait from 30 Oct to 1 Nov; the US calls earlier mine claims false.','Iran offers a <b>two-day plan to reopen Hormuz</b> through mediators in Qatar.','Brent crude near <b>$110</b>; reports of a possible <b>US campaign after the midterms</b>.'],
+ src:'AL JAZEERA LIVE 1–2 NOV · CBS · STRAITS.LIVE',
+ sites:[['Tehran',35.69,51.39,'capital'],['Strait of Hormuz',26.57,56.25,'mines, tanker fires'],['Bandar Abbas',27.18,56.27,'IRGC navy'],['Doha',25.29,51.53,'mediated talks']]},
+{id:'yem',name:'Houthis – Saudi Arabia',sub:'Yemen war spreads into the kingdom',lat:20.0,lon:46.0,lvl:4,since:'2015 · ESCALATED JUL 2026',parties:'Houthis vs Saudi Arabia, Yemeni government',status:'ESCALATING',
+ kf:['12 KILLED','309 wounded in the 10 Oct missile strike on Riyadh airport, the deadliest on the kingdom in a decade'],
+ b:['Houthi strikes widened after the <b>US–Iran ceasefire collapsed</b> in July.','Missiles and drones hit <b>King Khalid airport, Riyadh</b>, repeatedly in October.','30 Oct: Houthis claim six attacks incl. <b>Ras Tanura</b> and <b>Abqaiq</b> (unverified).','Saudi Arabia launched a <b>major offensive</b> backing Yemeni government forces.'],
+ src:'AL JAZEERA 8–30 OCT · CNN · WASHINGTON POST',
+ sites:[['Sanaa',15.37,44.19,'Houthi capital'],['Marib',15.46,45.32,'front line'],['Riyadh',24.96,46.70,'airport struck'],['Abqaiq',25.94,49.67,'oil plant (claimed)']]},
+{id:'afp',name:'Afghanistan – Pakistan',sub:'Taliban government vs Pakistan',lat:33.6,lon:70.3,lvl:3,since:'FEB 2026',parties:'Pakistan vs Taliban-led Afghanistan',status:'BORDER CLASHES · NO CEASEFIRE',
+ kf:['−95%','fall in bilateral trade in fiscal year 2026 (Pakistan TDAP)'],
+ b:['Open conflict since <b>February 2026</b>; two <b>Eid truces</b> did not hold.','Pakistan declared an <b>emergency in Khyber Pakhtunkhwa</b> in early October.','Clashes at <b>Kurram–Paktia</b> (17 Oct), <b>Paktika</b> and <b>Torkham</b> (27–28 Oct).','Talks in <b>Moscow</b> and China-mediated <b>Urumqi</b> ended without agreement.'],
+ src:'LONG WAR JOURNAL OCT · WASHINGTON POST 17, 27 OCT',
+ sites:[['Kabul',34.53,69.17,''],['Torkham',34.10,71.09,'border crossing'],['Parachinar',33.90,70.10,'Kurram district'],['Islamabad',33.69,73.05,'']]},
+{id:'mmr',name:'Myanmar',sub:'Civil war since the 2021 coup',lat:21.5,lon:96.0,lvl:4,since:'1 FEB 2021',parties:'Junta vs resistance (PDF) and ethnic armies',status:'STALEMATE · AIRSTRIKES RISING',
+ kf:['42%','of territory held by resistance and ethnic armies (est.), against 21% by the junta'],
+ b:['Min Aung Hlaing became <b>president in April 2026</b> after tightly controlled elections.','Junta <b>airstrikes hit a record</b> in September; its offensives in <b>Kachin</b> and <b>Rakhine</b> stalled.','Resistance groups report gains in <b>Sagaing</b> and <b>Magway</b> (partisan, unverified).','University students lost their <b>conscription exemption</b> in late October.'],
+ src:'CFR TRACKER · UN RAPPORTEUR · RESISTANCE NOTES 31 OCT',
+ sites:[['Naypyidaw',19.76,96.08,'junta capital'],['Sagaing',21.88,95.98,''],['Myitkyina',25.38,97.40,'Kachin'],['Sittwe',20.15,92.90,'Rakhine']]},
+{id:'cod',name:'Eastern DR Congo',sub:'M23, now the FRN coalition',lat:-2.2,lon:28.9,lvl:4,since:'2022 (M23 CAMPAIGN)',parties:'FRN (M23, Kabila) vs DRC army, Wazalendo',status:'ACTIVE · DOHA TALKS STALLED',
+ kf:['2 OF 8','Doha protocols signed so far (UN envoy, 13 Oct)'],
+ b:['Former president <b>Joseph Kabila joined M23</b> (12–14 Oct) in a rebranded coalition, the <b>FRN</b>.','Two weeks of clashes in the <b>Walungu highlands</b>, spreading toward <b>Uvira</b>.','Army <b>drone strike in Rutshuru</b> on 12 Oct, then Wazalendo ambushes nearby.','UN envoy: the security and humanitarian situation <b>keeps worsening</b>.'],
+ src:'CRITICAL THREATS 21 OCT · AL JAZEERA 14 OCT',
+ sites:[['Goma',-1.68,29.22,'M23-held'],['Bukavu',-2.51,28.86,'M23-held'],['Walungu',-2.63,28.67,'highland clashes'],['Uvira',-3.40,29.14,''],['Rutshuru',-1.18,29.45,'drone strike']]},
+{id:'sdn',name:'Sudan',sub:'Army (SAF) vs Rapid Support Forces',lat:13.8,lon:29.5,lvl:5,since:'15 APR 2023',parties:'SAF vs RSF (with SPLM-N)',status:'ACTIVE · FIGHTING SPREADS',
+ kf:['10M+','people displaced, the largest displacement crisis in the world'],
+ b:['<b>El Fasher fell to the RSF</b> in Oct 2025; UN investigators found <b>hallmarks of genocide</b>.','The UN warns the same pattern is emerging around <b>El Obeid</b>.','RSF and SPLM-N took <b>Kurmuk</b> in Blue Nile; <b>Chad closed its border</b>.','HRW, one year on (26 Oct): <b>no accountability</b> for El Fasher.'],
+ src:'HRW 26 OCT · OHCHR · AMNESTY JUL 2026',
+ sites:[['El Fasher',13.63,25.35,'RSF-held'],['El Obeid',13.18,30.22,'under threat'],['Khartoum',15.50,32.56,''],['Kurmuk',10.55,34.28,'taken by RSF/SPLM-N']]},
+{id:'mli',name:'Mali / Sahel',sub:'JNIM insurgency against the junta',lat:14.0,lon:-5.0,lvl:4,since:'2012 · BLOCKADE SEP 2025',parties:'JNIM (al-Qaeda) vs Malian junta, Africa Corps',status:'BAMAKO UNDER BLOCKADE',
+ kf:['300+','fuel tankers destroyed since the blockade began'],
+ b:['JNIM declared a <b>full blockade of Bamako</b> on 28 Apr 2026.','Its April offensive hit <b>Bamako, Kati, Sévaré and Mopti</b>; the defence minister was killed.','Fuel reaches the capital only in <b>armed convoys</b>.','The army retook <b>Kidal</b> after the FLA withdrew in early October.'],
+ src:'WIKIPEDIA 2026 OFFENSIVES · OPS CON JUL · LAST DATA EARLY OCT',
+ sites:[['Bamako',12.64,-8.00,'capital, blockaded'],['Kati',12.74,-8.07,''],['Mopti',14.49,-4.20,''],['Kidal',18.44,1.41,'retaken by army']]},
+{id:'hti',name:'Haiti',sub:'Gangs vs the Gang Suppression Force',lat:18.56,lon:-72.3,lvl:3,since:'2021 (GANG WAR)',parties:'Viv Ansanm gangs vs police, UN-backed GSF',status:'ACTIVE · FORCE UNDER ATTACK',
+ kf:['70–90%','of Port-au-Prince controlled by gangs (estimates vary)'],
+ b:['The UN-backed <b>Gang Suppression Force</b> (1,500–2,000 troops) was renewed for <b>six months</b>.','Raids in <b>Tabarre</b> and <b>Cité Soleil</b> on 5–6 Oct removed barricades.','19 Oct ambush: <b>four Salvadoran soldiers missing</b>; El Salvador sent reinforcements.','December <b>elections postponed</b> indefinitely.'],
+ src:'CNN 19, 29 OCT · AL JAZEERA 29 SEP · UN NEWS',
+ sites:[['Port-au-Prince',18.54,-72.34,'capital'],['Cité Soleil',18.58,-72.33,'GSF raids'],['Tabarre',18.58,-72.27,'GSF raids'],['Croix-des-Bouquets',18.58,-72.22,'']]}
+];
+const DWELL=15000,OVER=8000,FLY=2.8;
+S.header(["CONFLICT MONITOR","V.11.02","UPDATED "+UPD],{status:'GLOBAL SURVEY'});
+const st=document.querySelector('.s-hdr i');
+document.getElementById('cnt').textContent=String(T.length).padStart(2,'0');
+const items=document.getElementById('items');
+T.forEach((t,i)=>{const d=S.el('div','it',`<span class=n>${String(i+1).padStart(2,'0')}</span><div>${t.name.toUpperCase()}<div class=k>${t.since.split(' · ')[0]}</div></div><div class=bar><i style="width:${t.lvl*20}%"></i></div>`);d.onclick=()=>go(i,true);items.appendChild(d)});
+const dos=document.getElementById('dos');
+function overviewBox(){dos.innerHTML=`<div class=a><span>SAMARITAN // GLOBAL ASSESSMENT</span><b>▲ ${T.length} ACTIVE</b></div>
+<div class=t>Major active conflicts</div><div class=t2>Wars with fighting in the last 30 days</div>
+<div class=kf><em>${T.filter(t=>t.lvl>=4).length}</em><span>theatres at high intensity: Ukraine, Iran and Hormuz, Sudan, Yemen–Saudi, Myanmar, eastern Congo, Mali</span></div>
+<ul><li>The <b>Iran war</b> dominates: Hormuz has been <b>effectively shut</b> since spring and talks run through Qatar.</li>
+<li>The <b>Russia–Ukraine</b> front is nearly frozen while both sides strike <b>energy targets</b>.</li>
+<li><b>Sudan</b> remains the largest humanitarian crisis: over <b>10 million displaced</b>.</li>
+<li>Smaller lists exist: UCDP counts <b>50–60 armed conflicts</b> in a typical year.</li></ul>
+<div class=f><span>SURVEY BEGINS SHORTLY</span><span>UPDATED ${UPD}</span></div>`;S.roll(dos)}
+function theatreBox(t,i){dos.innerHTML=`<div class=a><span>THEATRE ${String(i+1).padStart(2,'0')}/${T.length}</span><b>▲ ${t.lat.toFixed(1)}°, ${t.lon.toFixed(1)}°</b></div>
+<div class=t>${t.name}</div><div class=t2>${t.sub}</div><span class=st>${t.status}</span>
+<div class=g><span>SINCE</span><div>${t.since}</div><span>PARTIES</span><div>${t.parties}</div></div>
+<div class=kf><em>${t.kf[0]}</em><span>${t.kf[1]}</span></div>
+<ul>${t.b.map(x=>`<li>${x}</li>`).join('')}</ul>
+<div class=f><span>SRC: ${t.src}</span><span>${UPD}</span></div>`;S.roll(dos)}
+let map=null,marks=[],siteLayer=null,cur=-1,timer=0,t0=0,dur=OVER,paused=false;
+const items_=()=>[...items.children];
+function setOn(i){items_().forEach((e,k)=>e.classList.toggle('on',k===i));marks.forEach((m,k)=>{const e=m.getElement();if(e){e.firstChild.classList.toggle('on',k===i);e.firstChild.classList.toggle('dim',i>=0&&k!==i)}})}
+function pad(){return{tl:[innerWidth*.215+30,innerHeight*.1],br:[innerWidth*.315+30,innerHeight*.1]}}
+function overviewBounds(){return L.latLngBounds(T.map(t=>[t.lat,t.lon]))}
+function go(i,manual){clearTimeout(timer);cur=i;setOn(i);
+ if(i<0){overviewBox();st.textContent='▲ GLOBAL SURVEY';document.getElementById('mode').textContent='GLOBAL SURVEY';dur=OVER;
+  if(map){if(siteLayer){map.removeLayer(siteLayer);siteLayer=null}const p=pad();map.flyToBounds(overviewBounds(),{paddingTopLeft:p.tl,paddingBottomRight:p.br,duration:FLY})}}
+ else{const t=T[i];theatreBox(t,i);st.textContent="▲ TRACKING THEATRE "+String(i+1).padStart(2,"0");document.getElementById('mode').innerHTML='THEATRE <b>'+String(i+1).padStart(2,'0')+'</b> · '+t.name.toUpperCase();dur=DWELL;
+  if(map){if(siteLayer){map.removeLayer(siteLayer);siteLayer=null}const b=L.latLngBounds(t.sites.map(s=>[s[1],s[2]]));const p=pad();
+   map.flyToBounds(b,{paddingTopLeft:[p.tl[0]+60,p.tl[1]+60],paddingBottomRight:[p.br[0]+90,p.br[1]+60],duration:FLY,maxZoom:10});
+   map.once('moveend',()=>{if(cur!==i)return;siteLayer=L.layerGroup().addTo(map);
+    L.marker([t.lat,t.lon],{icon:L.divIcon({className:'rt',html:'<svg width=92 height=92 viewBox="0 0 92 92" fill=none stroke="#ffd27a" stroke-width=1.5><path d="M2 20V2h18M72 2h18v18M90 72v18H72M20 90H2V72"/><path d="M46 30v10M46 52v10M30 46h10M52 46h10" stroke="#e5322d"/></svg>',iconSize:[0,0]}),interactive:false}).addTo(siteLayer);
+    t.sites.forEach((s,k)=>setTimeout(()=>{if(cur!==i||!siteLayer)return;const m=L.marker([s[1],s[2]],{icon:L.divIcon({className:'st-m',html:`<i class=d></i><div class=l>${s[0].toUpperCase()}${s[3]?`<small>${s[3]}</small>`:''}</div>`,iconSize:[0,0]}),interactive:false}).addTo(siteLayer);
+     const l=m.getElement().querySelector('.l');S.roll(l)},250+k*260))})}}
+ t0=performance.now();if(!paused)timer=setTimeout(next,dur+(map?FLY*1000:0))}
+function next(){go(cur+1>=T.length?-1:cur+1)}
+(function bar(){const pb=document.getElementById('pbi'),nx=document.getElementById('nx');const total=dur+(map?FLY*1000:0);const f=paused?0:Math.min(1,(performance.now()-t0)/total);pb.style.width=(f*100)+'%';
+ const n=cur+1>=T.length?'OVERVIEW':T[cur+1].name.toUpperCase();nx.innerHTML=paused?'<b>PAUSED</b>':'NEXT: '+n+' · '+Math.max(0,Math.ceil(total*(1-f)/1000))+'S';requestAnimationFrame(bar)})();
+addEventListener('keydown',e=>{if(e.key===' '){paused=!paused;if(paused)clearTimeout(timer);else{t0=performance.now();timer=setTimeout(next,dur)}e.preventDefault()}else if(e.key==='o'||e.key==='O')go(-1,true)});
+S.leafletDark(document.getElementById('map'),{center:[22,25],zoom:2.4,zoomSnap:.1,minZoom:2}).then(m=>{map=m;
+ T.forEach((t,i)=>{const s=6+t.lvl*2.2,r=26+t.lvl*12;const mk=L.marker([t.lat,t.lon],{icon:L.divIcon({className:'',html:`<div class=cm><i class=rg style="width:${r}px;height:${r}px"></i><i class="rg d" style="width:${r}px;height:${r}px"></i><i class=sq style="width:${s}px;height:${s}px"></i><span class="lb${t.id==='gza'?' lo':''}">${String(i+1).padStart(2,'0')} ${t.name.toUpperCase()}</span></div>`,iconSize:[0,0]})}).addTo(map);
+  mk.on('click',()=>go(i,true));marks.push(mk)});
+ const p=pad();map.fitBounds(overviewBounds(),{paddingTopLeft:p.tl,paddingBottomRight:p.br});go(-1)}).catch(()=>go(-1));
+</script>
+</body>

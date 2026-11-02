@@ -1,0 +1,163 @@
+<!doctype html><meta charset=utf-8><title>NYC</title>
+<link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--red:#e5322d;--fr:#d9dcdf8f;--mono:"SF Mono",ui-monospace,Menlo,monospace}
+html,body{margin:0;height:100%;background:#0a0b0d;overflow:hidden;font-family:var(--mono)}
+#map{position:absolute;inset:0;background:#0a0b0d}
+.leaflet-tile-pane{filter:grayscale(1) brightness(1.5) contrast(1.1)}body.osm .leaflet-tile-pane{filter:grayscale(1) invert(1) brightness(.85) contrast(1.15)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}
+#hdr{position:absolute;z-index:1000;left:2vw;top:2.2vh;width:min(760px,44vw);border:1px solid #e6e7eacc;background:#0a0b0de8;color:#e6e7ea}
+#hdr .t{display:flex;gap:1.2em;padding:.35em .8em;font:500 12px var(--mono);letter-spacing:.22em;border-bottom:1px solid #ffffff2a;color:#8d939b}
+#hdr .t b{color:#fff}#hdr .m{padding:.7em .8em .8em}
+#hdr .lab{display:inline-block;background:var(--red);color:#fff;font:700 24px var(--mono);letter-spacing:.08em;padding:.12em .45em}
+#hdr .cur{animation:bl 1s steps(1) infinite;color:#fff;font:700 24px var(--mono)}@keyframes bl{50%{opacity:0}}
+#hdr .s{margin-top:.55em;font:12px var(--mono);letter-spacing:.18em;color:#8d939b}
+.bor{font:600 13px var(--mono);color:#fff;white-space:nowrap}
+.bor .n{display:inline-block;background:#0a0b0dee;border:1px solid #e6e7eacc;padding:3px 9px;letter-spacing:.2em}
+.bor .n.big{font-size:22px;padding:4px 12px}
+.bor .o{font-size:10px;color:#8d939b;letter-spacing:.2em;margin-left:6px}
+.bor .d{margin-top:4px;background:#0a0b0dd9;border-left:2px solid var(--red);padding:3px 8px;font:500 10.5px/1.55 var(--mono);color:#c9ccd1;letter-spacing:.08em}
+.lm{font:600 10.5px var(--mono);color:#e6e7ea;letter-spacing:.16em;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.lm i{width:9px;height:9px;border:1px solid var(--red);display:inline-block;flex:none}
+.lm span{background:#0a0b0dcc;padding:1px 5px}
+.nb{font:500 10px var(--mono);color:#9aa0a8;letter-spacing:.22em;white-space:nowrap;text-shadow:0 0 3px #000,0 0 3px #000}
+#ro{position:absolute;z-index:1000;right:2vw;bottom:3vh;border:1px solid #e6e7ea99;background:#0a0b0de0;color:#c9ccd1;font:11px/1.6 var(--mono);letter-spacing:.16em;padding:.5em .9em;min-width:17em}
+#ro b{color:var(--red)}
+.bz{position:absolute;z-index:999;top:10vh;bottom:10vh;width:12px;border:1px solid #ffffff40;pointer-events:none}.bz.l{left:8px;border-right:0;border-radius:14px 0 0 14px}.bz.r{right:8px;border-left:0;border-radius:0 14px 14px 0}
+
+#ret{position:absolute;z-index:998;left:50%;top:50%;width:150px;height:150px;transform:translate(-50%,-50%);pointer-events:none;transition:width .5s,height .5s,opacity .4s}
+#ret.lock{width:96px;height:96px}#ret.snap{transition:none;width:124px;height:124px}#ret.snap i{border-color:#fff}#ret i{position:absolute;width:22px;height:22px;border:0 solid #fff}
+#ret .a{left:0;top:0;border-width:2px 0 0 2px}#ret .b{right:0;top:0;border-width:2px 2px 0 0}#ret .c{left:0;bottom:0;border-width:0 0 2px 2px}#ret .d{right:0;bottom:0;border-width:0 2px 2px 0}
+#ret.lock i{border-color:var(--red)}#ret .h,#ret .v{position:absolute;background:#ffffff70}#ret .h{left:-40px;right:-40px;top:50%;height:1px}#ret .v{top:-40px;bottom:-40px;left:50%;width:1px}
+#ret .tri{position:absolute;left:50%;top:calc(100% + 14px);margin-left:-9px;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:14px solid var(--red);opacity:0;transition:opacity .3s}
+#ret.lock .tri{opacity:1}
+#card{position:absolute;z-index:1000;left:calc(50% + 110px);top:calc(50% - 70px);width:min(460px,30vw);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;pointer-events:none}
+#card.on{opacity:1;transform:none}
+#card .st{font:600 11px var(--mono);letter-spacing:.26em;color:#fff;background:#0a0b0dee;border:1px solid #e6e7eacc;border-bottom:0;padding:4px 10px;display:flex;gap:1em}
+#card .st b{color:var(--red)}#card .nm{background:var(--red);color:#fff;font:700 22px/1.35 var(--mono);letter-spacing:.06em;padding:4px 12px;min-height:1.35em}
+#card .bd{background:#000000e8;border:1px solid #e6e7ea66;border-top:0;padding:10px 12px;font:12.5px/1.65 var(--mono);color:#d7dadf;letter-spacing:.05em}
+#card .bd div{opacity:0;transition:opacity .3s}#card .bd div.on{opacity:1}#card .bd span{color:#8d939b}
+#tick{position:absolute;z-index:1000;left:2vw;bottom:3vh;border:1px solid #e6e7ea99;background:#0a0b0de0;color:#c9ccd1;font:11px/1.6 var(--mono);letter-spacing:.2em;padding:.5em .9em}
+#tick b{color:var(--red)}#bar{height:2px;background:#ffffff22;margin-top:6px}#bar i{display:block;height:100%;width:0;background:var(--red);transition:width .6s}
+</style>
+<div id=map></div><div class="bz l"></div><div class="bz r"></div>
+<div id=hdr><div class=t><b>SAMARITAN</b><span id=ver></span><span style="color:var(--red)">&#9650;</span><span>GEO // AERIAL SURVEY</span></div>
+<div class=m><span class=lab id=ttl>MANHATTAN</span><span class=cur>_</span>
+<div class=s>NEW YORK COUNTY &nbsp;·&nbsp; 40.78°N 73.97°W &nbsp;·&nbsp; 5 BOROUGHS ONLINE</div></div></div>
+<div id=ret><i class=a></i><i class=b></i><i class=c></i><i class=d></i><div class=h></div><div class=v></div><div class=tri></div></div>
+<div id=card><div class=st><b>&#9650;</b><span id=cst>TRACKING</span><span style="flex:1"></span><span id=cn></span></div><div class=nm id=cnm></div><div class=bd id=cbd></div></div>
+<div id=tick>STOP <span id=ts>--</span> <b>&#9650;</b> NEXT: <span id=tn>--</span><div id=bar><i id=bi></i></div><div style="color:#6d737c;margin-top:4px">SPACE PAUSE &nbsp;·&nbsp; N NEXT &nbsp;·&nbsp; CLICK MAP TO STOP</div></div>
+<div id=ro>CURSOR <b>&#9650;</b> <span id=ll>--</span><br>ZOOM <span id=z></span> &nbsp; <span id=clk></span></div>
+<div id=off style="display:none;position:absolute;z-index:1001;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #e5322d;background:#000;color:#fff;font:600 16px var(--mono);letter-spacing:.2em;padding:1em 1.4em">&#9650; MAP LIBRARY OFFLINE<div style="font:12px var(--mono);color:#8d939b;margin-top:.6em;letter-spacing:.12em">unpkg.com (Leaflet) did not load in this browser</div></div>
+<script>
+if(!window.L){document.getElementById('off').style.display='block';throw new Error('no leaflet')}
+const map=L.map('map',{zoomControl:false,attributionControl:true,zoomSnap:0.25});
+// Tiles without an API key (CARTO started asking for one, 2026-11-01): Esri's dark grey canvas; if its tiles fail,
+// OpenStreetMap's standard tiles, turned grey and inverted to dark.
+const EURL='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+// Anti-glitch (user, 2026-11-01: the map glitched when zooming out): a coarse backdrop (zoom-11 tiles stretched, only a
+// handful, always loaded) under the real layer, so missing tiles show blurred map instead of black; the real layer keeps
+// more tiles around (keepBuffer) and does not fade tiles in.
+L.tileLayer(EURL,{maxZoom:16,maxNativeZoom:11,minZoom:0,attribution:''}).addTo(map);
+const esri=L.tileLayer(EURL,{maxZoom:16,keepBuffer:8,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'}).addTo(map);
+// Preload zoom 13 and 14 over the whole route area into the browser cache (about 400 small tiles, 6 at a time).
+const PRE=[];(()=>{const t=(la,lo,z)=>{const n=2**z,r=la*Math.PI/180;return [Math.floor((lo+180)/360*n),Math.floor((1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n)]};
+ for(const z of [13,14]){const [x0,y0]=t(40.89,-74.06,z),[x1,y1]=t(40.68,-73.90,z);
+  for(let x=x0-4;x<=x1+4;x++)for(let y=y0-3;y<=y1+3;y++)PRE.push(EURL.replace('{z}',z).replace('{y}',y).replace('{x}',x))}})();
+const preN=PRE.length;let preDone=0;
+function worker(){const u=PRE.shift();if(!u)return;const im=new Image();im.onload=im.onerror=()=>{preDone++;worker()};im.src=u}
+for(let k=0;k<6;k++)worker();
+let bad=0,ok=0;esri.on('tileload',()=>ok++);esri.on('tileerror',()=>{if(++bad>=4&&ok<2){map.removeLayer(esri);
+ document.body.classList.add('osm');L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
+ attribution:'&copy; OpenStreetMap contributors'}).addTo(map)}});
+map.fitBounds([[40.700,-74.025],[40.880,-73.905]],{paddingTopLeft:[0,40]});
+// 2020 census population; land area
+const B=[['MANHATTAN','NEW YORK',1694251,59.1,40.7831,-73.9712,true],['BROOKLYN','KINGS',2736074,180.0,40.6500,-73.9496],
+ ['QUEENS','QUEENS',2405464,281.1,40.7282,-73.7949],['THE BRONX','BRONX',1472654,109.0,40.8448,-73.8648],['STATEN ISLAND','RICHMOND',495747,151.2,40.5795,-74.1502]];
+const fmt=n=>n.toLocaleString('en-US');
+for(const [n,c,p,a,la,lo,big] of B){const pos=big?[40.765,-73.935]:[la,lo];
+ L.marker(pos,{interactive:false,icon:L.divIcon({className:'',iconAnchor:[0,0],html:
+  `<div class=bor><span class="n${big?' big':''}">${n}</span><span class=o>[ONLINE]</span><div class=d>COUNTY: ${c}<br>LAND AREA: ${a} KM²<br>POPULATION: ${fmt(p)}<br>DENSITY: ${fmt(Math.round(p/a))}/KM²</div></div>`})}).addTo(map)}
+const LM=[['ONE WORLD TRADE CENTER',40.7127,-74.0134],['EMPIRE STATE BUILDING',40.7484,-73.9857],['TIMES SQUARE',40.7580,-73.9855],
+ ['CENTRAL PARK',40.7829,-73.9654],['GRAND CENTRAL',40.7527,-73.9772],['WASHINGTON SQ PARK',40.7308,-73.9973],['BROOKLYN BRIDGE',40.7061,-73.9969],
+ ['UN HEADQUARTERS',40.7489,-73.9680],['COLUMBIA UNIV',40.8075,-73.9626]];
+for(const [n,la,lo] of LM)L.marker([la,lo],{interactive:false,icon:L.divIcon({className:'',iconAnchor:[5,5],html:`<div class=lm><i></i><span>${n}</span></div>`})}).addTo(map);
+const NB=[['FINANCIAL DISTRICT',40.7075,-74.0110],['TRIBECA',40.7163,-74.0086],['SOHO',40.7233,-74.0030],['LOWER EAST SIDE',40.7150,-73.9843],
+ ['GREENWICH VILLAGE',40.7336,-74.0027],['EAST VILLAGE',40.7265,-73.9815],['CHELSEA',40.7465,-74.0014],['MIDTOWN',40.7549,-73.9840],
+ ['HELL’S KITCHEN',40.7638,-73.9918],['UPPER WEST SIDE',40.7870,-73.9754],['UPPER EAST SIDE',40.7736,-73.9566],['HARLEM',40.8116,-73.9465],
+ ['WASHINGTON HEIGHTS',40.8417,-73.9394],['INWOOD',40.8677,-73.9212],['EAST HARLEM',40.7957,-73.9389]];
+for(const [n,la,lo] of NB)L.marker([la,lo],{interactive:false,icon:L.divIcon({className:'',iconAnchor:[0,6],html:`<div class=nb>${n}</div>`})}).addTo(map);
+const ll=document.getElementById('ll'),z=document.getElementById('z');
+map.on('mousemove',e=>ll.textContent=e.latlng.lat.toFixed(4)+'N '+(-e.latlng.lng).toFixed(4)+'W');
+const zz=()=>z.textContent=map.getZoom().toFixed(2);map.on('zoomend',zz);zz();
+const t=new Date();document.getElementById('ver').textContent='v.'+Math.floor((t-new Date(t.getFullYear(),0,0))/864e5)+'.'+t.toTimeString().slice(0,8).replace(/:/g,'.');
+
+// ---- motion, Samaritan-like (user, 2026-11-01: "straight, sharp lines, zooming quickly in and out"): hard zoom steps
+// (Leaflet's 0.25 s zoom), a straight constant-speed pan (easeLinearity 1) with the route drawn behind the crosshair,
+// then a stepped zoom in with the crosshair snapping at each step. No curved fly paths.
+const tilesIn=ms=>new Promise(r=>{const t=setTimeout(r,ms);esri.once('load',()=>{clearTimeout(t);r()})});
+const zoomTo=z=>new Promise(r=>{if(Math.abs(map.getZoom()-z)<.01)return r();map.once('zoomend',()=>tilesIn(400).then(r));map.setZoom(z,{animate:true})});
+const panLin=(ll,d)=>new Promise(r=>{map.once('moveend',r);map.panTo(ll,{animate:true,duration:d,easeLinearity:1})});
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+async function snap(){ret.classList.add('snap');await pause(70);ret.classList.remove('snap')}
+let leg=null,prev=null;
+async function move(la,lo){
+ $('cst').textContent='TRACKING';
+ for(const z of [14,13]){if(map.getZoom()>z+.01){await zoomTo(z);await pause(90)}}
+ const c0=map.latLngToContainerPoint(map.getCenter()),c1=map.latLngToContainerPoint([la,lo]),px=c0.distanceTo(c1);
+ if(prev){leg=L.polyline([prev,prev],{color:'#e5322d',weight:2,opacity:.85}).addTo(map);
+  map.on('move',drawLeg)}
+ await panLin([la,lo],Math.min(1.3,Math.max(.35,px/520)));
+ map.off('move',drawLeg);if(leg){map.removeLayer(leg);leg=null}
+ $('cst').textContent='ACQUIRING';await pause(160);
+ for(const z of [14,15,15.5]){await zoomTo(z);snap();await pause(110)}
+ prev=[la,lo]}
+function drawLeg(){if(leg)leg.setLatLngs([prev,map.getCenter()])}
+// ---- guided flight (2026-11-01). Facts: height to tip / dates as commonly cited.
+const STOPS=[
+ ['STATUE OF LIBERTY',40.6892,-74.0445,['DEDICATED: 1886','HEIGHT: 93 M, GROUND TO TORCH','GIFT FROM: FRANCE','DESIGN: BARTHOLDI / EIFFEL (FRAME)']],
+ ['ONE WORLD TRADE CENTER',40.7127,-74.0134,['OPENED: 2014','HEIGHT: 541 M (1,776 FT)','STATUS: TALLEST IN THE WESTERN HEMISPHERE','SITE: FORMER WORLD TRADE CENTER']],
+ ['BROOKLYN BRIDGE',40.7061,-73.9969,['OPENED: 1883','MAIN SPAN: 486 M','TYPE: HYBRID CABLE-STAYED / SUSPENSION','ENGINEERS: J. A. ROEBLING, W. ROEBLING, E. W. ROEBLING']],
+ ['WASHINGTON SQUARE PARK',40.7308,-73.9973,['ARCH COMPLETED: 1892','ARCHITECT: STANFORD WHITE','DISTRICT: GREENWICH VILLAGE','NEIGHBOUR: NEW YORK UNIVERSITY']],
+ ['EMPIRE STATE BUILDING',40.7484,-73.9857,['OPENED: 1931','HEIGHT: 443 M TO TIP','FLOORS: 102','BUILD TIME: ABOUT 13 MONTHS']],
+ ['GRAND CENTRAL TERMINAL',40.7527,-73.9772,['OPENED: 1913','PLATFORMS: 44, MORE THAN ANY STATION','STYLE: BEAUX-ARTS','CEILING: CONSTELLATION MURAL']],
+ ['TIMES SQUARE',40.7580,-73.9855,['NAMED: 1904, AFTER THE NEW YORK TIMES','EVENT: NEW YEAR’S EVE BALL DROP','DISTRICT: THEATER DISTRICT']],
+ ['CENTRAL PARK',40.7829,-73.9654,['OPENED: 1858 (FIRST SECTIONS)','AREA: 3.4 KM² (843 ACRES)','DESIGN: OLMSTED AND VAUX','LENGTH: 4 KM, 59TH TO 110TH ST']],
+ ['APOLLO THEATER',40.8100,-73.9500,['OPENED: 1914 (APOLLO SINCE 1934)','DISTRICT: HARLEM','KNOWN FOR: AMATEUR NIGHT']],
+ ['THE MET CLOISTERS',40.8649,-73.9319,['OPENED: 1938','SITE: FORT TRYON PARK','COLLECTION: MEDIEVAL EUROPEAN ART','PART OF: THE METROPOLITAN MUSEUM OF ART']]];
+const GL2='ИЯƎƆƧΣΞЖ#%&';
+function dec(el,txt,ms){const t0=performance.now();(function f(now){const k=Math.min(txt.length,Math.floor((now-t0)/ms));
+ el.textContent=txt.slice(0,k)+(k<txt.length?(txt[k]===' '?' ':GL2[Math.random()*GL2.length|0]):'');if(k<txt.length)requestAnimationFrame(f)})(t0)}
+const $=id=>document.getElementById(id),ret=$('ret'),card=$('card');
+const route=L.polyline([],{color:'#e5322d',weight:2,opacity:.85}).addTo(map);
+let i=-1,paused=false,stopped=false,skip=false,timer=null;
+const sleep=ms=>new Promise(r=>timer=setTimeout(r,ms));
+async function waitRun(ms){const end=Date.now()+ms;while((Date.now()<end&&!skip)||paused){if(stopped)throw 0;await sleep(100)}}
+async function go(k){
+ const [n,la,lo,facts]=STOPS[k];skip=false;
+ ret.classList.remove('lock');card.classList.remove('on');$('cst').textContent='TRACKING';
+ $('ts').textContent=String(k+1).padStart(2,'0')+'/'+STOPS.length;$('tn').textContent=k+1<STOPS.length?STOPS[k+1][0]:'OVERVIEW';
+ $('bi').style.width=((k+1)/STOPS.length*100)+'%';
+ await move(la,lo);route.addLatLng([la,lo]);
+ ret.classList.add('lock');$('cst').textContent='TARGET ACQUIRED';$('cn').textContent=la.toFixed(4)+'N '+(-lo).toFixed(4)+'W';
+ $('cnm').textContent='';$('cbd').innerHTML=facts.map(f=>{const j=f.indexOf(':');return `<div><span>${f.slice(0,j+1)}</span>${f.slice(j+1)}</div>`}).join('');
+ card.classList.add('on');dec($('cnm'),n,28);$('ttl').textContent='';dec($('ttl'),n,22);
+ const rows=[...$('cbd').children];for(let r=0;r<rows.length;r++){await waitRun(350);rows[r].classList.add('on')}
+ $('cst').textContent='ANALYSIS COMPLETE';await waitRun(4200)}
+async function tour(){try{
+ await waitRun(1500);
+ for(i=0;i<STOPS.length;i++)await go(i);
+ card.classList.remove('on');ret.classList.remove('lock');ret.style.opacity=0;
+ for(const z of [14,13]){await zoomTo(z);await pause(90)}
+ const ob=L.latLngBounds([[40.685,-74.05],[40.88,-73.905]]);await panLin(ob.getCenter(),.6);await zoomTo(map.getBoundsZoom(ob));$('ttl').textContent='';dec($('ttl'),'SURVEY COMPLETE',30);
+ $('ts').textContent='DONE';$('tn').textContent='CLICK TITLE TO REPLAY';
+}catch(e){}}
+addEventListener('keydown',e=>{if(e.key===' '){paused=!paused;$('cst').textContent=paused?'PAUSED':'RESUMED';e.preventDefault()}
+ if(e.key==='n'||e.key==='N')skip=true});
+map.on('mousedown',()=>{if(!stopped){stopped=true;card.classList.remove('on');ret.style.opacity=0;$('ts').textContent='MANUAL';$('tn').textContent='CLICK TITLE TO REPLAY'}});
+$('hdr').style.pointerEvents='auto';$('hdr').style.cursor='pointer';
+$('hdr').onclick=()=>{stopped=false;paused=false;ret.style.opacity=1;route.setLatLngs([]);prev=null;tour()};
+tour();
+setInterval(()=>document.getElementById('clk').textContent=new Date().toTimeString().slice(0,8),1000);
+</script>
