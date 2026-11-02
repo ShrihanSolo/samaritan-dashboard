@@ -1,0 +1,114 @@
+<!doctype html><meta charset=utf-8><title>Sky watch</title>
+<link rel=stylesheet href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--red:#e5322d;--mono:"SF Mono",ui-monospace,Menlo,monospace}
+html,body{margin:0;height:100%;background:#0a0b0d;overflow:hidden;font-family:var(--mono)}
+#map{position:absolute;inset:0;background:#2a2b2d}
+.leaflet-tile-pane{filter:grayscale(1) brightness(1.5) contrast(1.1)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}
+.box{position:absolute;z-index:1000;border:1px solid #e6e7eacc;background:#0a0b0de8;color:#e6e7ea}
+.box .t{display:flex;gap:1.1em;padding:.35em .8em;font:500 12px var(--mono);letter-spacing:.22em;border-bottom:1px solid #ffffff2a;color:#8d939b;white-space:nowrap}
+.box .t b{color:#fff}.box .t .r{color:var(--red)}
+.lab{display:inline-block;background:var(--red);color:#fff;font:700 21px/1.4 var(--mono);letter-spacing:.07em;padding:.08em .45em}
+#hdr{left:2vw;top:2.2vh;width:min(620px,33vw)}#hdr .m{padding:.6em .8em .7em}#hdr .s{margin-top:.5em;font:11.5px/1.6 var(--mono);letter-spacing:.15em;color:#8d939b}
+#utc{right:2vw;top:2.2vh;padding:.5em .9em;font:700 26px var(--mono);letter-spacing:.08em;color:#fff}#utc span+span{font:600 11px var(--mono);color:#8d939b;letter-spacing:.2em;margin-left:.6em}
+#list{left:2vw;bottom:3vh;width:min(470px,25vw)}
+.row{display:grid;grid-template-columns:8.6em 1fr 4.2em;gap:.6em;padding:3px .8em;font:11px/1.5 var(--mono);letter-spacing:.08em;color:#c9ccd1;white-space:nowrap}
+.row .n{overflow:hidden;text-overflow:ellipsis}.row .a{text-align:right;color:#8d939b}.row.f{background:#e5322d26;color:#fff}
+.chip{font:700 9.5px/1.9 var(--mono);letter-spacing:.14em;text-align:center}
+.c-dark{background:#e6e7ea;color:#000}.c-moon{background:#8d939b;color:#000}.c-twi{border:1px solid #e6e7ea;color:#e6e7ea;line-height:1.7}.c-day{color:#6d737c;border:1px solid #444;line-height:1.7}.c-on{background:var(--red);color:#fff}
+#card{left:61.5vw;bottom:3vh;width:min(420px,22vw)}#card .nm{background:var(--red);color:#fff;font:700 17px/1.35 var(--mono);letter-spacing:.06em;padding:4px 10px}
+#card .bd{padding:8px 10px;font:11.5px/1.65 var(--mono);color:#d7dadf;letter-spacing:.05em}#card .bd span{color:#8d939b}#card .fx{margin-top:6px;color:#fff}
+.mk{width:10px;height:10px;border:2px solid #fff;background:#0a0b0d;box-sizing:border-box;transform:translate(-5px,-5px)}.mk.gw{transform:translate(-5px,-5px) rotate(45deg)}
+.mk.dark{background:#fff}.mk.f{border-color:var(--red);outline:2px solid #e5322d88;outline-offset:3px}
+.tag{font:600 10.5px var(--mono);color:#fff;letter-spacing:.14em;white-space:nowrap;background:#0a0b0de0;border-left:2px solid var(--red);padding:2px 6px;transform:translate(12px,-9px)}
+.sp{font:600 10px var(--mono);color:#ffd27a;letter-spacing:.18em;white-space:nowrap;transform:translate(-6px,-6px)}.sp i{display:inline-block;width:12px;height:12px;border-radius:50%;background:#ffd27a;margin-right:6px;vertical-align:-2px;box-shadow:0 0 12px #ffd27a}
+</style>
+<div id=map></div>
+<div id=hdr class=box><div class=t><b>SAMARITAN</b><span class=r>&#9650;</span><span>GLOBAL SKY WATCH</span></div>
+<div class=m><span class=lab>WHO CAN SEE THE UNIVERSE RIGHT NOW</span>
+<div class=s>NIGHT SIDE AND TWILIGHT FROM THE SUN'S POSITION &nbsp;·&nbsp; LIVE<br>DARK SKY = SUN BELOW &minus;18° &nbsp;·&nbsp; MOONLIT = MOON UP AND OVER 30% LIT</div></div></div>
+<div id=utc class=box><span id=ck>--:--:--</span><span>UTC</span></div>
+<div id=list class=box><div class=t><b>OBSERVATORY NETWORK</b><span style="flex:1"></span><span>SUN ALT</span></div><div id=rows style="padding:4px 0"></div></div>
+<div id=card class=box><div class=t><span class=r>&#9650;</span><span id=cst>FOCUS</span><span style="flex:1"></span><span id=cn></span></div><div class=nm id=cnm></div><div class=bd id=cbd></div></div>
+<script>
+// ---- low-precision Sun and Moon (Astronomical Almanac style; Sun ~0.01 deg, Moon ~1 deg, no parallax/refraction)
+const RAD=Math.PI/180,DEG=180/Math.PI,nrm=a=>((a%360)+360)%360;
+function astro(date){const n=(date.getTime()-Date.UTC(2000,0,1,12))/864e5,eps=23.439-4e-7*n;
+ const L=nrm(280.460+0.9856474*n),g=nrm(357.528+0.9856003*n)*RAD,lam=L+1.915*Math.sin(g)+0.020*Math.sin(2*g);
+ const sun={ra:nrm(Math.atan2(Math.cos(eps*RAD)*Math.sin(lam*RAD),Math.cos(lam*RAD))*DEG),dec:Math.asin(Math.sin(eps*RAD)*Math.sin(lam*RAD))*DEG,lon:lam};
+ const Lm=nrm(218.316+13.176396*n),Mm=nrm(134.963+13.064993*n)*RAD,F=nrm(93.272+13.229350*n)*RAD,D=nrm(297.850+12.190749*n)*RAD,Ms=g;
+ const lm=Lm+6.289*Math.sin(Mm)-1.274*Math.sin(Mm-2*D)+0.658*Math.sin(2*D)-0.186*Math.sin(Ms)-0.059*Math.sin(2*Mm-2*D)-0.057*Math.sin(Mm-2*D+Ms),
+  bm=5.128*Math.sin(F);
+ const x=Math.cos(bm*RAD)*Math.cos(lm*RAD),y=Math.cos(bm*RAD)*Math.sin(lm*RAD),z=Math.sin(bm*RAD),ce=Math.cos(eps*RAD),se=Math.sin(eps*RAD);
+ const moon={ra:nrm(Math.atan2(y*ce-z*se,x)*DEG),dec:Math.asin(y*se+z*ce)*DEG};
+ const cpsi=Math.cos(bm*RAD)*Math.cos((lm-lam)*RAD);moon.illum=(1-cpsi)/2;moon.waxing=nrm(lm-lam)<180;
+ const gmst=nrm(280.46061837+360.98564736629*n);
+ return {sun,moon,gmst};}
+function altAz(o,la,lo,A){const H=(A.gmst+lo-o.ra)*RAD,p=la*RAD,d=o.dec*RAD;return Math.asin(Math.sin(p)*Math.sin(d)+Math.cos(p)*Math.cos(d)*Math.cos(H))*DEG}
+function subPoint(o,A){let lo=nrm(o.ra-A.gmst);if(lo>180)lo-=360;return [o.dec,lo]}
+if(!window.L)throw new Error('no leaflet');
+const $=id=>document.getElementById(id);
+const map=L.map('map',{zoomControl:false,zoomSnap:0.1,fadeAnimation:false,worldCopyJump:false});
+const EURL='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+L.tileLayer(EURL,{maxZoom:16,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'}).addTo(map);
+map.fitBounds([[-58,-175],[72,175]]);
+// [name, site, lat, lon, elevation m, kind OPT|RADIO|CMB|GW, time zone, fact]
+const OBS=[
+ ['RUBIN OBSERVATORY','CERRO PACHÓN, CHILE',-30.2446,-70.7494,2663,'OPT','America/Santiago','LEGACY SURVEY OF SPACE AND TIME: THE WHOLE SOUTHERN SKY EVERY FEW NIGHTS WITH A 3.2-GIGAPIXEL CAMERA.'],
+ ['VERY LARGE TELESCOPE','CERRO PARANAL, CHILE',-24.6272,-70.4042,2635,'OPT','America/Santiago','FOUR 8.2 M TELESCOPES. THE 39 M EXTREMELY LARGE TELESCOPE IS BEING BUILT 20 KM AWAY.'],
+ ['ALMA + SIMONS OBS.','CHAJNANTOR, CHILE',-23.0193,-67.7532,5000,'RADIO','America/Santiago','66 ALMA ANTENNAS AT 5,000 M; THE SIMONS OBSERVATORY MAPS THE COSMIC MICROWAVE BACKGROUND NEXT DOOR.'],
+ ['MAUNA KEA','HAWAIʻI, USA',19.8207,-155.4681,4200,'OPT','Pacific/Honolulu','KECK’S TWIN 10 M MIRRORS; SUBARU’S HYPER SUPRIME-CAM WEAK-LENSING SURVEY.'],
+ ['DESI / KITT PEAK','ARIZONA, USA',31.9583,-111.5967,2096,'OPT','America/Phoenix','5,000 ROBOTIC FIBRES TAKE GALAXY SPECTRA AT ONCE TO MAP DARK ENERGY.'],
+ ['GRAN TELESCOPIO CANARIAS','LA PALMA, SPAIN',28.7564,-17.8917,2396,'OPT','Atlantic/Canary','10.4 M SEGMENTED MIRROR, ONE OF THE LARGEST SINGLE OPTICAL TELESCOPES.'],
+ ['MEERKAT / SKA-MID','KAROO, SOUTH AFRICA',-30.7130,21.4430,1050,'RADIO','Africa/Johannesburg','64 DISHES TODAY, GROWING INTO THE MID-FREQUENCY SQUARE KILOMETRE ARRAY.'],
+ ['SKA-LOW','WESTERN AUSTRALIA',-26.8247,116.7644,370,'RADIO','Australia/Perth','131,072 ANTENNAS PLANNED, IN 512 STATIONS.'],
+ ['FAST','GUIZHOU, CHINA',25.6529,106.8566,1000,'RADIO','Asia/Shanghai','A 500 M DISH BUILT INTO A KARST SINKHOLE.'],
+ ['LIGO HANFORD','WASHINGTON, USA',46.4551,-119.4077,140,'GW','America/Los_Angeles','4 KM LASER ARMS. GRAVITATIONAL WAVES PASS THROUGH THE EARTH, SO DAY OR NIGHT DOES NOT MATTER.'],
+ ['LIGO LIVINGSTON','LOUISIANA, USA',30.5629,-90.7742,10,'GW','America/Chicago','4 KM ARMS. IN 2015 THE FIRST DETECTED WAVE REACHED HERE ABOUT 7 MS BEFORE HANFORD.'],
+ ['VIRGO','CASCINA, ITALY',43.6314,10.5045,50,'GW','Europe/Rome','3 KM ARMS, NEAR PISA.'],
+ ['KAGRA','KAMIOKA, JAPAN',36.4119,137.3058,400,'GW','Asia/Tokyo','UNDERGROUND, WITH CRYOGENIC MIRRORS.'],
+ ['SOUTH POLE TELESCOPE','90°S, ANTARCTICA',-89.9911,-45,2835,'CMB','Antarctica/McMurdo','10 M CMB TELESCOPE LED BY UCHICAGO; ICECUBE’S CUBIC KILOMETRE OF ICE LIES BELOW.']];
+function status(o,A){const s=altAz(A.sun,o[2],o[3],A),m=altAz(A.moon,o[2],o[3],A);
+ if(o[5]!=='OPT')return [s,m,'c-on','ALWAYS ON',o[5]==='GW'?'ALL-SKY, ANY TIME':o[5]==='CMB'?'MICROWAVE SKY, ANY TIME':'RADIO, DAY OR NIGHT'];
+ if(s>-6)return [s,m,'c-day',s>0?'DAYLIGHT':'TWILIGHT','SUN UP: NO OPTICAL OBSERVING'];
+ if(s>-18)return [s,m,'c-twi','TWILIGHT','SKY NOT FULLY DARK'];
+ if(m>0&&A.moon.illum>.3)return [s,m,'c-moon','MOONLIT','DARK, BUT THE MOON BRIGHTENS THE SKY'];
+ return [s,m,'c-dark','DARK SKY','OBSERVING CONDITIONS: OPTIMAL'];}
+const mks=OBS.map(o=>{const vis=Math.max(-80,o[2]);return L.marker([vis,o[3]],{interactive:false,icon:L.divIcon({className:'',iconSize:[0,0],html:`<div class="mk${o[5]==='GW'?' gw':''}"></div>`})}).addTo(map)});
+const tag=L.marker([0,0],{interactive:false,icon:L.divIcon({className:'',iconSize:[0,0],html:'<div class=tag id=tg></div>'})}).addTo(map);
+const sunM=L.marker([0,0],{interactive:false,icon:L.divIcon({className:'',iconSize:[0,0],html:'<div class=sp><i></i>SUN OVERHEAD</div>'})}).addTo(map);
+// night shading in a map pane (low-res image, smoothed)
+const fp=map.createPane('night');fp.style.zIndex=350;fp.style.pointerEvents='none';
+const cv=document.createElement('canvas');cv.style.position='absolute';fp.appendChild(cv);const cx=cv.getContext('2d');
+const off=document.createElement('canvas'),ox=off.getContext('2d');
+function night(A){const s=map.getSize(),S=4,w=Math.ceil(s.x/S),h=Math.ceil(s.y/S);cv.width=s.x;cv.height=s.y;L.DomUtil.setPosition(cv,map.containerPointToLayerPoint([0,0]));
+ off.width=w;off.height=h;const im=ox.createImageData(w,h),d=im.data,l0=map.containerPointToLatLng([0,0]).lng,l1=map.containerPointToLatLng([s.x,0]).lng;
+ const sd=Math.sin(A.sun.dec*RAD),cd=Math.cos(A.sun.dec*RAD);
+ for(let j=0;j<h;j++){const la=map.containerPointToLatLng([0,(j+.5)*S]).lat*RAD,sp=Math.sin(la),cp=Math.cos(la);
+  for(let i=0;i<w;i++){const lo=l0+(i+.5)/w*(l1-l0),alt=Math.asin(sp*sd+cp*cd*Math.cos((A.gmst+lo-A.sun.ra)*RAD))*DEG,k=4*(j*w+i);
+   if(Math.abs(alt+.83)<.45){d[k]=229;d[k+1]=50;d[k+2]=45;d[k+3]=170;continue}
+   d[k]=3;d[k+1]=5;d[k+2]=9;d[k+3]=alt>0?0:Math.round(255*.68*Math.min(1,-alt/18)**.7)}}
+ ox.putImageData(im,0,0);cx.imageSmoothingEnabled=true;cx.drawImage(off,0,0,s.x,s.y)}
+let A=astro(new Date()),fi=0;
+const rowsEl=$('rows');
+function refresh(){A=astro(new Date());night(A);sunM.setLatLng(subPoint(A.sun,A));
+ rowsEl.innerHTML=OBS.map((o,k)=>{const [s,,c,t]=status(o,A);return `<div class="row${k===fi?' f':''}"><div class="chip ${c}">${t}</div><div class=n>${o[0]}</div><div class=a>${s>=0?'+':''}${s.toFixed(0)}°</div></div>`}).join('');
+ mks.forEach((m,k)=>{const el=m.getElement()&&m.getElement().firstChild;if(!el)return;const c=status(OBS[k],A)[2];el.classList.toggle('dark',c==='c-dark');el.classList.toggle('f',k===fi)})}
+const GL='ИЯƎƆƧΣΞЖ#%&';function dec(el,txt,ms){const t0=performance.now();(function f(n){const k=Math.min(txt.length,Math.floor((n-t0)/ms));
+ el.textContent=txt.slice(0,k)+(k<txt.length?(txt[k]===' '?' ':GL[Math.random()*GL.length|0]):'');if(k<txt.length)requestAnimationFrame(f)})(t0)}
+function focus(){const o=OBS[fi],[s,m,c,t,why]=status(o,A);
+ const lt=new Date().toLocaleTimeString('en-GB',{timeZone:o[6],hour:'2-digit',minute:'2-digit'});
+ $('cst').textContent=t;$('cn').textContent=`${Math.abs(o[2]).toFixed(2)}°${o[2]<0?'S':'N'} ${Math.abs(o[3]).toFixed(2)}°${o[3]<0?'W':'E'}`;
+ dec($('cnm'),o[0],22);
+ $('cbd').innerHTML=`<div><span>SITE:</span> ${o[1]}, ${o[4].toLocaleString('en-US')} M</div><div><span>LOCAL TIME:</span> ${lt}</div>`+
+  `<div><span>SUN:</span> ${s.toFixed(1)}° &nbsp;<span>MOON:</span> ${m.toFixed(0)}°, ${(A.moon.illum*100).toFixed(0)}% LIT</div><div><span>STATUS:</span> ${why}</div><div class=fx>${o[7]}</div>`;
+ tag.setLatLng([Math.max(-80,o[2]),o[3]]);$('tg').textContent=o[0];refresh()}
+map.on('moveend zoomend resize',()=>night(A));
+setInterval(()=>{$('ck').textContent=new Date().toISOString().slice(11,19)},500);
+setInterval(refresh,30000);
+setInterval(()=>{fi=(fi+1)%OBS.length;focus()},7000);
+addEventListener('keydown',e=>{if(e.key==='n'||e.key==='N'){fi=(fi+1)%OBS.length;focus()}});
+setTimeout(focus,300);
+</script>
