@@ -15,16 +15,22 @@ SLIDES = [  # (gallery file, output name, title, tag)
  ("us-weather.html", "us-weather.html", "US Weather", "LIVE WIND"),
  ("lensing-playground.html", "lensing-playground.html", "Lensing Playground", "GRAVITATIONAL LENS"),
  ("nyc-tour.html", "nyc-tour.html", "NYC Tour", "AERIAL SURVEY"),
+ ("kalshi-tossups.html", "kalshi-tossups.html", "Kalshi Toss-Ups", "ELECTION NIGHT"),
 ]
+# data files bundled next to a display: (source, name in slides/)
+EXTRA = [("/workspace/kalshi-tossups/www/state.json", "kalshi-tossups.state.json")]   # snapshot of the toss-up tracker
 keep = set()
 for src, dst, *_ in SLIDES:
     page = web.samkit(open(os.path.join(TOOLS, "gallery", src)).read())
     page += "<script>addEventListener('keydown',e=>{if(e.key==='Escape')location.href='../'})</script>"  # Esc: back to the wall
     open(os.path.join(HERE, "slides", dst), "w").write(page); keep.add(dst)
     print(f"slides/{dst:32s} {len(page)//1000:6d} KB")
+import shutil
+for src, dst in EXTRA:
+    if os.path.exists(src): shutil.copy(src, os.path.join(HERE, "slides", dst)); keep.add(dst); print(f"slides/{dst:32s} (data)")
 for f in os.listdir(os.path.join(HERE, "slides")):
     if f not in keep: os.remove(os.path.join(HERE, "slides", f)); print("removed slides/" + f)
 items = [{"src": "slides/" + d, "thumb": "thumbs/" + d[:-5] + ".jpg", "title": t, "tag": g} for s, d, t, g in SLIDES]
 open(os.path.join(HERE, "index.html"), "w").write(open(os.path.join(HERE, "index.tpl.html")).read().replace("__ITEMS__", json.dumps(items)))
 print("index.html written")
-import mobile; [mobile.inject(os.path.join(HERE, "slides", d)) for d in keep]; print("phone layer added (mobile/)")
+import mobile; [mobile.inject(os.path.join(HERE, "slides", d)) for d in keep if d.endswith(".html")]; print("phone layer added (mobile/)")

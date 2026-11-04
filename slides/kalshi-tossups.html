@@ -1,0 +1,283 @@
+<!doctype html>
+<html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><!--/MVP--><title>ELECTION NIGHT // KALSHI TOSS-UP WATCH</title>
+<style>
+:root{--bg:#eef2f2;--panel:#e4eaeb;--line:#c4cdce;--ink:#2b3434;--dim:#6d7a7b;--red:#e5322d;
+      --D:#2a63b8;--R:#d8342c;--I:#7b5ea7;--X:#8a9597;--Y:#2b3434;--N:#9aa5a7}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+body{display:flex;flex-direction:column;padding:1.6vh 1.6vw 1.2vh;gap:1.6vh}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.022) 0 1px,transparent 1px 3px)}
+/* header */
+#hdr{display:flex;align-items:center;gap:1.8vw;border-bottom:3px solid var(--ink);padding-bottom:1vh;font-size:1.9vh;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+#hdr .brand{font-weight:700}
+#hdr .brand b,#hdr .live b{color:var(--red)}
+#hdr .live{font-weight:700}
+#hdr .live.bad{color:var(--red)}
+#hdr .k{color:var(--dim)}
+#hdr .sp{flex:1}
+#banner{display:none;background:var(--red);color:#fff;padding:1vh 1.2vw;font-size:2vh;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+/* layout */
+#main{flex:1;display:grid;grid-template-columns:1fr 31vw;gap:1.6vw;min-height:0}
+.panel{position:relative;background:var(--panel);border:1px solid var(--line);min-height:0}
+.panel:before,.panel:after{content:"";position:absolute;width:18px;height:18px;border:3px solid var(--ink);z-index:2}
+.panel:before{top:-4px;left:-4px;border-right:0;border-bottom:0}
+.panel:after{bottom:-4px;right:-4px;border-left:0;border-top:0}
+.lab{font-size:1.6vh;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.lab b{color:var(--red);font-weight:400;margin-right:.6em}
+/* focus */
+#focus{display:flex;flex-direction:column;padding:2.4vh 2vw 1.6vh;overflow:hidden}
+#ftop{display:flex;align-items:center;gap:1.4vw}
+.chip{font-size:1.7vh;letter-spacing:.25em;padding:.35vh .8vw;border:2px solid var(--ink);text-transform:uppercase}
+.chip.st{background:var(--ink);color:var(--bg)}
+.chip.st.breaking{background:var(--red);border-color:var(--red)}
+#fpos{margin-left:auto;display:flex;gap:.5vw;align-items:center}
+#fpos i{display:block;width:1.1vh;height:1.1vh;background:var(--line)}
+#fpos i.on{background:var(--red)}
+#fname{font-size:7.4vh;font-weight:700;letter-spacing:.02em;line-height:1.05;margin-top:1.6vh;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fq{font-size:2.3vh;color:var(--dim);margin-top:.6vh;letter-spacing:.06em;min-height:2.8vh}
+#sides{display:flex;flex-direction:column;gap:1.6vh;margin-top:2.4vh}
+.side{display:grid;grid-template-columns:1fr auto;align-items:end;row-gap:.6vh}
+.side .nm{font-size:3.4vh;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .nm .pt{display:inline-block;font-size:1.8vh;font-weight:700;color:#fff;padding:.2vh .5vw;margin-left:.8vw;vertical-align:middle;letter-spacing:.1em}
+.side .pc{font-size:6.6vh;font-weight:700;line-height:.9;font-variant-numeric:tabular-nums}
+.side .pc small{font-size:.45em;margin-left:.15em;color:var(--dim)}
+.side .bar{grid-column:1/3;height:2.6vh;background:#fff;border:1px solid var(--line);position:relative}
+.side .bar .f{position:absolute;left:0;top:0;bottom:0;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.side .bar .h{position:absolute;left:50%;top:-.6vh;bottom:-.6vh;border-left:2px dashed var(--ink);opacity:.45}
+.side.lose .nm,.side.lose .pc{opacity:.55}
+#chart{flex:1;min-height:0;margin-top:2.6vh;position:relative}
+#chart svg{position:absolute;inset:0;width:100%;height:100%}
+#fstats{display:flex;gap:3vw;font-size:2vh;letter-spacing:.14em;text-transform:uppercase;margin-top:1.2vh;color:var(--dim)}
+#fstats b{color:var(--ink);font-weight:700;margin-left:.5em}
+#prog{height:.6vh;background:var(--line);margin-top:1.2vh;position:relative;overflow:hidden}
+#prog i{position:absolute;left:0;top:0;bottom:0;background:var(--red);width:0}
+.fade{animation:fin .7s ease both}
+@keyframes fin{from{opacity:0;transform:translateY(1.2vh)}to{opacity:1;transform:none}}
+/* call alert */
+#focus.call{background:var(--ink);color:#fff}
+#focus.call .lab{color:#c9d0d1}
+#call{display:none;flex:1;flex-direction:column;justify-content:center;gap:2.4vh}
+#focus.call #call{display:flex}
+#focus.call #fbody{display:none}
+#fbody{display:flex;flex-direction:column;flex:1;min-height:0}
+#call .k1{font-size:2.4vh;letter-spacing:.4em;color:var(--red);font-weight:700}
+#call .k2{font-size:7vh;font-weight:700;text-transform:uppercase;line-height:1.05}
+#call .k3{font-size:5.2vh;font-weight:700;padding:1.2vh 1.2vw;display:inline-block;align-self:flex-start;color:#fff}
+#call .k4{font-size:2.2vh;letter-spacing:.12em;color:#c9d0d1;text-transform:uppercase}
+/* rail */
+#rail{display:flex;flex-direction:column;gap:1.6vh;min-height:0}
+#board{flex:1.5;padding:1.8vh 1.2vw;display:flex;flex-direction:column;min-height:0}
+#calls{flex:1;padding:1.8vh 1.2vw;display:flex;flex-direction:column;min-height:0}
+.list{flex:1;display:flex;flex-direction:column;gap:.9vh;margin-top:1.4vh;min-height:0;overflow:hidden}
+.br{display:grid;grid-template-columns:1.6vh 1fr auto;align-items:center;column-gap:.6vw;row-gap:.4vh;font-size:2.15vh}
+.br .mk{color:transparent;font-size:1.6vh}
+.br.cur .mk{color:var(--red)}
+.br.cur .n{font-weight:700}
+.br .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.br .v{font-weight:700;font-variant-numeric:tabular-nums}
+.br .sb{grid-column:2/4;height:.8vh;display:flex;background:#fff}
+.br .sb i{display:block;height:100%}
+.bk{font-size:.62em;letter-spacing:.15em;color:var(--red);margin-left:.7em;vertical-align:middle}
+.more{font-size:1.6vh;color:var(--dim);letter-spacing:.2em;margin-top:auto}
+.cr{display:grid;grid-template-columns:auto 1fr;column-gap:.8vw;align-items:center;font-size:2vh;border-bottom:1px dashed var(--line);padding-bottom:.7vh}
+.cr .pt{font-size:1.5vh;font-weight:700;color:#fff;padding:.2vh .45vw;letter-spacing:.08em;text-align:center;min-width:2.6vh}
+.cr .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr .w{grid-column:2;font-size:1.6vh;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr.new .n:after{content:" \25B2 NEW";color:var(--red);font-size:.75em;letter-spacing:.15em}
+</style></head><body>
+<div id=hdr><span class=brand><b>&#9650;</b> ELECTION NIGHT // KALSHI TOSS-UPS</span><span class=live id=live>CONNECTING</span>
+<span class=k id=cnt></span><span class=sp></span><span class=k id=upd></span><span id=clk></span></div>
+<div id=banner></div>
+<div id=main>
+ <div class="panel" id=focus>
+  <div id=fbody>
+   <div id=ftop><span class=lab><b>&#9650;</b>IN FOCUS</span><span class=chip id=fgrp></span><span class="chip st" id=fst></span><span id=fpos></span></div>
+   <div id=fname></div><div id=fq></div>
+   <div id=sides></div>
+   <div id=chart></div>
+   <div id=fstats></div>
+  </div>
+  <div id=call><div class=k1>&#9650; MARKET CALL</div><div class=k2 id=ck2></div><div class=k3 id=ck3></div><div class=k4 id=ck4></div></div>
+  <div id=prog><i id=progi></i></div>
+ </div>
+ <div id=rail>
+  <div class=panel id=board><div class=lab><b>&#9650;</b>ON THE BOARD &middot; STILL TOSS-UPS</div><div class=list id=blist></div></div>
+  <div class=panel id=calls><div class=lab><b>&#9650;</b>LATEST CALLS &middot; LEFT THE BAND</div><div class=list id=clist></div></div>
+ </div>
+</div>
+<script>window.KALSHI_SOURCES=['https://raw.githubusercontent.com/ShrihanSolo/samaritan-dashboard/kalshi-live/state.json','kalshi-tossups.state.json'];window.KALSHI_SNAPSHOT=true</script><script>// Short display names for Kalshi markets. shortName(item) -> {title, q, rail, lead(side)}
+// title: big focus heading; q: one-line question under it; rail: compact name for the side lists.
+const ST={Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE',Florida:'FL',Georgia:'GA',
+ Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',
+ Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ',
+ 'New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI',
+ 'South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',
+ Wisconsin:'WI',Wyoming:'WY'};
+const STRE=new RegExp('\\b('+Object.keys(ST).sort((a,b)=>b.length-a.length).join('|')+')\\b','g');
+const abbr=s=>s.replace(STRE,m=>ST[m]);
+// events listed twice by Kalshi: hide the thinner copy
+const HIDE=new Set(['KXALASKAHOUSE-26']);
+const atLeast=q=>(q.match(/at least\s*([\d.,%]+)/i)||[])[1];
+const RULES=[
+ [/House turnout/i,(t,q)=>({title:'House turnout',q:'Total votes cast for the U.S. House'})],
+ [/Senate and Governor races will Republicans win in Harris states/i,()=>({title:'GOP wins in Harris states',q:'Senate and governor races Republicans win in states Harris carried'})],
+ [/Texas counties will James Talarico win/i,(t,q)=>({title:'Talarico: TX counties',q:`Will Talarico carry at least ${atLeast(q)} Texas counties?`,rail:`Talarico ≥${atLeast(q)} TX counties`})],
+ [/^(\w[\w ]*?) Governor election: None of These Candidates/i,(t,q,m)=>({title:`${ST[m[1]]||m[1]} Gov: “None of these”`,q:`Will “None of these candidates” get at least ${atLeast(q)}?`,rail:`${ST[m[1]]||m[1]} Gov “None” ≥${atLeast(q)}`})],
+ [/How many (House|Senate) seats will (Republicans|Democrats) win/i,(t,q,m)=>{const p=m[2][0]==='R'?'GOP':'Dem';return{title:`${p} ${m[1]} seats ≥ ${atLeast(q)}`,q:`Will ${m[2]} win at least ${atLeast(q)} ${m[1]} seats?`}}],
+ [/supermajorities/i,(t,q)=>({title:`Dem supermajority: ${abbr(q)}`,q:`Will Democrats win a supermajority in the ${q}?`})],
+ [/Democrat win a Solid Republican House district/i,()=>({title:'Dem wins a Solid-R seat',q:'Will a Democrat win any Solid Republican House district?'})],
+ [/Senate races will be within (\d+) points/i,(t,q,m)=>({title:`${ST[q]||q} Senate within ${m[1]} pts`,q:`Will the ${q} Senate race finish within ${m[1]} points?`})],
+ [/House seats bordering Mexico/i,()=>({title:'Dems sweep border seats',q:'Will Democrats win every House seat on the Mexican border?'})],
+ [/^Will (.+?) outperform the polls/i,(t,q,m)=>{const ln=m[1].split(/\s+/).pop();return{title:`${ln} beats the polls?`,q:`Will ${m[1]} outperform the polls?`}}],
+ [/^Alaska U\.S\. House/i,()=>({title:'Alaska House',q:'At-large seat, ranked-choice count'})],
+ [/^Alaska House$/i,()=>({title:'Alaska House',q:'At-large seat, ranked-choice count',rail:'AK-AL House'})],
+];
+function clean(t){return t.replace(/^2026 Midterms:\s*/i,'').replace(/^U\.S\.\s+/,'').replace(/\s*\((Person|Directional)\)\s*$/i,'').replace(/\s*(winner|race)\??\s*$/i,'').replace(/\?$/,'').trim()}
+function shortSide(n){
+  if(/^Democratic/i.test(n))return 'DEM'; if(/^Republican/i.test(n))return 'GOP';
+  if(n==='YES'||n==='NO')return n;
+  const m=n.match(/^([\d.]+) to ([\d.]+) million$/i); if(m) return `${m[1]}–${Math.round(+m[2])}M`;
+  if(/^[\d.]+ million and above$/i.test(n)) return n.replace(/ million and above/i,'M+');
+  const w=n.replace(/\s+(Jr\.?|Sr\.?|III|II|IV)$/,'').split(/\s+/); return w.length>1?w[w.length-1]:n;
+}
+function shortName(it){
+  const t=it.title||'', q=it.q||'';
+  let r=null;
+  for(const [re,fn] of RULES){const m=t.match(re); if(m){r=fn(t,q,m);break}}
+  if(!r){ r={title:clean(t), q:it.kind==='market'?q:''} }
+  r.rail=r.rail||abbr(r.title);
+  r.lead=s=>shortSide(s.name||'');
+  return r;
+}
+</script>
+<script>
+const $=id=>document.getElementById(id);
+window.onerror=(m,u,l)=>{const b=$("banner");b.style.display="block";b.textContent="PAGE ERROR: "+m+" (line "+l+")"};
+const DWELL=12000, CALL_DWELL=8000, NFOCUS=6;
+const esc=s=>String(s??'').replace(/[&<>"]/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]));
+const cents=p=>Math.round(p*100);
+const fmtV=v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?Math.round(v/1e3)+'K':Math.round(v)+'';
+const ago=s=>s<90?Math.round(s)+'S':s<5400?Math.round(s/60)+'M':(s/3600).toFixed(1)+'H';
+const COL={D:'var(--D)',R:'var(--R)',I:'var(--I)',Y:'var(--Y)',N:'var(--N)','':'var(--X)'};
+const HEX={D:'#2a63b8',R:'#d8342c',I:'#7b5ea7',Y:'#2b3434',N:'#9aa5a7','':'#8a9597'};
+const GL={SENATE:'SENATE',GOVERNOR:'GOVERNOR',HOUSE:'HOUSE',STATEWIDE:'STATEWIDE',LEGISLATURE:'STATE LEGISLATURE',NIGHT:'ELECTION-NIGHT MARKET'};
+const W8={SENATE:3,GOVERNOR:3,HOUSE:2.2,STATEWIDE:1.4,LEGISLATURE:1.6,NIGHT:.7};
+
+/* sides shown for an item: [{name,p,party,ticker}] */
+function sidesOf(it){
+  if(it.kind==='market'){const y=it.pyes;return [{name:'YES',p:y,party:'Y',ticker:it.id},{name:'NO',p:1-y,party:'N',ticker:null}]}
+  return (it.sides||[]).slice(0,it.sides&&it.sides.length>2&&it.sides[2][1]>=.08?3:2).map(s=>({name:s[0],p:s[1],party:s[2]||'',ticker:s[3]}));
+}
+function score(it){
+  const close=Math.max(0,1-Math.abs(it.p-.5)/.2);
+  return (W8[it.group]||1)*(.4+close)*Math.log10((it.vol24||0)+30)+Math.abs(it.d1h||0)*12+(it.status==='breaking'?2:0);
+}
+const SOURCES=window.KALSHI_SOURCES||['state.json'], SNAP_OK=!!window.KALSHI_SNAPSHOT; let SNAP=false;
+const NOW=()=>SNAP&&S?S.t:Date.now()/1000;
+let S=null, order=[], idx=-1, timer=null, seenCalls=new Set(), firstLoad=true, queue=[];
+async function load(){
+  let best=null;   // try every source, keep the freshest (live feed first, bundled snapshot as fallback)
+  for(const u of SOURCES){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});if(!r.ok)continue;
+    const j=await r.json();if(j&&j.items&&(!best||j.t>best.t))best=j}catch(e){}}
+  if(best){S=best;tick()}else{$('live').textContent='NO DATA';$('live').className='live bad'}
+}
+function active(){return S.items.filter(i=>i.status!=='decided'&&!HIDE.has(i.ev))}
+function decided(){return S.items.filter(i=>i.status==='decided'&&!HIDE.has(i.ev)).sort((a,b)=>(a.pre-b.pre)||(b.decided_at-a.decided_at)||(b.vol24-a.vol24))}
+function tick(){
+  const age=Date.now()/1000-S.t; SNAP=SNAP_OK&&age>3*S.poll_s; const now=NOW(), act=active(), dec=decided();
+  $('cnt').textContent=`${act.length} TOSS-UPS · ${dec.length} CALLED · BAND ${cents(S.band[0])}–${cents(S.band[1])}¢`;
+  $('upd').textContent=SNAP?'AS OF '+new Date(S.t*1000).toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET':'UPDATED '+ago(age)+' AGO';
+  const stale=!SNAP&&age>3*S.poll_s, L=$('live');
+  L.innerHTML=SNAP?'<b>●</b> SNAPSHOT':S.feed_down?'<b>●</b> FEED LOST':stale?'<b>●</b> STALE':'<b>●</b> LIVE'; L.className='live'+(S.feed_down||stale?' bad':'');
+  const b=$('banner'); if(S.feed_down||stale){b.style.display='block';b.textContent=S.feed_down?'Kalshi feed lost ('+S.err+') — re-run the allowlist refresher':'Poller has not written for '+ago(age)+' — is it running?'}else b.style.display='none';
+  // new calls (decided while we watch) jump the queue
+  for(const it of dec){ if(!seenCalls.has(it.id)){ seenCalls.add(it.id); if(!firstLoad&&!it.pre) queue.push(it.id) } }
+  if(firstLoad&&location.search.includes('testcall')&&dec.length) queue.push(dec[0].id);
+  firstLoad=false;
+  renderRail();
+  if(idx<0) next();
+}
+function focusList(){return active().sort((a,b)=>score(b)-score(a)).slice(0,NFOCUS).map(i=>i.id)}
+function next(){
+  clearTimeout(timer);
+  if(!S) return;
+  if(queue.length){ const id=queue.shift(); showCall(S.items.find(i=>i.id===id)); return }
+  order=focusList(); if(!order.length){showEmpty();return}
+  const cur=order.indexOf(curId); idx=(cur+1)%order.length; showFocus(S.items.find(i=>i.id===order[idx]));
+}
+let curId=null;
+function progress(ms){const p=$('progi');p.style.transition='none';p.style.width='0';void p.offsetWidth;p.style.transition=`width ${ms}ms linear`;p.style.width='100%';timer=setTimeout(next,ms)}
+function showEmpty(){$('focus').classList.remove('call');$('fname').textContent='NO ACTIVE TOSS-UPS';$('sides').innerHTML='';$('chart').innerHTML='';progress(DWELL)}
+function showFocus(it){
+  if(!it){progress(1000);return}
+  curId=it.id; const F=$('focus'); F.classList.remove('call');
+  $('fgrp').textContent=GL[it.group]||it.group;
+  const st=$('fst'); st.textContent=it.status==='breaking'?'BREAKING '+ago(NOW()-it.out_since):'TOSS-UP'; st.className='chip st '+it.status;
+  $('fpos').innerHTML=order.map((_,i)=>`<i class="${i===idx?'on':''}"></i>`).join('');
+  const nm=shortName(it); $('fname').textContent=nm.title; $('fq').textContent=nm.q||'Price = market’s implied chance of winning';
+  const sd=sidesOf(it), top=Math.max(...sd.map(s=>s.p));
+  $('sides').innerHTML=sd.map(s=>`<div class="side${s.p<top?' lose':''}"><span class=nm>${esc(s.name)}${s.party&&'DRI'.includes(s.party)?`<span class=pt style="background:${COL[s.party]}">${s.party==='I'?'IND':s.party==='D'?'DEM':'REP'}</span>`:''}</span><span class=pc>${cents(s.p)}<small>¢</small></span><span class=bar><span class=f style="width:0;background:${COL[s.party]}" data-w="${(s.p*100).toFixed(1)}"></span><span class=h></span></span></div>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('#sides .f').forEach(e=>e.style.width=e.dataset.w+'%')));
+  drawChart(it,sd);
+  const now=NOW(), d=it.d1h||0;
+  $('fstats').innerHTML=`<span>1H MOVE<b>${Math.abs(d)<.005?'FLAT':(d>0?'+':'')+cents(d)+'¢'}</b></span><span>24H VOLUME<b>${fmtV(it.vol24||0)}</b></span><span>TRACKED<b>${it.since?ago(now-it.since):'—'}</b></span>`;
+  for(const id of ['fname','fq','sides','chart','fstats']){const e=$(id);e.classList.remove('fade');void e.offsetWidth;e.classList.add('fade')}
+  renderRail(); progress(DWELL);
+}
+let lastChart=null;
+new ResizeObserver(()=>{if(lastChart&&!$('focus').classList.contains('call'))drawChart(...lastChart)}).observe(document.getElementById('chart'));
+function drawChart(it,sd){
+  lastChart=[it,sd];
+  const box=$('chart'), W=box.clientWidth||800, H=box.clientHeight||300, fs=Math.max(10,Math.min(16,H/22)), pl=8, pr=fs*4.4, pt=10, pb=fs*2.1;
+  const ch=it.charts||{}; let lines=[];
+  for(const s of sd){ if(s.ticker&&ch[s.ticker]&&ch[s.ticker].length>1) lines.push({s,pts:ch[s.ticker]}) }
+  if(it.kind==='market'&&ch[it.id]) lines=[{s:sd[0],pts:ch[it.id]}];
+  if(!lines.length&&it.spark&&it.spark.length>1) lines=[{s:sd[0],pts:it.spark}];
+  if(!lines.length){box.innerHTML='<svg></svg>';return}
+  const all=lines.flatMap(l=>l.pts), t0=Math.min(...all.map(p=>p[0])), t1=Math.max(...all.map(p=>p[0]));
+  const X=t=>pl+(t-t0)/Math.max(1,t1-t0)*(W-pl-pr), Y=p=>pt+(1-p)*(H-pt-pb);
+  let g=`<rect x=${pl} y=${Y(S.band[1])} width=${W-pl-pr} height=${Y(S.band[0])-Y(S.band[1])} fill="#d4dcdd"/>`;
+  for(const v of [0,.25,.5,.75,1]) g+=`<line x1=${pl} x2=${W-pr} y1=${Y(v)} y2=${Y(v)} stroke="${v===.5?'#2b3434':'#c4cdce'}" stroke-width=${v===.5?1.5:1} ${v===.5?'stroke-dasharray="6 5"':''}/><text x=${W-pr+10} y=${Y(v)+6} font-size=${fs} fill="#6d7a7b">${Math.round(v*100)}¢</text>`;
+  // hour ticks (ET)
+  const step=t1-t0>5*3600?7200:3600;
+  for(let t=Math.ceil(t0/step)*step;t<=t1;t+=step){const x=X(t);g+=`<line x1=${x} x2=${x} y1=${pt} y2=${H-pb} stroke="#c4cdce" stroke-dasharray="2 4"/><text x=${x} y=${H-fs*.5} font-size=${fs} fill="#6d7a7b" text-anchor=middle>${new Date(t*1000).toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric'})}</text>`}
+  for(const l of lines){
+    const c=HEX[l.s.party]||HEX[''], d=l.pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' '), last=l.pts[l.pts.length-1];
+    g+=`<path d="${d}" pathLength=1 fill=none stroke="${c}" stroke-width=4 stroke-linejoin=round style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards"/>`;
+    g+=`<circle cx=${X(last[0])} cy=${Y(last[1])} r=7 fill="${c}"/>`;
+  }
+  g+=`<text x=${pl+4} y=${pt+fs*1.1} font-size=${fs} fill="#6d7a7b" letter-spacing="3">${W<700?'':'PRICE, '}LAST ${Math.max(1,Math.round((t1-t0)/3600))}H${W<700?'':' · SHADED = TOSS-UP BAND'}</text>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}"><style>@keyframes draw{to{stroke-dashoffset:0}}</style>${g}</svg>`;
+}
+function showCall(it){
+  if(!it){next();return}
+  const F=$('focus'); F.classList.add('call'); curId=null;
+  const nm=shortName(it), sd=sidesOf(it), w=it.final_leader||it.leader, s=sd.find(x=>x.name===w)||sd[0]||{};
+  $('ck2').textContent=nm.title+(nm.q?' · '+nm.q:'');
+  const pn={D:' (DEM)',R:' (GOP)',I:' (IND)'}[s.party]||'';
+  const k3=$('ck3'); k3.textContent=w+(it.kind==='market'?'':pn)+' '+cents(it.p)+'¢'; k3.style.background=COL[it.kind==='market'?(w==='YES'?'Y':'N'):s.party]||COL[''];
+  const was=it.spark&&it.spark.length?'Was '+cents(Math.max(it.spark[0][1],1-it.spark[0][1]))+'¢ · ':'';
+  $('ck4').textContent=was+(it.winner?'Settled by Kalshi':'Outside the toss-up band for '+S.decide_min+' minutes')+' · '+(GL[it.group]||'');
+  progress(CALL_DWELL);
+}
+function renderRail(){
+  if(!S) return;
+  const act=active().sort((a,b)=>score(b)-score(a)), B=$('blist');
+  B.innerHTML=act.map(it=>{const nm=shortName(it), sd=sidesOf(it), top=sd.reduce((a,b)=>b.p>a.p?b:a,sd[0]||{p:0});
+    const bar=sd.map(s=>`<i style="width:${(s.p*100).toFixed(1)}%;background:${COL[s.party]}"></i>`).join('');
+    return `<div class="br${it.id===curId?' cur':''}"><span class=mk>▶</span><span class=n>${esc(nm.rail)}${it.status==='breaking'?'<span class=bk>BREAKING</span>':''}</span><span class=v style="color:${COL[top.party]}">${esc(nm.lead(top))} ${cents(top.p)}</span><span></span><span class=sb>${bar}</span></div>`}).join('');
+  fit(B,'.br',act.length,'+ MORE ON THE BOARD');
+  const dec=decided(), C=$('clist'), now=NOW();
+  C.innerHTML=dec.map(it=>{const nm=shortName(it), sd=sidesOf(it), w=it.final_leader||it.leader, s=sd.find(x=>x.name===w)||{};
+    const pa=it.kind==='market'?(w==='YES'?'Y':'N'):(s.party||'');
+    return `<div class="cr${!it.pre&&now-it.decided_at<1800?' new':''}"><span class=pt style="background:${COL[pa]}">${pa==='Y'?'YES':pa==='N'?'NO':pa||'—'}</span><span class=n>${esc(nm.rail)}</span><span class=w>${esc(w)} ${cents(it.p)}¢ · ${it.pre?'before tracking':ago(now-it.decided_at)+' ago'}</span></div>`}).join('');
+  fit(C,'.cr',dec.length,'+ MORE CALLED TONIGHT');
+}
+function fit(box,sel,n,label){const over=()=>box.scrollHeight>box.clientHeight+1;if(!over())return;
+  box.insertAdjacentHTML('beforeend','<div class=more></div>');const more=box.lastChild;let k=0;
+  while(over()&&more.previousSibling){more.previousSibling.remove();k++} more.textContent=k+' '+label}
+function clock(){const d=new Date();$('clk').textContent=d.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour12:false})+' ET'}
+setInterval(clock,1000);clock();load();setInterval(load,15000);
+</script></body></html>
+<script>addEventListener('keydown',e=>{if(e.key==='Escape')location.href='../'})</script>
+<!--MOBILE--><link rel=stylesheet href="../mobile/phone.css"><script src="../mobile/phone.js"></script><link rel=stylesheet href="../mobile/kalshi-tossups.css"><!--/MOBILE-->

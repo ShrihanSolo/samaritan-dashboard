@@ -1,0 +1,37 @@
+/* kalshi-tossups on a phone. Scoped to html.phone; the desktop display is unchanged.
+   The page scrolls: header, the rotating focus card (shorter chart), then the board and the latest calls in full. */
+html.phone,html.phone body{height:auto;overflow:auto}
+html.phone body{padding:10px 10px 64px;gap:10px}
+html.phone #hdr{flex-wrap:wrap;gap:6px 12px;font-size:10px;letter-spacing:.14em;white-space:normal}
+html.phone #hdr .k,html.phone #hdr .sp{display:none}
+html.phone #banner{font-size:10px}
+html.phone #main{display:flex;flex-direction:column;gap:12px}
+html.phone #focus{padding:14px 12px 10px}
+html.phone #fbody{flex:none}
+html.phone #ftop{gap:8px;flex-wrap:wrap}
+html.phone .lab{font-size:9.5px;letter-spacing:.2em}
+html.phone .chip{font-size:9.5px;padding:3px 6px;border-width:1px}
+html.phone #fname{font-size:28px;white-space:normal;margin-top:10px}
+html.phone #fq{font-size:11.5px;min-height:0;margin-top:4px}
+html.phone #sides{gap:10px;margin-top:14px}
+html.phone .side .nm{font-size:15px}
+html.phone .side .nm .pt{font-size:9.5px;padding:2px 5px;margin-left:6px}
+html.phone .side .pc{font-size:32px}
+html.phone .side .bar{height:12px}
+html.phone #chart{flex:none;height:190px;margin-top:14px}
+html.phone #fstats{font-size:9.5px;gap:6px 14px;flex-wrap:wrap;letter-spacing:.1em}
+html.phone #prog{height:3px;margin-top:8px}
+html.phone #call{min-height:300px;gap:12px}
+html.phone #call .k1{font-size:11px}
+html.phone #call .k2{font-size:26px}
+html.phone #call .k3{font-size:20px;padding:8px 10px}
+html.phone #call .k4{font-size:10px}
+html.phone #rail{gap:12px}
+html.phone #board,html.phone #calls{flex:none;padding:12px}
+html.phone .list{overflow:visible;flex:none;gap:8px;margin-top:10px}
+html.phone .br{font-size:13px;column-gap:6px}
+html.phone .br .sb{height:5px}
+html.phone .cr{font-size:12.5px;column-gap:8px}
+html.phone .cr .pt{font-size:9.5px}
+html.phone .cr .w{font-size:10.5px}
+html.phone .more{font-size:9.5px}
