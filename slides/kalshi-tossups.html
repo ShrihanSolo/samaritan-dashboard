@@ -208,7 +208,8 @@ function sidesOf(it){
 }
 function score(it){
   const close=Math.max(0,1-Math.abs(it.p-.5)/.2);
-  return (W8[it.group]||1)*(.4+close)*Math.log10((it.vol24||0)+30)+Math.abs(it.d1h||0)*12+(it.status==='breaking'?2:0);
+  // open Senate races always lead the rotation and the board (user, 2026-11-03: only a few are left)
+  return (it.group==='SENATE'?100:0)+(W8[it.group]||1)*(.4+close)*Math.log10((it.vol24||0)+30)+Math.abs(it.d1h||0)*12+(it.status==='breaking'?2:0);
 }
 const SOURCES=window.KALSHI_SOURCES||['state.json'], SNAP_OK=!!window.KALSHI_SNAPSHOT; let SNAP=false;
 const NOW=()=>SNAP&&S?S.t:Date.now()/1000;
