@@ -35,3 +35,19 @@ html.phone .cr{font-size:12.5px;column-gap:8px}
 html.phone .cr .pt{font-size:9.5px}
 html.phone .cr .w{font-size:10.5px}
 html.phone .more{font-size:9.5px}
+/* balance-of-power slide and rail summary */
+html.phone .sv-nums{margin-top:8px}
+html.phone .sv-n .p{font-size:10px;letter-spacing:.2em}
+html.phone .sv-n .v{font-size:54px}
+html.phone .sv-c{font-size:9px;letter-spacing:.12em;padding-bottom:8px}
+html.phone .sv-c b{font-size:18px}
+html.phone #svq{font-size:11px}
+html.phone #svstrip{height:26px;margin-top:10px}
+html.phone #svdist{flex:none;height:170px;margin-top:12px}
+html.phone #svhist{flex:none;height:150px;margin-top:8px}
+html.phone #svcalls{gap:4px}
+html.phone #svcalls .l{font-size:9px;width:100%}
+html.phone #svcalls i{font-size:10px;padding:2px 4px}
+html.phone #bal{gap:6px;margin:8px 0 4px;padding-bottom:8px}
+html.phone .bl{font-size:12px;grid-template-columns:4.6em 1fr auto}
+html.phone .bl .bb{height:9px}
