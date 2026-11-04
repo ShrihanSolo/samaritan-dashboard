@@ -8,7 +8,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font
 body{display:flex;flex-direction:column;padding:1.6vh 1.6vw 1.2vh;gap:1.6vh}
 body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.022) 0 1px,transparent 1px 3px)}
 /* header */
-#hdr{display:flex;align-items:center;gap:1.8vw;border-bottom:3px solid var(--ink);padding-bottom:1vh;font-size:1.9vh;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+#hdr{display:flex;align-items:center;gap:1.4vw;border-bottom:3px solid var(--ink);padding-bottom:1vh;font-size:1.8vh;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
 #hdr .brand{font-weight:700}
 #hdr .brand b,#hdr .live b{color:var(--red)}
 #hdr .live{font-weight:700}
@@ -64,6 +64,32 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repe
 #call .k2{font-size:7vh;font-weight:700;text-transform:uppercase;line-height:1.05}
 #call .k3{font-size:5.2vh;font-weight:700;padding:1.2vh 1.2vw;display:inline-block;align-self:flex-start;color:#fff}
 #call .k4{font-size:2.2vh;letter-spacing:.12em;color:#c9d0d1;text-transform:uppercase}
+/* balance of power view */
+#seatv{display:none;flex-direction:column;flex:1;min-height:0}
+#focus.seats #fbody{display:none}
+#focus.seats #seatv{display:flex}
+.sv-nums{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;margin-top:1.4vh}
+.sv-n .p{font-size:2.3vh;letter-spacing:.3em;font-weight:700}
+.sv-n .v{font-size:12.5vh;font-weight:700;line-height:.95;font-variant-numeric:tabular-nums}
+.sv-n.r{text-align:right}
+.sv-c{text-align:center;padding-bottom:1.6vh;font-size:1.8vh;letter-spacing:.2em;color:var(--dim);line-height:1.6}
+.sv-c b{display:block;font-size:3.2vh;color:var(--ink);letter-spacing:.05em}
+#svq{font-size:2.1vh;color:var(--dim);letter-spacing:.05em;margin-top:.6vh}
+#svq b{color:var(--ink)}
+#svstrip{height:5.4vh;margin-top:1.8vh;position:relative}
+#svdist{flex:1.15;min-height:0;margin-top:2vh;position:relative}
+#svhist{flex:1;min-height:0;margin-top:1.4vh;position:relative}
+#svdist svg,#svhist svg,#svstrip svg{position:absolute;inset:0;width:100%;height:100%}
+#svcalls{display:flex;flex-wrap:wrap;gap:.6vh .5vw;margin-top:1.4vh;align-items:center}
+#svcalls .l{font-size:1.5vh;letter-spacing:.25em;color:var(--dim);margin-right:.6vw}
+#svcalls i{font-style:normal;font-size:1.6vh;font-weight:700;color:#fff;padding:.3vh .45vw;letter-spacing:.06em}
+#bal{display:flex;flex-direction:column;gap:.9vh;margin:1.2vh 0 .4vh;padding-bottom:1.2vh;border-bottom:2px solid var(--ink)}
+.bl{display:grid;grid-template-columns:5.6em 1fr auto;column-gap:.6vw;align-items:center;font-size:2.05vh}
+.bl .k{letter-spacing:.18em;font-weight:700}
+.bl .bb{height:1.5vh;display:flex;position:relative;background:#fff}
+.bl .bb i{display:block;height:100%}
+.bl .bb u{position:absolute;top:-.4vh;bottom:-.4vh;border-left:2px solid var(--ink)}
+.bl .v{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* rail */
 #rail{display:flex;flex-direction:column;gap:1.6vh;min-height:0}
 #board{flex:1.5;padding:1.8vh 1.2vw;display:flex;flex-direction:column;min-height:0}
@@ -78,6 +104,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repe
 .br .sb{grid-column:2/4;height:.8vh;display:flex;background:#fff}
 .br .sb i{display:block;height:100%}
 .bk{font-size:.62em;letter-spacing:.15em;color:var(--red);margin-left:.7em;vertical-align:middle}
+.list>*{flex-shrink:0}
 .more{font-size:1.6vh;color:var(--dim);letter-spacing:.2em;margin-top:auto}
 .cr{display:grid;grid-template-columns:auto 1fr;column-gap:.8vw;align-items:center;font-size:2vh;border-bottom:1px dashed var(--line);padding-bottom:.7vh}
 .cr .pt{font-size:1.5vh;font-weight:700;color:#fff;padding:.2vh .45vw;letter-spacing:.08em;text-align:center;min-width:2.6vh}
@@ -97,11 +124,22 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repe
    <div id=chart></div>
    <div id=fstats></div>
   </div>
+  <div id=seatv>
+   <div id=ftop><span class=lab><b>&#9650;</b>BALANCE OF POWER</span><span class=chip id=svgrp></span><span class="chip st" id=svst></span></div>
+   <div class=sv-nums><div class=sv-n><div class=p style="color:var(--D)">DEMOCRATS</div><div class=v id=svd style="color:var(--D)"></div></div>
+    <div class=sv-c id=svc></div>
+    <div class="sv-n r"><div class=p style="color:var(--R)">REPUBLICANS</div><div class=v id=svr style="color:var(--R)"></div></div></div>
+   <div id=svq></div>
+   <div id=svstrip></div>
+   <div id=svdist></div>
+   <div id=svhist></div>
+   <div id=svcalls></div>
+  </div>
   <div id=call><div class=k1>&#9650; MARKET CALL</div><div class=k2 id=ck2></div><div class=k3 id=ck3></div><div class=k4 id=ck4></div></div>
   <div id=prog><i id=progi></i></div>
  </div>
  <div id=rail>
-  <div class=panel id=board><div class=lab><b>&#9650;</b>ON THE BOARD &middot; STILL TOSS-UPS</div><div class=list id=blist></div></div>
+  <div class=panel id=board><div class=lab><b>&#9650;</b>BALANCE OF POWER</div><div id=bal></div><div class=lab><b>&#9650;</b>ON THE BOARD &middot; STILL TOSS-UPS</div><div class=list id=blist></div></div>
   <div class=panel id=calls><div class=lab><b>&#9650;</b>LATEST CALLS &middot; LEFT THE BAND</div><div class=list id=clist></div></div>
  </div>
 </div>
@@ -185,14 +223,16 @@ function active(){return S.items.filter(i=>i.status!=='decided'&&!HIDE.has(i.ev)
 function decided(){return S.items.filter(i=>i.status==='decided'&&!HIDE.has(i.ev)).sort((a,b)=>(a.pre-b.pre)||(b.decided_at-a.decided_at)||(b.vol24-a.vol24))}
 function tick(){
   const age=Date.now()/1000-S.t; SNAP=SNAP_OK&&age>3*S.poll_s; const now=NOW(), act=active(), dec=decided();
-  $('cnt').textContent=`${act.length} TOSS-UPS · ${dec.length} CALLED · BAND ${cents(S.band[0])}–${cents(S.band[1])}¢`;
-  $('upd').textContent=SNAP?'AS OF '+new Date(S.t*1000).toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET':'UPDATED '+ago(age)+' AGO';
+  $('cnt').textContent=`${act.length} TOSS-UPS · ${dec.length+(S.called||[]).length} CALLED · BAND ${cents(S.band[0])}–${cents(S.band[1])}¢${S.sen_band?` (SEN ${cents(S.sen_band[0])}–${cents(S.sen_band[1])})`:''}`;
+  $('upd').textContent=SNAP?'AS OF '+new Date(S.t*1000).toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET':ago(age)+' AGO';
   const stale=!SNAP&&age>3*S.poll_s, L=$('live');
   L.innerHTML=SNAP?'<b>●</b> SNAPSHOT':S.feed_down?'<b>●</b> FEED LOST':stale?'<b>●</b> STALE':'<b>●</b> LIVE'; L.className='live'+(S.feed_down||stale?' bad':'');
   const b=$('banner'); if(S.feed_down||stale){b.style.display='block';b.textContent=S.feed_down?'Kalshi feed lost ('+S.err+') — re-run the allowlist refresher':'Poller has not written for '+ago(age)+' — is it running?'}else b.style.display='none';
   // new calls (decided while we watch) jump the queue
   for(const it of dec){ if(!seenCalls.has(it.id)){ seenCalls.add(it.id); if(!firstLoad&&!it.pre) queue.push(it.id) } }
+  for(const c of (S.called||[])){ if(!seenCalls.has(c.ev)){ seenCalls.add(c.ev); if(!firstLoad) queue.push('called:'+c.ev) } }
   if(firstLoad&&location.search.includes('testcall')&&dec.length) queue.push(dec[0].id);
+  if(firstLoad&&location.search.includes('testseats')){ step=3; if(location.search.includes('house')) seatKind='senate' }
   firstLoad=false;
   renderRail();
   if(idx<0) next();
@@ -201,16 +241,19 @@ function focusList(){return active().sort((a,b)=>score(b)-score(a)).slice(0,NFOC
 function next(){
   clearTimeout(timer);
   if(!S) return;
-  if(queue.length){ const id=queue.shift(); showCall(S.items.find(i=>i.id===id)); return }
+  if(queue.length){ const id=queue.shift(); if(id.startsWith('called:')) showCalled((S.called||[]).find(c=>'called:'+c.ev===id)); else showCall(S.items.find(i=>i.id===id)); return }
+  step++;
+  if(S.seats&&step%4===0){ seatKind=seatKind==='senate'?'house':'senate'; if(!S.seats[seatKind]) seatKind=seatKind==='senate'?'house':'senate';
+    if(S.seats[seatKind]){ showSeats(seatKind); return } }
   order=focusList(); if(!order.length){showEmpty();return}
   const cur=order.indexOf(curId); idx=(cur+1)%order.length; showFocus(S.items.find(i=>i.id===order[idx]));
 }
-let curId=null;
+let curId=null, step=0, seatKind='house';
 function progress(ms){const p=$('progi');p.style.transition='none';p.style.width='0';void p.offsetWidth;p.style.transition=`width ${ms}ms linear`;p.style.width='100%';timer=setTimeout(next,ms)}
-function showEmpty(){$('focus').classList.remove('call');$('fname').textContent='NO ACTIVE TOSS-UPS';$('sides').innerHTML='';$('chart').innerHTML='';progress(DWELL)}
+function showEmpty(){$('focus').classList.remove('call','seats');$('fname').textContent='NO ACTIVE TOSS-UPS';$('sides').innerHTML='';$('chart').innerHTML='';progress(DWELL)}
 function showFocus(it){
   if(!it){progress(1000);return}
-  curId=it.id; const F=$('focus'); F.classList.remove('call');
+  curId=it.id; const F=$('focus'); F.classList.remove('call','seats');
   $('fgrp').textContent=GL[it.group]||it.group;
   const st=$('fst'); st.textContent=it.status==='breaking'?'BREAKING '+ago(NOW()-it.out_since):'TOSS-UP'; st.className='chip st '+it.status;
   $('fpos').innerHTML=order.map((_,i)=>`<i class="${i===idx?'on':''}"></i>`).join('');
@@ -226,6 +269,7 @@ function showFocus(it){
 }
 let lastChart=null;
 new ResizeObserver(()=>{if(lastChart&&!$('focus').classList.contains('call'))drawChart(...lastChart)}).observe(document.getElementById('chart'));
+new ResizeObserver(()=>{const F=$('focus');if(F.classList.contains('seats')&&S&&S.seats){const k=$('svgrp').textContent==='SENATE'?'senate':'house';const x=S.seats[k];if(x){drawStrip(k,seatSummary(k));drawDist(k,x);drawSeatHist(k,x)}}}).observe(document.getElementById('svdist'));
 function drawChart(it,sd){
   lastChart=[it,sd];
   const box=$('chart'), W=box.clientWidth||800, H=box.clientHeight||300, fs=Math.max(10,Math.min(16,H/22)), pl=8, pr=fs*4.4, pt=10, pb=fs*2.1;
@@ -236,7 +280,8 @@ function drawChart(it,sd){
   if(!lines.length){box.innerHTML='<svg></svg>';return}
   const all=lines.flatMap(l=>l.pts), t0=Math.min(...all.map(p=>p[0])), t1=Math.max(...all.map(p=>p[0]));
   const X=t=>pl+(t-t0)/Math.max(1,t1-t0)*(W-pl-pr), Y=p=>pt+(1-p)*(H-pt-pb);
-  let g=`<rect x=${pl} y=${Y(S.band[1])} width=${W-pl-pr} height=${Y(S.band[0])-Y(S.band[1])} fill="#d4dcdd"/>`;
+  const bd=it.group==='SENATE'&&S.sen_band?S.sen_band:S.band;
+  let g=`<rect x=${pl} y=${Y(bd[1])} width=${W-pl-pr} height=${Y(bd[0])-Y(bd[1])} fill="#d4dcdd"/>`;
   for(const v of [0,.25,.5,.75,1]) g+=`<line x1=${pl} x2=${W-pr} y1=${Y(v)} y2=${Y(v)} stroke="${v===.5?'#2b3434':'#c4cdce'}" stroke-width=${v===.5?1.5:1} ${v===.5?'stroke-dasharray="6 5"':''}/><text x=${W-pr+10} y=${Y(v)+6} font-size=${fs} fill="#6d7a7b">${Math.round(v*100)}¢</text>`;
   // hour ticks (ET)
   const step=t1-t0>5*3600?7200:3600;
@@ -251,7 +296,7 @@ function drawChart(it,sd){
 }
 function showCall(it){
   if(!it){next();return}
-  const F=$('focus'); F.classList.add('call'); curId=null;
+  const F=$('focus'); F.classList.remove('seats'); F.classList.add('call'); curId=null;
   const nm=shortName(it), sd=sidesOf(it), w=it.final_leader||it.leader, s=sd.find(x=>x.name===w)||sd[0]||{};
   $('ck2').textContent=nm.title+(nm.q?' · '+nm.q:'');
   const pn={D:' (DEM)',R:' (GOP)',I:' (IND)'}[s.party]||'';
@@ -260,22 +305,107 @@ function showCall(it){
   $('ck4').textContent=was+(it.winner?'Settled by Kalshi':'Outside the toss-up band for '+S.decide_min+' minutes')+' · '+(GL[it.group]||'');
   progress(CALL_DWELL);
 }
+const PN={D:'DEM',R:'GOP',I:'IND'};
+const etTime=t=>new Date(t*1000).toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'});
+const stAbbr=n=>(typeof ST!=='undefined'&&ST[n])||n;
+function showCalled(c){
+  if(!c){next();return}
+  const F=$('focus'); F.classList.remove('seats'); F.classList.add('call'); curId=null;
+  $('ck2').textContent=c.state+' '+(c.group==='SENATE'?'Senate':'Governor');
+  const k3=$('ck3'); k3.textContent=c.winner+(PN[c.party]?' ('+PN[c.party]+')':''); k3.style.background=COL[c.party||''];
+  $('ck4').textContent='Settled by Kalshi · '+(c.called_at?'called '+etTime(c.called_at)+' ET':'');
+  progress(CALL_DWELL);
+}
+function seatSummary(k){
+  const x=S.seats[k]; if(!x) return null;
+  const d=k==='senate'?x.mode:Math.round(x.median);
+  return {d, r:x.total-d, pm:x.p_majority, maj:x.majority, total:x.total};
+}
+function showSeats(k){
+  const F=$('focus'); F.classList.remove('call'); F.classList.add('seats'); curId=null;
+  const x=S.seats[k], sm=seatSummary(k), dem=sm.pm>=.5;
+  $('svgrp').textContent=k==='senate'?'SENATE':'HOUSE';
+  const st=$('svst'); st.textContent=(sm.pm>=.5?'DEM':'GOP')+' CONTROL '+Math.round(Math.max(sm.pm,1-sm.pm)*100)+'%'; st.style.background=dem?'var(--D)':'var(--R)'; st.style.borderColor=dem?'var(--D)':'var(--R)';
+  $('svd').textContent=sm.d; $('svr').textContent=sm.r;
+  $('svc').innerHTML=`MAJORITY<b>${sm.maj}</b>${k==='senate'?'VP BREAKS TIES (R)':'OF 435'}`;
+  $('svq').innerHTML=k==='senate'
+    ?`Most likely outcome: <b>${x.mode} Democratic seats</b> (${Math.round(x.p_mode*100)}%) · expected ${x.expected.toFixed(1)} · Republicans shown as 100 − Democrats`
+    :`Median outcome: <b>${x.median.toFixed(0)} Democratic seats</b> · from Kalshi’s “Democrats win at least N” markets · Republicans shown as 435 − Democrats`;
+  for(const id of ['svd','svr','svq','svstrip','svdist','svhist','svcalls']){const e=$(id);e.classList.remove('fade');void e.offsetWidth;e.classList.add('fade')}
+  drawStrip(k,sm); drawDist(k,x); drawSeatHist(k,x);
+  const cs=(S.called||[]).filter(c=>c.group==='SENATE').sort((a,b)=>(b.called_at||0)-(a.called_at||0));
+  $('svcalls').innerHTML=k==='senate'&&cs.length?`<span class=l>▲ SENATE CALLS TONIGHT</span>`+cs.map(c=>`<i style="background:${COL[c.party||'']}" title="${esc(c.winner)}">${esc(stAbbr(c.state))}</i>`).join('')
+    :'';
+  renderRail(); progress(DWELL);
+}
+function drawStrip(k,sm){
+  const box=$('svstrip'), W=box.clientWidth||900, H=box.clientHeight||50;
+  let g='';
+  if(k==='senate'){ const cw=W/100; for(let i=0;i<100;i++){ g+=`<rect x=${(i*cw+1).toFixed(1)} y=2 width=${(cw-2).toFixed(1)} height=${H-4} fill="${i<sm.d?HEX.D:HEX.R}"/>` } }
+  else { const dw=W*sm.d/435; g+=`<rect x=0 y=2 width=${dw} height=${H-4} fill="${HEX.D}"/><rect x=${dw} y=2 width=${W-dw} height=${H-4} fill="${HEX.R}"/>`;
+    for(let i=1;i<44;i++){const x=W*i*10/435;g+=`<line x1=${x} x2=${x} y1=2 y2=${H-2} stroke="#eef2f2" stroke-width=1 opacity=.5 />`} }
+  const mx=W*sm.maj/sm.total;
+  g+=`<line x1=${mx} x2=${mx} y1=0 y2=${H} stroke="#2b3434" stroke-width=4 /><line x1=${mx} x2=${mx} y1=0 y2=${H} stroke="#fff" stroke-width=1.5 />`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}">${g}</svg>`;
+}
+function drawDist(k,x){
+  const box=$('svdist'), W=box.clientWidth||900, H=box.clientHeight||200, fs=Math.max(10,Math.min(16,H/14)), pb=fs*2, pt=fs*1.6;
+  let bars=k==='senate'?x.dist.map(([n,p],i,a)=>({lab:i===0?'≤'+n:i===a.length-1?n+'+':''+n,p,dem:n>=x.majority}))
+                       :x.buckets.filter(b=>b[1]<435||b[2]>.001).map(([a,b,p])=>({lab:b>=435?a+'+':a+'–'+b,p,dem:a>=x.majority}));
+  if(k==='house'){ while(bars.length>8&&bars[0].p<.002) bars.shift(); }
+  const n=bars.length, bw=W/n, mp=Math.max(...bars.map(b=>b.p),.01);
+  let g=`<text x=0 y=${fs} font-size=${fs} fill="#6d7a7b" letter-spacing=3>CHANCE OF EACH OUTCOME · DEMOCRATIC SEATS</text>`;
+  bars.forEach((b,i)=>{const h=(H-pb-pt-fs*1.2)*b.p/mp, x0=i*bw+bw*.12, y0=H-pb-h;
+    g+=`<rect x=${x0.toFixed(1)} y=${y0.toFixed(1)} width=${(bw*.76).toFixed(1)} height=${h.toFixed(1)} fill="${b.dem?HEX.D:HEX.R}" opacity=${b.p>=mp*.999?1:.75} />`;
+    if(b.p>=.02) g+=`<text x=${(x0+bw*.38).toFixed(1)} y=${(y0-fs*.4).toFixed(1)} font-size=${fs} text-anchor=middle fill="#2b3434" font-weight=700>${Math.round(b.p*100)}%</text>`;
+    g+=`<text x=${(x0+bw*.38).toFixed(1)} y=${H-fs*.5} font-size=${fs*(n>12?.8:.95)} text-anchor=middle fill="#6d7a7b">${b.lab}</text>`});
+  g+=`<line x1=0 x2=${W} y1=${H-pb} y2=${H-pb} stroke="#2b3434" stroke-width=1.5 />`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}">${g}</svg>`;
+}
+function drawSeatHist(k,x){
+  const box=$('svhist'), W=box.clientWidth||900, H=box.clientHeight||200, fs=Math.max(10,Math.min(16,H/12)), pl=8, pr=fs*4, pt=fs*1.8, pb=fs*1.9;
+  const h=(x.hist||[]).filter(p=>p[1]!=null); if(h.length<2){box.innerHTML='';return}
+  const t0=h[0][0], t1=h[h.length-1][0], vs=h.map(p=>p[1]).concat([x.majority]);
+  let lo=Math.min(...vs), hi=Math.max(...vs); const pad=Math.max(1,(hi-lo)*.12); lo=Math.floor(lo-pad); hi=Math.ceil(hi+pad);
+  const X=t=>pl+(t-t0)/Math.max(1,t1-t0)*(W-pl-pr), Y=v=>pt+(hi-v)/(hi-lo)*(H-pt-pb);
+  let g=`<text x=0 y=${fs} font-size=${fs} fill="#6d7a7b" letter-spacing=3>${k==='senate'?'EXPECTED':'MEDIAN'} DEMOCRATIC SEATS, LAST ${Math.max(1,Math.round((t1-t0)/3600))}H</text>`;
+  g+=`<rect x=${pl} y=${Y(hi)} width=${W-pl-pr} height=${Y(x.majority)-Y(hi)} fill="#2a63b8" opacity=.07 /><line x1=${pl} x2=${W-pr} y1=${Y(x.majority)} y2=${Y(x.majority)} stroke="#2b3434" stroke-dasharray="6 5" stroke-width=1.5 /><text x=${W-pr+8} y=${Y(x.majority)+fs*.35} font-size=${fs} fill="#2b3434">${x.majority} MAJ</text>`;
+  const step=t1-t0>5*3600?7200:3600;
+  for(let t=Math.ceil(t0/step)*step;t<=t1;t+=step){const xx=X(t);g+=`<text x=${xx} y=${H-fs*.4} font-size=${fs} fill="#6d7a7b" text-anchor=middle>${new Date(t*1000).toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric'})}</text>`}
+  const d=h.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' '), last=h[h.length-1];
+  const c=last[1]>=x.majority?HEX.D:HEX.R;
+  g+=`<path d="${d}" pathLength=1 fill=none stroke="${c}" stroke-width=4 stroke-linejoin=round style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards"/><circle cx=${X(last[0])} cy=${Y(last[1])} r=7 fill="${c}"/>`;
+  g+=`<text x=${W-pr+8} y=${Y(last[1])-fs*.6} font-size=${fs*1.1} font-weight=700 fill="${c}">${(+last[1]).toFixed(k==='senate'?1:0)}</text>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}"><style>@keyframes draw{to{stroke-dashoffset:0}}</style>${g}</svg>`;
+}
+function renderBal(){
+  const B=$('bal'); if(!S.seats){B.innerHTML='';return}
+  B.innerHTML=['senate','house'].filter(k=>S.seats[k]).map(k=>{const sm=seatSummary(k), dp=sm.d/sm.total*100, mx=sm.maj/sm.total*100;
+    return `<div class=bl><span class=k>${k==='senate'?'SENATE':'HOUSE'}</span><span class=bb><i style="width:${dp}%;background:var(--D)"></i><i style="width:${100-dp}%;background:var(--R)"></i><u style="left:${mx}%"></u></span><span class=v><span style="color:var(--D)">D ${sm.d}</span> · <span style="color:var(--R)">R ${sm.r}</span></span></div>`}).join('');
+}
 function renderRail(){
+  renderBal();
   if(!S) return;
   const act=active().sort((a,b)=>score(b)-score(a)), B=$('blist');
   B.innerHTML=act.map(it=>{const nm=shortName(it), sd=sidesOf(it), top=sd.reduce((a,b)=>b.p>a.p?b:a,sd[0]||{p:0});
     const bar=sd.map(s=>`<i style="width:${(s.p*100).toFixed(1)}%;background:${COL[s.party]}"></i>`).join('');
     return `<div class="br${it.id===curId?' cur':''}"><span class=mk>▶</span><span class=n>${esc(nm.rail)}${it.status==='breaking'?'<span class=bk>BREAKING</span>':''}</span><span class=v style="color:${COL[top.party]}">${esc(nm.lead(top))} ${cents(top.p)}</span><span></span><span class=sb>${bar}</span></div>`}).join('');
   fit(B,'.br',act.length,'+ MORE ON THE BOARD');
-  const dec=decided(), C=$('clist'), now=NOW();
-  C.innerHTML=dec.map(it=>{const nm=shortName(it), sd=sidesOf(it), w=it.final_leader||it.leader, s=sd.find(x=>x.name===w)||{};
+  const dec0=decided(), C=$('clist'), now=NOW();
+  const cev=new Set((S.called||[]).map(c=>c.ev));
+  const rows=dec0.filter(it=>!cev.has(it.ev)).map(it=>({it,t:it.pre?0:it.decided_at}))
+    .concat((S.called||[]).map(c=>({c,t:c.called_at||0}))).sort((a,b)=>b.t-a.t);
+  C.innerHTML=rows.map(({it,c})=>{ if(c){ const nm=stAbbr(c.state)+' '+(c.group==='SENATE'?'Senate':'Governor');
+      return `<div class="cr${now-(c.called_at||0)<1800?' new':''}"><span class=pt style="background:${COL[c.party||'']}">${c.party||'—'}</span><span class=n>${esc(nm)}</span><span class=w>${esc(c.winner)} · called ${c.called_at?etTime(c.called_at)+' ET':''}</span></div>` }const nm=shortName(it), sd=sidesOf(it), w=it.final_leader||it.leader, s=sd.find(x=>x.name===w)||{};
     const pa=it.kind==='market'?(w==='YES'?'Y':'N'):(s.party||'');
     return `<div class="cr${!it.pre&&now-it.decided_at<1800?' new':''}"><span class=pt style="background:${COL[pa]}">${pa==='Y'?'YES':pa==='N'?'NO':pa||'—'}</span><span class=n>${esc(nm.rail)}</span><span class=w>${esc(w)} ${cents(it.p)}¢ · ${it.pre?'before tracking':ago(now-it.decided_at)+' ago'}</span></div>`}).join('');
-  fit(C,'.cr',dec.length,'+ MORE CALLED TONIGHT');
+  fit(C,'.cr',rows.length,'+ MORE CALLED TONIGHT');
 }
 function fit(box,sel,n,label){const over=()=>box.scrollHeight>box.clientHeight+1;if(!over())return;
   box.insertAdjacentHTML('beforeend','<div class=more></div>');const more=box.lastChild;let k=0;
-  while(over()&&more.previousSibling){more.previousSibling.remove();k++} more.textContent=k+' '+label}
+  more.textContent='0 '+label;
+  const clipped=()=>over()||more.getBoundingClientRect().bottom>box.getBoundingClientRect().bottom+.5;
+  while(clipped()&&more.previousSibling){more.previousSibling.remove();k++} more.textContent=k+' '+label}
 function clock(){const d=new Date();$('clk').textContent=d.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour12:false})+' ET'}
 setInterval(clock,1000);clock();load();setInterval(load,15000);
 </script></body></html>

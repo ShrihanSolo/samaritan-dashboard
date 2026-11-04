@@ -13,7 +13,7 @@ Ten interactive data displays in a dark, Samaritan-inspired style (after the AI 
 | 07 | [US Weather](slides/us-weather.html) | Live wind particles and weather layers |
 | 08 | [Lensing Playground](slides/lensing-playground.html) | Interactive gravitational lens over a galaxy field |
 | 09 | [NYC Tour](slides/nyc-tour.html) | Guided Manhattan tour |
-| 10 | [Kalshi Toss-Ups](slides/kalshi-tossups.html) | 2026 election night: Kalshi races still near 50/50, in rotation (snapshot) |
+| 10 | [Kalshi Toss-Ups](slides/kalshi-tossups.html) | 2026 election night: Kalshi races still near 50/50, balance of power in both chambers, called races (snapshot) |
 
 The displays are designed for a 1920×1050 landscape screen. Press F11 for full screen.
 
