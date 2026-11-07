@@ -1,0 +1,436 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><!--/MVP--><title>Chess // Two Player</title><style>/* Samaritan kit CSS. body.dark (default) or body.light. Inlined by web.py push for pages containing <!--SAMKIT-->. */
+:root{--red:#e5322d;--gold:#ffd27a;--mono:'DejaVu Sans Mono',Menlo,Consolas,monospace}
+body,body.dark{--bg:#0a0b0d;--panel:#15181d;--line:#1a1d22;--ink:#e6e7ea;--hi:#fff;--dim:#8d939b;--dim2:#6d737c;--feed:#050607;--btn:#0a0b0d;--btnline:#2a2e35;--scan:rgba(255,255,255,.022)}
+body.light{--bg:#d4dcdd;--panel:#eef2f2;--line:#aab5b8;--ink:#2b3434;--hi:#14161a;--dim:#6f7a7c;--dim2:#9aa0a8;--feed:#14161a;--btn:#eef2f2;--btnline:#aab5b8;--scan:rgba(0,0,0,.025);--gold:#b5541d}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--mono);user-select:none}
+body:before{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px);pointer-events:none;z-index:50}
+.s-hdr{position:fixed;left:0;right:0;top:0;height:4.2vh;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:3vw;padding:0 2vw;font-size:.85vw;letter-spacing:.25em;color:var(--dim);z-index:40;text-transform:uppercase}
+.s-hdr b{color:var(--ink)}.s-hdr i{color:var(--red);font-style:normal}.s-hdr .clk{margin-left:auto;margin-right:5vw}
+.s-frame{position:fixed;background:var(--feed)}.s-frame .tab{position:absolute;left:0;top:-.6em;transform:translateY(-100%);font-size:.75vw;letter-spacing:.25em;background:var(--panel);color:var(--ink);border-left:3px solid var(--red);padding:.3em .8em;text-transform:uppercase}
+.s-frame .k{position:absolute;width:40px;height:40px;border:2px solid var(--dim);pointer-events:none}
+.s-frame .k.a{left:-8px;top:-8px;border-right:0;border-bottom:0}.s-frame .k.b{right:-8px;top:-8px;border-left:0;border-bottom:0}
+.s-frame .k.c{left:-8px;bottom:-8px;border-right:0;border-top:0}.s-frame .k.d{right:-8px;bottom:-8px;border-left:0;border-top:0}
+.s-panel{position:fixed;right:2.5vw;top:9vh;width:25vw;max-height:86vh;overflow:hidden;font-size:.95vw;line-height:1.55;background:var(--panel);border:1px solid var(--line);padding:1.6vw;box-shadow:0 2px 20px rgba(0,0,0,.35);z-index:30}
+.s-panel h1,.s-h{font-weight:600;font-size:.9em;letter-spacing:.3em;color:var(--ink);margin:1em 0 .4em;text-transform:uppercase}.s-panel h1:before,.s-h:before{content:"▲ ";color:var(--red)}
+.s-big{font-size:3.4em;color:var(--hi);border-bottom:2px solid var(--ink);display:inline-block}
+.s-sub{color:var(--dim);text-transform:uppercase;letter-spacing:.12em;font-size:.84em;margin:.5em 0 1em}
+.s-info{min-height:5em;border-left:3px solid var(--red);padding:.3em 0 .3em 1em;margin:1em 0;text-transform:uppercase;font-size:.9em;letter-spacing:.08em}
+.s-info b,.s-gold{color:var(--gold);font-weight:normal}
+.s-row{margin:.3em 0}.s-row label{display:block;font-size:.8em;letter-spacing:.15em;color:var(--dim);text-transform:uppercase}
+input[type=range]{width:100%;accent-color:var(--red)}
+.s-btn{background:var(--btn);color:var(--dim);border:1px solid var(--btnline);padding:.35em .8em;margin:.25em .3em .25em 0;font:.84em var(--mono);letter-spacing:.15em;cursor:pointer;text-transform:uppercase}
+.s-btn.on{background:var(--line);color:var(--ink);border-color:var(--red)}
+.s-note{color:var(--dim2);font-size:.8em;margin-top:1.4em;text-transform:uppercase;letter-spacing:.06em}
+.s-tip{position:fixed;pointer-events:none;font:12px var(--mono);letter-spacing:.15em;color:var(--ink);background:var(--panel);padding:2px 6px;border-left:2px solid var(--red);text-transform:uppercase;z-index:60;display:none}
+</style><script>function roll(root){if(!root)return;const GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789',S=[];
+ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('script,style,.lab,.cur,#hdr,.k')?2:(n.nodeValue.trim()?1:2)});
+ const ns=[];while(w.nextNode())ns.push(w.currentNode);
+ ns.forEach(n=>{const f=document.createDocumentFragment(),hl=!!n.parentElement.closest('b,strong');for(const c of n.nodeValue){const s=document.createElement('span');s.textContent=c;
+  if(c.trim()||hl){s.style.visibility='hidden';s.dataset.c=c;S.push(s)}f.appendChild(s)}n.replaceWith(f)});root.classList.add('rl');
+ // The glitch glyph is drawn as an overlay (::after, position:absolute) over the real, transparent character, so the
+ // layout never changes while text rolls in (user, 2026-11-05: proportional fonts and fallback glyphs made lines jitter).
+ if(!document.getElementById('rlcss')){const st=document.createElement('style');st.id='rlcss';
+  st.textContent='.rl .rg{position:relative;color:transparent!important}.rl .rg::after{content:attr(data-g);position:absolute;left:0;top:0;color:#e5322d;pointer-events:none}';document.head.appendChild(st)}
+ if(!S.length)return;const G=new Map();S.forEach(s=>{const b=s.closest('p,li,h1,h2,h3,pre,.q,td,div')||root;if(!G.has(b))G.set(b,[]);G.get(b).push(s)});
+ const gs=[...G.values()],L=Math.max(...gs.map(g=>g.length)),ms=Math.max(4,Math.min(28,1800/L)),t0=performance.now()+250,ks=gs.map(()=>0);let done=false;
+ const fin=()=>{done=true;S.forEach(s=>{s.classList.remove('rg');s.style.visibility=''})};
+ addEventListener('click',fin,{once:true});addEventListener('keydown',fin,{once:true});
+ (function f(now){if(done)return;const K=Math.max(0,Math.floor((now-t0)/ms));let left=false;
+  gs.forEach((g,i)=>{const k2=Math.min(g.length,K);for(let k=ks[i];k<k2;k++){g[k].classList.remove('rg');g[k].style.visibility=''}ks[i]=k2;
+   if(k2<g.length){left=true;const s=g[k2];s.style.visibility='';s.classList.add('rg');s.dataset.g=GL[Math.random()*GL.length|0]}});
+  if(left)requestAnimationFrame(f)})(performance.now())}
+;/* Opening animation for framed boxes (user, 2026-11-05): when a slide opens, each box's corner brackets start together
+   at the box centre and slide out to their corners, and the box is revealed in the growing rectangle between them.
+   Same feel as the approved RHO // PRESETS demo: 650 ms, cubic-bezier(.2,.7,.2,1), one shared 120 ms delay (no stagger).
+
+   Used by default by web.py push (hud text panels), web.py deck (FEED figures) and the kit's S.frame. Hand-written
+   pages opt in with one line, the OPENKIT marker (an HTML comment; web.py push / web.samkit inline this file and run openFrames() on load,
+   which opens every .frame, .s-open and [data-open] box). Opt out for one page with a data-noopen attribute on body or html.
+
+   openFrames(target, opts)
+     target   element, list, selector, or nothing (= '.frame,.s-open,[data-open]')
+     opts     brackets: selector for bracket children (default ':scope>.k,:scope>.c,:scope>.s-k'); small bordered
+                        ::before/::after pseudo-elements are used as brackets too
+              rect(box)  box rectangle in client px (default its border box; web.py hud uses the viewport)
+              companions 'auto': also clip fixed/absolute elements that are not inside the box but lie over it
+                        (the kit's canvases are body-level siblings of their frame)
+              delay 120, dur 650, stagger 0 (ms per box; off by default)
+   It is driven by requestAnimationFrame and measures every frame, so layout changes during the opening are followed.
+   Nothing is hidden before the script runs, a box with zero size is left alone, every inline style it sets is removed
+   at the end (so clip-path no longer affects clicks), a timer finishes it if frames stop, and it does nothing under
+   prefers-reduced-motion. Each box opens once; calling it again on the same box does nothing. */
+(function(){if(window.openFrames)return;
+const B=[.2,.7,.2,1],bz=(a,b,t)=>3*a*t*(1-t)*(1-t)+3*b*t*t*(1-t)+t*t*t;
+const ease=u=>{if(u<=0)return 0;if(u>=1)return 1;let lo=0,hi=1;for(let i=0;i<28;i++){const m=(lo+hi)/2;if(bz(B[0],B[2],m)<u)lo=m;else hi=m}return bz(B[1],B[3],(lo+hi)/2)};
+const DONE=new WeakSet(),px=v=>parseFloat(v)||0;
+const off=()=>window.NO_OPEN||document.documentElement.hasAttribute('data-noopen')||(document.body&&document.body.hasAttribute('data-noopen'))||
+ (window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+let css=false;const addCss=()=>{if(css)return;css=true;const s=document.createElement('style');
+ s.textContent='[data-opening]::before{translate:var(--o-before,0 0)}[data-opening]::after{translate:var(--o-after,0 0)}';(document.head||document.documentElement).appendChild(s)};
+// bracket rest rectangle (client px, without our translate) and its border widths
+function rest(b,box){if(b.ps){const c=getComputedStyle(box,b.ps),r=box.getBoundingClientRect(),hc=getComputedStyle(box);
+  let w=px(c.width),h=px(c.height);if(c.boxSizing!=='border-box'){w+=px(c.paddingLeft)+px(c.paddingRight)+px(c.borderLeftWidth)+px(c.borderRightWidth);
+   h+=px(c.paddingTop)+px(c.paddingBottom)+px(c.borderTopWidth)+px(c.borderBottomWidth)}
+  return{x:r.left+px(hc.borderLeftWidth)+px(c.left),y:r.top+px(hc.borderTopWidth)+px(c.top),w,h,c}}
+ const r=b.el.getBoundingClientRect();return{x:r.left-b.tx,y:r.top-b.ty,w:r.width,h:r.height,c:getComputedStyle(b.el)}}
+function pseudo(box,ps,R){const c=getComputedStyle(box,ps);if(!c.content||c.content==='none'||c.content==='normal'||c.position!=='absolute')return null;
+ const bw=['Top','Right','Bottom','Left'].map(k=>px(c['border'+k+'Width'])),w=px(c.width),h=px(c.height);
+ if(!(bw[0]||bw[2])||!(bw[1]||bw[3]))return null;if(w>R.width*.6||h>R.height*.6)return null;return{ps}}   // an L of borders, small: a bracket
+const rectOf=(o,box)=>{if(o.rect)return o.rect(box);const r=box.getBoundingClientRect();return{left:r.left,top:r.top,width:r.width,height:r.height}};
+const path=(rs,ox,oy)=>rs.length?`path('${rs.map(r=>`M${(r.x-ox).toFixed(1)} ${(r.y-oy).toFixed(1)}h${r.w.toFixed(1)}v${r.h.toFixed(1)}h${(-r.w).toFixed(1)}z`).join('')}')`:'inset(50%)';
+function openFrames(target,o={}){
+ if(off())return;const D=o.delay??120,T=o.dur??650,ST=o.stagger??0;
+ let L=target==null?document.querySelectorAll('.frame,.s-open,[data-open]'):typeof target==='string'?document.querySelectorAll(target):(target.nodeType?[target]:[...target]);
+ const items=[];let later=[];
+ for(const box of L){if(!box||DONE.has(box))continue;const R=rectOf(o,box);if(!(R.width>2&&R.height>2)){later.push(box);continue}DONE.add(box);
+  const sel=o.brackets||':scope>.k,:scope>.c,:scope>.s-k';const br=[...(Array.isArray(sel)?sel:box.querySelectorAll(sel))].map(el=>({el,tx:0,ty:0}));
+  for(const ps of['::before','::after']){const p=pseudo(box,ps,R);if(p)br.push(p)}
+  const kids=[...box.children].filter(k=>{if(br.some(b=>b.el===k))return false;const r=k.getBoundingClientRect();
+   return r.width&&(r.left<R.left-1||r.top<R.top-1||r.right>R.left+R.width+1||r.bottom>R.top+R.height+1)});   // tabs/labels outside the box: fade in at the end
+  items.push({box,br,kids,comp:new Map(),d:D+items.length*ST,old:box.style.clipPath})}
+ // zero size now (e.g. a srcdoc iframe not laid out yet, or a hidden box): nothing is painted, so wait up to ~0.6 s for
+ // a size and open then; after that leave it alone (it shows as is whenever it appears)
+ if(later.length&&!o._t){const t1=performance.now();const chk=now=>{const rest=later.filter(b=>!DONE.has(b));const ready=rest.filter(b=>{const r=rectOf(o,b);return r.width>2&&r.height>2});
+   if(ready.length)openFrames(ready,Object.assign({},o,{_t:1}));const left=rest.filter(b=>!ready.includes(b));if(left.length&&now-t1<600){later=left;requestAnimationFrame(chk)}};
+  requestAnimationFrame(chk)}
+ if(!items.length)return;addCss();
+ const auto=o.companions==='auto';
+ function frame(now,t0){let left=false;
+  for(const it of items){if(it.done)continue;const u=t0==null?0:(now-t0-it.d)/T,e=ease(u),k=1-e;
+   if(u>=1){fin(it);continue}left=true;
+   const R=rectOf(o,it.box),cx=R.left+R.width/2,cy=R.top+R.height/2,g={x:cx-R.width*e/2,y:cy-R.height*e/2,w:R.width*e,h:R.height*e},rs=[g];
+   for(const b of it.br){const r=rest(b,it.box),dx=(cx-r.x-r.w/2)*k,dy=(cy-r.y-r.h/2)*k;
+    if(b.ps)it.box.style.setProperty(b.ps==='::before'?'--o-before':'--o-after',`${dx}px ${dy}px`);else{b.el.style.translate=`${dx}px ${dy}px`;b.tx=dx;b.ty=dy}
+    const x=r.x+dx,y=r.y+dy,c=r.c,t=px(c.borderTopWidth),ri=px(c.borderRightWidth),bo=px(c.borderBottomWidth),le=px(c.borderLeftWidth);   // the bracket's own lines stay visible
+    if(t)rs.push({x,y,w:r.w,h:t});if(bo)rs.push({x,y:y+r.h-bo,w:r.w,h:bo});if(le)rs.push({x,y,w:le,h:r.h});if(ri)rs.push({x:x+r.w-ri,y,w:ri,h:r.h})}
+   it.box.setAttribute('data-opening','');const bb=it.box.getBoundingClientRect();it.box.style.clipPath=path(rs,bb.left,bb.top);
+   if(auto)for(const el of document.body.children){if(el===it.box||it.comp.has(el)||el.classList.contains('s-frame')||el.tagName==='SCRIPT'||el.tagName==='STYLE')continue;
+    const r=el.getBoundingClientRect();if(!r.width||!r.height)continue;
+    if(r.left>=R.left-2&&r.top>=R.top-2&&r.right<=R.left+R.width+2&&r.bottom<=R.top+R.height+2){const p=getComputedStyle(el).position;if(p==='fixed'||p==='absolute')it.comp.set(el,el.style.clipPath)}}
+   for(const el of it.comp.keys()){const r=el.getBoundingClientRect();el.style.clipPath=path([g],r.left,r.top)}}
+  return left}
+ function fin(it){if(it.done)return;it.done=true;it.box.style.clipPath=it.old||'';it.box.removeAttribute('data-opening');
+  it.box.style.removeProperty('--o-before');it.box.style.removeProperty('--o-after');
+  for(const b of it.br)if(b.el)b.el.style.translate='';for(const[el,v]of it.comp)el.style.clipPath=v||'';
+  for(const k of it.kids)try{k.animate([{opacity:0},{opacity:1}],{duration:220,easing:'ease-out'})}catch(e){}}
+ const finAll=()=>items.forEach(fin);
+ try{frame(0,null)}catch(e){finAll();return}   // closed state before the first paint
+ if(document.hidden){finAll();return}
+ let t0=null;const step=now=>{try{if(t0==null)t0=now;if(frame(now,t0))requestAnimationFrame(step)}catch(e){finAll()}};
+ requestAnimationFrame(step);setTimeout(finAll,D+(items.length-1)*ST+T+1500)}   // safety net: never leave a box clipped
+window.openFrames=openFrames;if(window.S)window.S.openFrames=openFrames})();
+;/* Samaritan kit JS (window.S). See SKILL.md "Samaritan kit". */
+const S=(()=>{const S={};S.GL='ИЯƎƆƧΣΞЖƐ⅃ↄ#%&<>=+0123456789';S.C={red:'#e5322d',gold:'#ffd27a',ink:'#e6e7ea',dim:'#8d939b',bg:'#0a0b0d',panel:'#15181d',feed:'#050607'};
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};S.el=el;
+// decode one element's text (Promise). ms per letter.
+S.decode=(e,txt,ms=28)=>new Promise(r=>{txt=txt??e.textContent;const t0=performance.now();(function f(n){const k=Math.min(txt.length,(n-t0)/ms|0);
+ if(k<txt.length){e.textContent=txt.slice(0,k)+(txt[k]===' '?' ':S.GL[Math.random()*S.GL.length|0]);requestAnimationFrame(f)}else{e.textContent=txt;r()}})(t0)});
+// roll all text under root in parallel (layout-stable). Provided by web.ROLL_JS as global roll(); alias here.
+S.roll=r=>window.roll&&window.roll(r);
+// canvas with dpr; returns object whose W,H update on resize. box: fn()->{x,y,w,h} in CSS px (default full window)
+S.canvas=(box,onResize)=>{const c=el('canvas');c.style.position='fixed';document.body.appendChild(c);const o={c,ctx:c.getContext('2d')};
+ const sz=()=>{const d=devicePixelRatio||1,b=box?box():{x:0,y:0,w:innerWidth,h:innerHeight};Object.assign(c.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+  c.width=b.w*d;c.height=b.h*d;o.ctx.setTransform(d,0,0,d,0,0);o.W=b.w;o.H=b.h;o.dpr=d;onResize&&onResize(o)};addEventListener('resize',sz);sz();return o};
+// animation loop fn(tSeconds, dtSeconds); returns stop()
+S.loop=fn=>{let on=true,last=performance.now();const f=n=>{if(!on)return;const dt=Math.min(.1,(n-last)/1000);last=n;fn(n/1000,dt);requestAnimationFrame(f)};requestAnimationFrame(f);return()=>on=false};
+// header strip: S.header(['SKY_SURVEY v1','LOC ...'],{status:'OBSERVATION ACTIVE',clock:true})
+S.header=(items=[],o={})=>{const h=el('div','s-hdr','<b>SAMARITAN</b>'+items.map(s=>`<span>${s}</span>`).join('')+(o.status?`<i>▲ ${o.status}</i>`:'')+(o.clock!==false?'<span class=clk></span>':''));
+ document.body.appendChild(h);const c=h.querySelector('.clk');if(c){const u=()=>c.textContent=new Date().toISOString().slice(11,19)+' UTC';u();setInterval(u,1000)}return h};
+// FEED frame with tab + corner brackets at box fn()->{x,y,w,h}. Opens with the bracket animation (kit/open.js) when it is
+// created: frames made in the same script open together, along with the canvases and overlays lying over them.
+// S.frame(label, box, {open:false}) skips it; <body data-noopen> skips it for the whole page.
+S._openQ=[];S.frame=(label,box,o={})=>{const f=el('div','s-frame',`<div class=tab>${label}</div><i class="k a"></i><i class="k b"></i><i class="k c"></i><i class="k d"></i>`);document.body.appendChild(f);
+ const p=()=>{const b=box();Object.assign(f.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'})};addEventListener('resize',p);p();
+ if(o.open!==false&&window.openFrames){if(!S._openQ.length)queueMicrotask(()=>{const q=S._openQ.splice(0);openFrames(q,{companions:'auto'})});S._openQ.push(f)}return f};
+S.openFrames=(t,o)=>window.openFrames&&window.openFrames(t,o);
+// side panel with builders
+S.panel=(title)=>{const p=el('div','s-panel');document.body.appendChild(p);const add=(h,c,t='div')=>{const e=el(t,c,h);p.appendChild(e);return e};
+ const P={el:p,h:t=>add(t,'s-h'),big:t=>add(t,'s-big'),sub:t=>add(t,'s-sub'),html:(h,c)=>add(h,c),note:t=>add(t,'s-note'),info:(t='SELECT A TARGET.')=>add(t,'s-info'),
+  slider(label,min,max,val,cb,step=1){const r=add(`<label>${label}</label><input type=range min=${min} max=${max} step=${step} value=${val}>`,'s-row').querySelector('input');r.oninput=()=>cb(+r.value);return r},
+  buttons(){return add('','s-row')},
+  toggle(label,on,cb,row){const b=el('button','s-btn'+(on?' on':''),label);(row||add('','s-row')).appendChild(b);b.onclick=()=>{on=!on;b.classList.toggle('on',on);cb(on)};return b},
+  button(label,cb,row){const b=el('button','s-btn',label);(row||add('','s-row')).appendChild(b);b.onclick=()=>cb(b);return b}};
+ // auto-fit: shrink the panel's font (all sizes are em) until it fits its max-height; re-runs on content change and resize
+ let q=0;P.fit=()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;let s=.95;p.style.fontSize=s+'vw';while(p.scrollHeight>p.clientHeight+1&&s>.45){s-=.025;p.style.fontSize=s+'vw'}})};
+ new MutationObserver(P.fit).observe(p,{childList:true,subtree:true});addEventListener('resize',P.fit);
+ if(title)P.h(title);return P};
+// hover/click nearest item. items()->[{x,y,label|n|name}] in client px. Generous radius; picks on pointerdown so moving targets are easy to hit.
+S.pick=(target,items,o={})=>{const tip=el('div','s-tip');document.body.appendChild(tip);const r=o.r||32;
+ const lab=it=>o.tip?o.tip(it):(it.label??it.n??it.name??'');
+ const near=e=>{let b=null,bd=r;for(const it of items()){const d=Math.hypot(it.x-e.clientX,it.y-e.clientY);if(d<bd){bd=d;b=it}}return b};
+ target.addEventListener('pointermove',e=>{const it=near(e),s=it&&lab(it);tip.style.display=s?'block':'none';target.style.cursor=it?'pointer':'';
+  if(s){tip.style.left=e.clientX+16+'px';tip.style.top=e.clientY-30+'px';tip.textContent=s}});
+ target.addEventListener('pointerleave',()=>tip.style.display='none');
+ target.addEventListener('pointerdown',e=>o.onPick&&o.onPick(near(e)))};
+// Samaritan drawing vocabulary: thin lines, brackets, mono tags, one red accent.
+S.grid=(ctx,W,H,step=40)=>{ctx.strokeStyle='rgba(230,231,234,.045)';ctx.lineWidth=1;ctx.beginPath();for(let x=step;x<W;x+=step){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H)}for(let y=step;y<H;y+=step){ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5)}ctx.stroke()};
+S.reticle=(ctx,x,y,s=12,col='rgba(230,231,234,.8)')=>{ctx.strokeStyle=col;ctx.lineWidth=1;const k=s*.45;ctx.beginPath();
+ for(const[a,b]of[[-1,-1],[1,-1],[-1,1],[1,1]]){ctx.moveTo(x+a*s,y+b*(s-k));ctx.lineTo(x+a*s,y+b*s);ctx.lineTo(x+a*(s-k),y+b*s)}ctx.stroke()};
+S.tag=(ctx,x,y,txt,o={})=>{ctx.font=(o.size||11)+'px '+getComputedStyle(document.body).getPropertyValue('--mono');const w=ctx.measureText(txt).width+12,h=(o.size||11)+8;
+ ctx.fillStyle=o.bg||'rgba(21,24,29,.9)';ctx.fillRect(x,y-h/2,w,h);ctx.fillStyle=o.red?S.C.red:S.C.red+'00';if(o.red!==false){ctx.fillStyle=S.C.red;ctx.fillRect(x,y-h/2,2,h)}
+ ctx.fillStyle=o.col||S.C.ink;ctx.textBaseline='middle';ctx.fillText(txt,x+7,y+.5);ctx.textBaseline='alphabetic';return w};
+// red triangle marker around a point
+S.marker=(ctx,x,y,s=18)=>{ctx.strokeStyle=S.C.red;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y-s);ctx.lineTo(x+s*.87,y+s*.5);ctx.lineTo(x-s*.87,y+s*.5);ctx.closePath();ctx.stroke()};
+// glowing dot; rgb as 'r,g,b'
+S.glow=(ctx,x,y,r,rgb,core=.25)=>{const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,`rgba(${rgb},1)`);g.addColorStop(core,`rgba(${rgb},.5)`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill()};
+S.keys=map=>addEventListener('keydown',e=>{const f=map[e.key];if(f){f(e);e.preventDefault()}});
+// astronomy (J2000, low precision, fine for display)
+const R=Math.PI/180;S.astro={jd:d=>(d instanceof Date?d.getTime():d)/86400000+2440587.5,
+ gmst:jd=>((280.46061837+360.98564736629*(jd-2451545))%360+360)%360,
+ altaz(ra,dec,lat,lon,jd){const H=(S.astro.gmst(jd)+lon-ra)*R,d=dec*R,p=lat*R;const alt=Math.asin(Math.sin(d)*Math.sin(p)+Math.cos(d)*Math.cos(p)*Math.cos(H));
+  const az=Math.atan2(-Math.cos(d)*Math.sin(H),Math.sin(d)*Math.cos(p)-Math.cos(d)*Math.sin(p)*Math.cos(H));return[alt/R,(az/R+360)%360]},
+ dir:az=>['north','north-east','east','south-east','south','south-west','west','north-west'][Math.round(az/45)%8]};
+return S})();
+
+/* ---- Reference screens (from the show; see /workspace/screen-archive/references/samaritan/). Adapted from gallery/wakeup.tpl.html. ---- */
+S._load=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+S._pre=(im,w,h,filter,fit)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.filter=filter||'none';
+ if(im&&fit==='contain'){const s=Math.min(w/im.width,h/im.height),dw=im.width*s,dh=im.height*s;x.fillStyle='#16191d';x.fillRect(0,0,w,h);x.drawImage(im,(w-dw)/2,(h-dh)/2,dw,dh)}
+ else if(im){const a=im.width/im.height,b=w/h;let sw=im.width,sh=im.height,sx=0,sy=0;if(a>b){sw=sh*b;sx=(im.width-sw)/2}else{sh=sw/b;sy=(im.height-sh)/2}x.drawImage(im,sx,sy,sw,sh,0,0,w,h)}
+ else{x.fillStyle='#2b3434';x.fillRect(0,0,w,h)}return c};
+S._light=e=>{e.style.cssText+=';position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 46%,#fbfbfb 0%,#e9ecec 55%,#c3c9ca 100%)'};
+S._css=(id,css)=>{if(document.getElementById(id))return;const s=document.createElement('style');s.id=id;s.textContent=css;document.head.appendChild(s)};
+
+// 1) DATA WALL ("TOTAL ACCESS ACHIEVED"): pale screen of scrolling columns (grey thumbnails + data bars), a box in the
+// middle whose lines decode in turn. S.assimilate({images:[url], lines:[[main,sub],...], title, hold}) -> Promise (resolves after the last line).
+S.assimilate=async(o={})=>{S._css('s-asm',`.s-asm .box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34vw;min-width:420px;z-index:2}
+.s-asm .t{background:#fff;border:2px solid #222;color:#111;font:600 2.1vh/1 var(--mono);letter-spacing:.12em;padding:.7vh .8vw;text-transform:uppercase}
+.s-asm .s{background:#0d0f10;color:#f2f2f2;font:600 2.1vh/1 var(--mono);letter-spacing:.1em;padding:1.1vh .8vw .5vh;margin-top:2px;min-height:2.1vh;text-transform:uppercase}
+.s-asm .u{background:#0d0f10;color:#8d9497;font:500 1.5vh/1 var(--mono);letter-spacing:.12em;padding:.2vh .8vw 1vh;min-height:1.5vh;text-transform:uppercase}
+.s-asm .bl{animation:sb 1s steps(1) infinite}@keyframes sb{50%{opacity:0}}`);
+ const root=S.el('div','s-asm');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ const box=S.el('div','box',`<div class=t>${o.title||'TOTAL ACCESS ACHIEVED'}</div><div class=s><span></span><span class=bl>_</span></div><div class=u></div>`);root.appendChild(box);
+ const g=(await Promise.all((o.images||[]).map(S._load))).filter(Boolean).map(im=>S._pre(im,176,99,'grayscale(1) contrast(1.15) brightness(1.05)'));
+ const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,cols=[];let x=-20,k=0;
+ while(x<W){const w=[22,30,44,60,88,120][Math.random()*6|0],items=[];let L=0;
+  while(L<H*1.2){if(g.length&&Math.random()<.45){const h=w*99/176;items.push([g[(k++)%g.length],L,w,h]);L+=h+14}else{const h=4+Math.random()*30|0;items.push([null,L,w*(.2+Math.random()*.8)|0,h]);L+=h+14}}
+  const s=S.el('canvas');s.width=Math.ceil(w*d);s.height=Math.ceil(L*d);const sx=s.getContext('2d');sx.scale(d,d);
+  for(const[im,y,iw,ih]of items){if(im){sx.globalAlpha=.75;sx.drawImage(im,0,y,iw,ih)}else{sx.globalAlpha=.55;sx.fillStyle='#2b3434';sx.fillRect(0,y,iw,ih)}}
+  cols.push({x,w,L,s,v:(Math.random()<.5?-1:1)*(40+Math.random()*260),y:-Math.random()*L});x+=w+8+Math.random()*40}
+ cv.width=W*d;cv.height=H*d;const cx=cv.getContext('2d');let alive=true;const t0=performance.now();
+ (function f(n){if(!alive)return;const t=(n-t0)/1000;cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);
+  for(const c of cols){let y=((c.y+c.v*t)%c.L+c.L)%c.L-c.L;for(;y<H;y+=c.L)cx.drawImage(c.s,c.x,y,c.w,c.L)}requestAnimationFrame(f)})(t0);
+ const sl=box.querySelector('.s span'),ul=box.querySelector('.u');let skip=false;root.onclick=()=>skip=true;
+ for(const[a,b]of(o.lines||[['ASSIMILATING DATA','']])){if(skip)break;ul.textContent='';await S.decode(sl,a,22);ul.textContent=b||'';await new Promise(r=>setTimeout(r,o.hold||1700))}
+ if(o.keep)return root;alive=false;root.remove()};
+
+// 2) FEED WALL (surveillance wall): pale screen, a central column of large framed feeds that steps through items, a
+// blurred grey column on the left, a column of small feeds on the right, an INPUT list and a decoding readout.
+// S.feedwall({feeds:[{src,id,name,meta,text}], title, auto:ms|0}) -> {go(i)}. Up/Down or click a feed to step.
+S.feedwall=async(o={})=>{S._css('s-fw',`.s-fw .inp{position:absolute;right:23vw;top:9vh;color:#2b3434;font:500 1.25vh/1.75 var(--mono);letter-spacing:.08em;white-space:pre}
+.s-fw .inp .hi{background:#2b3434;color:#f4f4f4}.s-fw .rd{position:absolute;right:2.5vw;bottom:8vh;width:18vw;color:#2b3434;font:500 1.4vh/1.6 var(--mono);letter-spacing:.08em;border:1.5px solid #2b3434;padding:1vh .7vw;background:rgba(238,242,242,.85);text-transform:uppercase}
+.s-fw .rd b{display:block;font-weight:600;font-size:1.7vh;margin-bottom:.6vh}.s-fw .rd b:before{content:"▲ ";color:var(--red)}
+.s-fw .tt{position:absolute;left:2.5vw;top:3vh;z-index:3;background:rgba(238,242,242,.92);padding:.8vh .8vw;border-left:3px solid var(--red);color:#2b3434;font:600 1.5vh/1 var(--mono);letter-spacing:.3em;text-transform:uppercase}.s-fw .tt i{color:var(--red);font-style:normal}
+.s-fw .edge{position:absolute;top:0;bottom:0;left:0;width:6vw;background:linear-gradient(90deg,#1a1c1d,rgba(26,28,29,0))}`);
+ const root=S.el('div','s-fw');S._light(root);root.style.zIndex=o.z||20;document.body.appendChild(root);const cv=S.el('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';root.appendChild(cv);
+ root.appendChild(S.el('div','edge'));root.appendChild(S.el('div','tt',`<i>▲</i> SAMARITAN · ${o.title||'FEED WALL'}`));const inp=S.el('div','inp');root.appendChild(inp);const rd=S.el('div','rd','<b></b><span></span>');root.appendChild(rd);
+ const F=o.feeds||[],N=F.length,ims=await Promise.all(F.map(f=>S._load(f.src)));
+ const big=ims.map(im=>S._pre(im,960,540,'none',o.fit||'contain')),side=ims.map(im=>S._pre(im,256,144,'saturate(.6)')),left=ims.map(im=>S._pre(im,176,99,'grayscale(1) blur(.6px)'));
+ const cx=cv.getContext('2d'),MONO=getComputedStyle(document.body).getPropertyValue('--mono')||'monospace';let pos=0,sel=0,hits=[];
+ const col=(L,idx,x,w,off,gap,a,ol)=>{const H=innerHeight,h=w*9/16,p=h+gap;cx.globalAlpha=a;for(let j=Math.floor(off/p);j*p-off<H;j++){const y=j*p-off;cx.drawImage(L[idx(j)],x,y,w,h);if(ol){cx.strokeStyle='#8a9192';cx.lineWidth=1;cx.strokeRect(x-.5,y-.5,w+1,h+1)}}cx.globalAlpha=1};
+ const md=i=>((i%N)+N)%N;
+ function draw(){const W=innerWidth,H=innerHeight,d=devicePixelRatio||1,vw=W/100,vh=H/100;if(cv.width!==Math.round(W*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}
+  cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,W,H);const w=o.width?o.width*vw:34*vw,x=44*vw-w/2,h=w*9/16,p=h+1.6*vh,top=(H-h)/2;hits=[];
+  if(N){col(left,j=>md(j*5),12*vw,6.5*vw,pos*p*.3,.7*vh,.7,false);col(side,j=>md(j*3+1),W-20*vw+(o.width?0:0),7*vw,pos*p*.55,.8*vh,1,true);}
+  for(let i=Math.floor(pos-top/p)-1;i<=pos+H/p+1;i++){const y=top+(i-pos)*p;if(y>H||y+h<0||!N)continue;const k=md(i),f=F[k],on=k===sel&&Math.abs(i-pos)<.5;hits.push([y,y+h,i]);
+   cx.fillStyle='#111';cx.fillRect(x,y,w,h);cx.drawImage(big[k],x+2,y+2,w-4,h-4);cx.strokeStyle='#f4f4f4';cx.lineWidth=2;cx.strokeRect(x+1,y+1,w-2,h-2);
+   cx.strokeStyle=on?S.C.red:'#8a9192';cx.lineWidth=on?3:1;cx.strokeRect(x-1.5,y-1.5,w+3,h+3);
+   cx.textBaseline='top';cx.textAlign='left';cx.font=`600 ${1.25*vh}px ${MONO}`;const kt=`${f.id||('F'+String(k+1).padStart(2,'0'))} // FEED`,kw=cx.measureText(kt).width;
+   if(on){cx.fillStyle=S.C.red;cx.fillRect(x+.3*vw,y+.35*vh,kw+.6*vw,1.75*vh)}cx.shadowColor='#000';cx.shadowBlur=on?0:3;cx.fillStyle='#e9ecec';cx.fillText(kt,x+.6*vw,y+.6*vh);
+   cx.shadowBlur=3;cx.textAlign='right';cx.textBaseline='bottom';cx.font=`500 ${1.2*vh}px ${MONO}`;cx.fillText((f.name||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh-1.6*vh);cx.fillText((f.meta||'').toUpperCase(),x+w-.6*vw,y+h-.6*vh);cx.shadowBlur=0}}
+ const go=async k=>{sel=md(k);inp.innerHTML=Array.from({length:Math.min(12,N)},(_,i)=>{const f=F[md(sel+i-1)],s=`INPUT_${String(md(sel+i-1)+1).padStart(2,'0')}  ${(f.id||'').padEnd(5)} ${i===1?'<<':'  '}`;return i===1?`<span class=hi>${s}</span>`:s}).join('\n');
+  const f=F[sel];S.decode(rd.querySelector('b'),(f.name||'').toUpperCase(),14);S.decode(rd.querySelector('span'),f.text||f.meta||'',8);
+  let tgt=k;const p0=pos,t0=performance.now();for(;;){const u=Math.min(1,(performance.now()-t0)/300),e=u<.5?4*u*u*u:1-Math.pow(2-2*u,3)/2;pos=p0+(tgt-p0)*e;draw();if(u>=1)break;await new Promise(r=>requestAnimationFrame(r))}};
+ let cur=o.start||0,timer=null;const step=n=>{cur+=n;go(cur);if(o.auto){clearInterval(timer);timer=setInterval(()=>{cur++;go(cur)},o.auto)}};
+ addEventListener('keydown',e=>{if(e.key=='ArrowDown'){step(1);e.preventDefault()}if(e.key=='ArrowUp'){step(-1);e.preventDefault()}});
+ cv.addEventListener('pointerdown',e=>{for(const[a,b,i]of hits)if(e.clientY>=a&&e.clientY<=b&&e.clientX>innerWidth*.27&&e.clientX<innerWidth*.61){cur=i;step(0)}});
+ addEventListener('resize',draw);step(0);return{go:i=>{cur=i;step(0)},root}};
+
+// 3) MANDATE box (dark map screens): bordered panel with a top line, a red-chip message and a footer.
+// S.mandate({top:['SAMARITAN','v.305'], chip:'AUXILIARY MANDATE:', msg:'LOCATE TARGET', foot:'...'}) -> element
+S.mandate=(o={})=>{S._css('s-md',`.s-md{position:fixed;left:26vw;top:7vh;width:48vw;border:2px solid #cfd3d4;background:rgba(10,11,12,.92);z-index:35;font-family:var(--mono)}
+.s-md .a{display:flex;justify-content:space-between;color:#cfd3d4;font:600 1.5vh/1 var(--mono);letter-spacing:.14em;padding:.6vh .6vw;border-bottom:1px solid #555}
+.s-md .m{padding:1.2vh .6vw 1.4vh;color:#fff;font:600 2.6vh/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}.s-md .m b{background:var(--red);color:#fff;padding:.25vh .4vw;font-weight:600;margin-right:.8vw}
+.s-md .f{display:flex;justify-content:flex-end;color:#7d8587;font:500 1.1vh/1 var(--mono);letter-spacing:.1em;padding:.4vh .6vw;border-top:1px solid #333}`);
+ const e=S.el('div','s-md',`<div class=a>${(o.top||['SAMARITAN','']).map(s=>`<span>${s}</span>`).join('')}</div><div class=m><b>${o.chip||'PRIMARY MANDATE:'}</b><span></span></div><div class=f>${o.foot||''}</div>`);
+ document.body.appendChild(e);S.decode(e.querySelector('.m span'),o.msg||'',24);return e};
+// Dark Leaflet map (Esri dark grey, greyed): S.leafletDark(div,{center,zoom,...leaflet opts}) -> Promise<map>. Chrome loads Leaflet from unpkg.
+S.leafletDark=(box,o={})=>new Promise((res,rej)=>{S._css('s-lf',`.leaflet-container{background:#1d1f22!important;font-family:var(--mono)}.leaflet-tile-pane{filter:grayscale(1) brightness(1.45) contrast(1.1)}
+.leaflet-control-attribution{background:#0a0b0dcc!important;color:#6d737c!important;font:10px var(--mono)}.leaflet-control-attribution a{color:#8d939b!important}`);
+ const go=()=>{const m=L.map(box,Object.assign({zoomControl:false,attributionControl:true,worldCopyJump:true},o));
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:'Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap'}).addTo(m);res(m)};
+ if(window.L)return go();const l=document.createElement('link');l.rel='stylesheet';l.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(l);
+ const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=go;s.onerror=rej;document.head.appendChild(s)});
+</script>
+<!-- Source for chess-2p.html: chess2p_build.py inlines chess-core.js at the @@ENGINE@@ line. -->
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><style>
+:root{--sq:min(10.4vh,6.2vw)}
+#wrap{position:fixed;left:0;right:0;top:4.2vh;bottom:0;display:flex;align-items:center;justify-content:center;gap:2.6vw;padding:0 3vw}
+#bdw{position:relative;flex:none;padding:12px}
+#bd{display:grid;grid-template-columns:repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq));border:1px solid var(--line)}
+.sq{position:relative;display:flex;align-items:center;justify-content:center;font-size:calc(var(--sq)*.78);line-height:1;cursor:pointer;user-select:none;font-family:"DejaVu Sans",sans-serif}
+.l{background:#eef2f2}.d{background:#b9c4c6}.last{box-shadow:inset 0 0 0 100vh rgba(229,50,45,.18)}.sel{box-shadow:inset 0 0 0 .45vh #e5322d}
+.chk{box-shadow:inset 0 0 2.6vh rgba(229,50,45,.95)}
+.dot::after{content:"";position:absolute;width:26%;height:26%;border-radius:50%;background:rgba(229,50,45,.55)}
+.cap::after{content:"";position:absolute;inset:5%;border-radius:50%;border:.45vh solid rgba(229,50,45,.6)}
+.W{color:#fff;text-shadow:0 0 .2vh #14161a,0 0 .2vh #14161a,0 0 .1vh #14161a}.B{color:#14161a}
+.co{position:absolute;font:calc(var(--sq)*.13) var(--mono);color:#6f7a7c;pointer-events:none}
+#p{flex:0 1 26vw;min-width:0;max-height:88vh;display:flex;flex-direction:column;gap:1.1vh;background:var(--panel);border:1px solid var(--line);padding:2.2vh 1.4vw;box-shadow:0 2px 20px rgba(0,0,0,.12);text-transform:uppercase;letter-spacing:.08em;font-size:1.6vh}
+#p h3{margin:.6vh 0 0;font-size:1.35vh;letter-spacing:.3em;font-weight:600}#p h3:before{content:"▲ ";color:var(--red)}
+#st{font-size:2.7vh;color:var(--hi);letter-spacing:.06em;min-height:3.2vh}
+#net{border-left:3px solid var(--red);padding:.4vh 0 .4vh .8vw;color:var(--dim);min-height:2.4vh;text-transform:none;letter-spacing:.03em}
+#net.ok{border-color:#3c9a5f;color:var(--ink)}
+#share{display:flex;gap:.5vw}#share input{flex:1;min-width:0;font:1.5vh var(--mono);padding:.5vh .5vw;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.s-btn{white-space:nowrap}
+#mv{flex:1;min-height:6vh;overflow:auto;font:1.8vh/1.7 var(--mono);text-transform:none;columns:2;column-gap:1.5vw}#mv span.n{color:var(--dim2);display:inline-block;width:3em}
+#capw,#capb{font-size:2.6vh;min-height:3vh;letter-spacing:.02em;font-family:"DejaVu Sans",sans-serif}
+.k{color:var(--dim);font-size:1.25vh;line-height:1.6}
+</style><body class=light><div id=wrap><div id=bdw class=s-open><div id=bd></div></div><div id=p>
+<div id=st></div><div id=net>Starting…</div>
+<div id=sharebox><h3>Invite</h3><div class=k style="margin:.4vh 0">Send this link to your opponent. Only the first person to open it can join.</div>
+<div id=share><input id=link readonly><button class=s-btn id=copy>COPY</button></div></div>
+<h3>Captured</h3><div id=capw class=W></div><div id=capb class=B></div><h3>Moves</h3><div id=mv></div>
+<div><button class=s-btn id=newg>NEW GAME</button><button class=s-btn id=flipb>FLIP</button><button class=s-btn id=newl>NEW LINK</button></div>
+<div class=k>Click a piece, then a square. Pawns promote to a queen. The game is saved in this browser: reloading reconnects to the same game.</div>
+</div></div>
+<script>
+// Minimal chess rules: board, legal moves (castling, en passant, promotion), check, mate, FEN, UCI.
+// Squares 0..63, a8=0 ... h1=63. White pieces uppercase.
+function Chess(){
+ const S=this;S.b=('rnbqkbnr'+'pppppppp'+'.'.repeat(32)+'PPPPPPPP'+'RNBQKBNR').split('');
+ S.w=true;S.cr='KQkq';S.ep=-1;S.half=0;S.full=1;S.hist=[];
+ const F=i=>i&7,R=i=>i>>3,ON=(f,r)=>f>=0&&f<8&&r>=0&&r<8,isW=p=>p>='A'&&p<='Z',own=(p,w)=>p!=='.'&&isW(p)===w;
+ const N=[[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]],K=[[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+ const DB=[[1,1],[1,-1],[-1,1],[-1,-1]],DR=[[1,0],[-1,0],[0,1],[0,-1]];
+ S.attacked=(sq,byW)=>{const f=F(sq),r=R(sq),b=S.b;
+  const pr=byW?r+1:r-1;for(const df of[-1,1])if(ON(f+df,pr)&&b[pr*8+f+df]===(byW?'P':'p'))return true;
+  for(const[a,c]of N)if(ON(f+a,r+c)&&b[(r+c)*8+f+a]===(byW?'N':'n'))return true;
+  for(const[a,c]of K)if(ON(f+a,r+c)&&b[(r+c)*8+f+a]===(byW?'K':'k'))return true;
+  for(const[dirs,ps]of[[DB,'BQ'],[DR,'RQ']])for(const[a,c]of dirs){let x=f+a,y=r+c;
+   while(ON(x,y)){const p=b[y*8+x];if(p!=='.'){if(isW(p)===byW&&ps.includes(p.toUpperCase()))return true;break}x+=a;y+=c}}
+  return false};
+ S.pseudo=()=>{const m=[],b=S.b,w=S.w;
+  for(let i=0;i<64;i++){const p=b[i];if(!own(p,w))continue;const f=F(i),r=R(i),t=p.toUpperCase();
+   if(t==='P'){const d=w?-1:1,r1=r+d,last=w?0:7,start=w?6:1;
+    const add=(to,fl)=>{if(R(to)===last)for(const pr of'qrbn')m.push({f:i,t:to,pr,fl});else m.push({f:i,t:to,fl})};
+    if(ON(f,r1)&&b[r1*8+f]==='.'){add(r1*8+f);if(r===start&&b[(r+2*d)*8+f]==='.')m.push({f:i,t:(r+2*d)*8+f,fl:'2'})}
+    for(const df of[-1,1])if(ON(f+df,r1)){const to=r1*8+f+df;if(b[to]!=='.'&&!own(b[to],w))add(to);else if(to===S.ep)m.push({f:i,t:to,fl:'e'})}}
+   else if(t==='N'||t==='K'){for(const[a,c]of(t==='N'?N:K))if(ON(f+a,r+c)){const to=(r+c)*8+f+a;if(!own(b[to],w))m.push({f:i,t:to})}
+    if(t==='K'){const row=w?7:0,kc=w?'K':'k',qc=w?'Q':'q';
+     if(i===row*8+4&&!S.attacked(i,!w)){
+      if(S.cr.includes(kc)&&b[row*8+5]==='.'&&b[row*8+6]==='.'&&b[row*8+7]===(w?'R':'r')&&!S.attacked(row*8+5,!w)&&!S.attacked(row*8+6,!w))m.push({f:i,t:row*8+6,fl:'k'});
+      if(S.cr.includes(qc)&&b[row*8+3]==='.'&&b[row*8+2]==='.'&&b[row*8+1]==='.'&&b[row*8]===(w?'R':'r')&&!S.attacked(row*8+3,!w)&&!S.attacked(row*8+2,!w))m.push({f:i,t:row*8+2,fl:'q'})}}}
+   else{for(const[a,c]of(t==='B'?DB:t==='R'?DR:DB.concat(DR))){let x=f+a,y=r+c;
+    while(ON(x,y)){const to=y*8+x;if(own(b[to],w))break;m.push({f:i,t:to});if(b[to]!=='.')break;x+=a;y+=c}}}}
+  return m};
+ S.make=mv=>{const b=S.b,p=b[mv.f],w=S.w;S.hist.push({b:b.slice(),w,cr:S.cr,ep:S.ep,half:S.half,full:S.full});
+  const cap=b[mv.t]!=='.'||mv.fl==='e';b[mv.t]=mv.pr?(w?mv.pr.toUpperCase():mv.pr):p;b[mv.f]='.';
+  if(mv.fl==='e')b[mv.t+(w?8:-8)]='.';
+  if(mv.fl==='k'){b[mv.t-1]=b[mv.t+1];b[mv.t+1]='.'}if(mv.fl==='q'){b[mv.t+1]=b[mv.t-2];b[mv.t-2]='.'}
+  S.ep=mv.fl==='2'?(mv.f+mv.t)/2:-1;
+  const strip=(sq,ch)=>{if(mv.f===sq||mv.t===sq)S.cr=S.cr.replace(ch,'')};
+  if(p==='K')S.cr=S.cr.replace('K','').replace('Q','');if(p==='k')S.cr=S.cr.replace('k','').replace('q','');
+  strip(63,'K');strip(56,'Q');strip(7,'k');strip(0,'q');
+  S.half=(p.toUpperCase()==='P'||cap)?0:S.half+1;if(!w)S.full++;S.w=!w};
+ S.undo=()=>{const h=S.hist.pop();S.b=h.b;S.w=h.w;S.cr=h.cr;S.ep=h.ep;S.half=h.half;S.full=h.full};
+ S.kingSq=w=>S.b.indexOf(w?'K':'k');
+ S.inCheck=()=>S.attacked(S.kingSq(S.w),!S.w);
+ S.legal=()=>S.pseudo().filter(mv=>{S.make(mv);const ok=!S.attacked(S.kingSq(!S.w),S.w);S.undo();return ok});
+ const sqn=i=>'abcdefgh'[F(i)]+(8-R(i));S.sqn=sqn;
+ S.uci=mv=>sqn(mv.f)+sqn(mv.t)+(mv.pr||'');
+ S.fromUci=u=>S.legal().find(mv=>S.uci(mv)===u)||null;
+ S.san=mv=>{const p=S.b[mv.f].toUpperCase();let s;
+  if(mv.fl==='k')s='O-O';else if(mv.fl==='q')s='O-O-O';else{const cap=S.b[mv.t]!=='.'||mv.fl==='e';
+   if(p==='P')s=(cap?'abcdefgh'[F(mv.f)]+'x':'')+sqn(mv.t)+(mv.pr?'='+mv.pr.toUpperCase():'');
+   else{const amb=S.legal().filter(o=>o.t===mv.t&&o.f!==mv.f&&S.b[o.f]===S.b[mv.f]);let d='';
+    if(amb.length){if(amb.every(o=>F(o.f)!==F(mv.f)))d='abcdefgh'[F(mv.f)];else if(amb.every(o=>R(o.f)!==R(mv.f)))d=''+(8-R(mv.f));else d=sqn(mv.f)}
+    s=p+d+(cap?'x':'')+sqn(mv.t)}}
+  S.make(mv);const ch=S.inCheck(),mate=ch&&S.legal().length===0;S.undo();return s+(mate?'#':ch?'+':'')};
+ S.fen=()=>{let o='';for(let r=0;r<8;r++){let e=0;for(let f=0;f<8;f++){const p=S.b[r*8+f];if(p==='.')e++;else{if(e)o+=e;e=0;o+=p}}if(e)o+=e;if(r<7)o+='/'}
+  return o+' '+(S.w?'w':'b')+' '+(S.cr||'-')+' '+(S.ep<0?'-':sqn(S.ep))+' '+S.half+' '+S.full};
+ S.load=fen=>{const[pl,side,cr,ep,h,fu]=fen.split(' ');S.b=[];for(const ch of pl.replace(/\//g,''))if(/\d/.test(ch))S.b.push(...'.'.repeat(+ch));else S.b.push(ch);
+  S.w=side==='w';S.cr=cr==='-'?'':cr;S.ep=ep==='-'?-1:(8-+ep[1])*8+'abcdefgh'.indexOf(ep[0]);S.half=+h||0;S.full=+fu||1;S.hist=[]};
+ S.perft=d=>{if(!d)return 1;let n=0;for(const mv of S.legal()){S.make(mv);n+=S.perft(d-1);S.undo()}return n};
+}
+
+
+// ---------------------------------------------------------------- two-player networking (PeerJS / WebRTC)
+// The page that opens without a #code is the HOST (white). Its URL becomes #CODE.h; the invite link is #CODE (black).
+// The host registers the PeerJS id samchess-CODE; the guest connects to it. Moves travel directly between the browsers.
+// The host binds the first guest's browser token and refuses everyone else, so only two people can play.
+const PFX='samchess-',ALPH='abcdefghjkmnpqrstuvwxyz23456789',START='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+let h=location.hash.slice(1),code=h.replace(/\.h$/,''),isHost=!h||h.endsWith('.h');
+if(!h){code=Array.from(crypto.getRandomValues(new Uint8Array(6)),b=>ALPH[b%ALPH.length]).join('');history.replaceState(null,'','#'+code+'.h')}
+const me=isHost?'w':'b',SKEY='samchess-'+code+'-'+me;
+const tok=new URLSearchParams(location.search).get('tok')||localStorage.getItem('samchess-token')||(()=>{const t=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('samchess-token',t);return t})();
+// test hook: a local test page can supply a stand-in Peer class; on the live site this is PeerJS
+const PeerC=(()=>{try{if(parent!==window&&parent.MockPeer)return parent.MockPeer}catch(e){}return window.Peer})();
+const C=new Chess(),bd=document.getElementById('bd'),GL={K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'};
+let ucis=[],sans=[],sel=null,last=null,flip=me==='b',over='',peer=null,conn=null,lastSeen=0,full=false,boundTok=localStorage.getItem(SKEY+'-guest');
+const $=id=>document.getElementById(id);
+function net(t,ok){$('net').textContent=t;$('net').className=ok?'ok':''}
+const live=()=>conn&&conn.open;
+function setHistory(list){C.load(START);ucis=[];sans=[];last=null;sel=null;over='';
+ for(const u of list){const mv=C.fromUci(u);if(!mv)break;sans.push(C.san(mv));ucis.push(u);C.make(mv);last=mv}save();render()}
+function save(){localStorage.setItem(SKEY,JSON.stringify(ucis))}
+function send(o){if(live())try{conn.send(o)}catch(e){}}
+function status(){const L=C.legal();over='';if(!L.length)over=C.inCheck()?('Checkmate. '+((C.w?'b':'w')===me?'You win!':'You lose.')):'Stalemate. Draw.';
+ const mine=(C.w?'w':'b')===me;$('st').textContent=over||(mine?(C.inCheck()?'Check! Your move':'Your move'):"Opponent's move")}
+function render(){bd.innerHTML='';const tg=sel===null?[]:C.legal().filter(m=>m.f===sel).map(m=>m.t),kc=C.inCheck()?C.kingSq(C.w):-1;
+ for(let k=0;k<64;k++){const i=flip?63-k:k,p=C.b[i],d=document.createElement('div'),f=i&7,r=i>>3;
+  d.className='sq '+((f+r)%2?'d':'l')+(last&&(i===last.f||i===last.t)?' last':'')+(i===sel?' sel':'')+(i===kc?' chk':'')+(tg.includes(i)?(p==='.'?' dot':' cap'):'');
+  if(p!=='.'){d.textContent=GL[p.toUpperCase()];d.classList.add(p<'a'?'W':'B')}
+  if(k%8===0){const c=document.createElement('span');c.className='co';c.style.cssText='left:4%;top:3%';c.textContent=8-r;d.appendChild(c)}
+  if(k>=56){const c=document.createElement('span');c.className='co';c.style.cssText='right:5%;bottom:2%';c.textContent='abcdefgh'[f];d.appendChild(c)}
+  d.onclick=()=>click(i);bd.appendChild(d)}
+ $('mv').innerHTML=sans.reduce((s,m,j)=>s+(j%2?' '+m+'<br>':'<span class=n>'+(j/2+1)+'.</span>'+m),'');$('mv').scrollTop=1e9;
+ const st0={P:8,N:2,B:2,R:2,Q:1},cnt=w=>Object.entries(st0).map(([t,n])=>GL[t].repeat(Math.max(0,n-C.b.filter(q=>q===(w?t:t.toLowerCase())).length))).join('');
+ $('capw').textContent=cnt(false);$('capb').textContent=cnt(true);status()}
+function play(mv){sans.push(C.san(mv));ucis.push(C.uci(mv));C.make(mv);last=mv;sel=null;save();render()}
+function click(i){if(over||(C.w?'w':'b')!==me)return;
+ if(!live()){net('Not connected: moves are paused until your opponent is back.');return}
+ if(sel!==null){const mv=C.legal().filter(m=>m.f===sel&&m.t===i).sort((a,b)=>(b.pr==='q')-(a.pr==='q'))[0];
+  if(mv){const n=ucis.length;play(mv);send({t:'move',uci:ucis[n],n});return}}
+ const p=C.b[i];sel=(p!=='.'&&(p<'a')===(me==='w')&&sel!==i)?i:null;render()}
+// messages between the two browsers
+function onData(d){lastSeen=Date.now();if(!d||!d.t)return;
+ if(d.t==='hello'&&isHost){
+  if(boundTok&&boundTok!==d.tok){try{this.send({t:'full'})}catch(e){}setTimeout(()=>this.close(),300);return}
+  boundTok=d.tok;localStorage.setItem(SKEY+'-guest',d.tok);
+  if(conn&&conn!==this)try{conn.close()}catch(e){}conn=this;
+  const g=d.uci||[];if(g.length>ucis.length&&ucis.every((u,j)=>g[j]===u))setHistory(g);   // guest is ahead (host lost its copy)
+  send({t:'state',uci:ucis});net('Connected. You are White.',true);return}
+ if(d.t==='state'&&!isHost){setHistory(d.uci||[]);net('Connected. You are Black.',true);return}
+ if(d.t==='full'){full=true;net('This game already has two players. Ask for a new link.');try{this.close()}catch(e){}return}
+ if(d.t==='move'){const mv=d.n===ucis.length&&(C.w?'w':'b')!==me?C.fromUci(d.uci):null;
+  if(mv)play(mv);else if(isHost)send({t:'state',uci:ucis});else send({t:'hello',tok,uci:ucis});return}
+ if(d.t==='new'){setHistory([]);return}}
+function watch(c){c.on('data',d=>onData.call(c,d));c.on('close',()=>{if(conn===c){conn=null;lost()}})}
+function lost(){if(full)return;net(isHost?'Opponent disconnected. They can rejoin with the same link.':'Connection lost. Reconnecting…');if(!isHost)setTimeout(join,3000)}
+// heartbeat: WebRTC does not always report a dropped peer, so both sides ping and drop a silent connection after 12 s
+setInterval(()=>{if(live()){send({t:'ping'});if(Date.now()-lastSeen>12000){const c=conn;conn=null;try{c.close()}catch(e){}lost()}}},4000);
+function join(){if(full||live()||!peer||peer.destroyed)return;if(peer.disconnected){peer.reconnect();return}
+ net('Connecting to game '+code+'…');const c=peer.connect(PFX+code,{reliable:true});
+ c.on('open',()=>{conn=c;lastSeen=Date.now();c.send({t:'hello',tok,uci:ucis})});watch(c)}
+function start(){if(!PeerC){net('Could not load PeerJS. Check the internet connection and reload.');return}
+ peer=isHost?new PeerC(PFX+code):new PeerC();
+ peer.on('open',()=>{if(isHost)net(boundTok?'Waiting for your opponent to reconnect…':'Waiting for an opponent. Send them the link.');else join()});
+ peer.on('connection',c=>{if(!isHost){c.close();return}c.on('open',()=>{lastSeen=Date.now()});watch(c)});
+ peer.on('disconnected',()=>{if(!peer.destroyed)setTimeout(()=>{try{peer.reconnect()}catch(e){}},2000)});
+ peer.on('error',e=>{const t=e&&e.type;
+  if(t==='unavailable-id'){net('Reclaiming the game code (this takes a few seconds after a reload)…');peer.destroy();setTimeout(start,4000)}
+  else if(t==='peer-unavailable'){net('Waiting for the host to open the game…');setTimeout(join,3000)}
+  else if(t==='network'||t==='server-error'||t==='socket-error'||t==='socket-closed'){net('Lost the PeerJS server ('+t+'). Retrying…');setTimeout(()=>{if(peer.disconnected&&!peer.destroyed)try{peer.reconnect()}catch(x){}},4000)}
+  else net('Connection error: '+(t||e))})}
+// controls
+const link=location.href.split('#')[0]+'#'+code;$('link').value=link;if(!isHost)$('sharebox').style.display='none';
+$('copy').onclick=()=>{const done=()=>{$('copy').textContent='COPIED';setTimeout(()=>$('copy').textContent='COPY',1500)};
+ if(navigator.clipboard)navigator.clipboard.writeText(link).then(done,()=>{$('link').select();document.execCommand('copy');done()});else{$('link').select();document.execCommand('copy');done()}};
+$('newg').onclick=()=>{if(!live()){net('Connect first: a new game has to start on both boards.');return}if(confirm('Start a new game for both players?')){setHistory([]);send({t:'new'})}};
+$('flipb').onclick=()=>{flip=!flip;render()};
+$('newl').onclick=()=>{if(confirm('Make a new game with a new link? The current game is left behind.'))location.href=location.href.split('#')[0]};
+S.header(['CHESS','TWO PLAYER',isHost?'WHITE · HOST':'BLACK · GUEST'],{status:'PEER TO PEER'});
+setHistory(JSON.parse(localStorage.getItem(SKEY)||'[]'));start();S.roll&&S.roll($('p'));
+</script>
+<script>addEventListener('keydown',e=>{if(e.key==='Escape')location.href='../'})</script>
+<!--MOBILE--><link rel=stylesheet href="../mobile/phone.css"><script src="../mobile/phone.js"></script><link rel=stylesheet href="../mobile/chess-2p.css"><!--/MOBILE-->

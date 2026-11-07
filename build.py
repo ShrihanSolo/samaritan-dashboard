@@ -16,6 +16,7 @@ SLIDES = [  # (gallery file, output name, title, tag)
  ("lensing-playground.html", "lensing-playground.html", "Lensing Playground", "GRAVITATIONAL LENS"),
  ("nyc-tour.html", "nyc-tour.html", "NYC Tour", "AERIAL SURVEY"),
  ("kalshi-tossups.html", "kalshi-tossups.html", "Kalshi Toss-Ups", "ELECTION NIGHT"),
+ ("chess-2p.html", "chess-2p.html", "Chess // Two Player", "PEER TO PEER"),
 ]
 # data files bundled next to a display: (source, name in slides/)
 EXTRA = [("/workspace/kalshi-tossups/www/state.json", "kalshi-tossups.state.json")]   # snapshot of the toss-up tracker
